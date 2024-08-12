@@ -1,0 +1,18 @@
+<div class="flex flex-col gap-4 transition-transform duration-300 ease-in">
+  <label
+    [htmlFor]="name()"
+    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+    {{ label() }}
+  </label>
+  <input
+    [type]="type()"
+    [id]="name()"
+    [autocomplete]="name()"
+    class="h-9 w-full rounded-md border border-input px-3 py-5 text-sm transition-colors file:border-0 focus:outline-none focus:ring-1 ring-sky-400"
+    [placeholder]="placeholder()"
+    [name]="name()"
+    [formControlName]="name()" />
+  @if (getError(name())) {
+  <p class="text-sm text-red-500">{{ getError(name()) }}</p>
+  }
+</div>

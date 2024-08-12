@@ -1,0 +1,44 @@
+<ng-container *ngIf="vm$ | async as vm">
+  @if (vm.solutions.length === 0 && !vm.isLoading) {
+  <div class="bg-sky-800 text-white shadow-lg rounded-md px-8 py-10 mt-8">
+    <h1 class="text-xl font-satoshi font-bold mb-4">Commencez votre voyage avec nous !</h1>
+    <h5 class="mb-8">
+      Contribuer à la construction d'un monde meilleur en partageant vos solutions innovantes locales en vue d'accélérer
+      l'atteinte des Objectifs de Développement Durable.
+    </h5>
+    <a
+      routerLink="/solutions"
+      class="rounded-md px-6 py-2 inline-flex gap-1 bg-white/70 hover:bg-white text-sky-700 transition-colors duration-300 group">
+      Dévouvrez plus
+      <span class="inline-block group-hover:translate-x-1 transition-transform duration-300">
+        <i class="bi bi-arrow-right"></i>
+      </span>
+    </a>
+  </div>
+  }@else if (vm.isLoading) {
+  <div class="flex h-[300px] w-full flex-col items-center text-2xl justify-center text-sky-600">
+    <app-spinner />
+  </div>
+  }@else {
+  <div class="min-h-[400px] grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-10 py-10">
+    @for ( solution of vm.solutions; track solution.id ) {
+    <div class="block max-w-[18rem] rounded-lg bg-white text-surface shadow-md group">
+      <div class="relative overflow-hidden bg-cover bg-no-repeat h-44 w-full">
+        <img class="rounded-t-lg object-cover" [ngSrc]="displayImage(solution)" alt="" fill />
+        <div
+          class="translate-y-[100%] rounded-lg group-hover:translate-y-0 transition-transform duration-200 absolute top-0 bottom-0 left-0 right-0 bg-sky-950/80 flex items-center justify-center">
+          <a [routerLink]="['/auth/edit-solution', solution.id]" class="bg-white rounded-full px-2 py-1">
+            <i class="bi bi-eye text-sky-600 h-10 w-10"></i>
+          </a>
+        </div>
+      </div>
+      <div class="p-6">
+        <p class="text-base">
+          {{ solution.name || 'xxx xxxxx xxxxxxx xxxxx xxxxx' }}
+        </p>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</ng-container>

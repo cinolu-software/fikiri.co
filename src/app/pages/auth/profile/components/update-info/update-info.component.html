@@ -1,0 +1,30 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="text-lg font-semibold text-gray-800 mb-4">Modifier mes informations</h3>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="bg-white shadow-md px-6 py-8 rounded-md">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+      <app-input
+        type="text"
+        name="name"
+        label="Nom complet"
+        placeholder="Entrez votre name"
+        [validationErrors]="vm.udpateInfoState.errors" />
+      <app-input
+        type="text"
+        name="phone_number"
+        label="Numéro téléphonique"
+        placeholder="Entrez votre numéro"
+        [validationErrors]="vm.udpateInfoState.errors" />
+      <app-input
+        type="text"
+        name="address"
+        label="Adresse"
+        placeholder="Entrez votre adresse"
+        [validationErrors]="vm.udpateInfoState.errors" />
+    </div>
+    <div class="w-1/2 md:w-1/4 mt-8">
+      <app-button type="submit" [loading]="vm.udpateInfoState.isLoading" [disabled]="form.invalid">
+        Mettre à jour
+      </app-button>
+    </div>
+  </form>
+</ng-container>

@@ -1,0 +1,35 @@
+@import '@ng-select/ng-select/themes/default.theme.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import 'ngx-toastr/toastr';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .nav-open div:first-child {
+    @apply rotate-45 translate-y-1.5;
+  }
+
+  app-root.open-nav {
+    @apply overflow-hidden;
+  }
+
+  .nav-open div:last-child {
+    @apply -rotate-45 -translate-y-1;
+  }
+
+  em {
+    @apply not-italic text-white bg-sky-900;
+  }
+
+  .pg .ngx-pagination .current {
+    @apply bg-sky-600 bg-opacity-70 text-white rounded-sm m-0 px-2 py-0.5;
+  }
+  .pg .ngx-pagination a {
+    @apply bg-gray-200/40 text-gray-700 mx-1 shadow-sm shadow-gray-300 bg-opacity-70 rounded-sm m-0 px-2 py-0.5;
+  }
+
+  .ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+    @apply border-sky-500;
+  }
+}

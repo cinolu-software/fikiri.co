@@ -1,0 +1,31 @@
+<section class="bg-hero bg-cover bg-center text-white flex flex-col" *ngIf="vm$ | async as vm">
+  <div
+    class="px-8 md:px-28 pt-20 pb-44 md:py-52 flex flex-col items-start justify-center bg-black bg-opacity-90 gap-6 text-2xl md:text-4xl">
+    <div class="mx-auto max-w-screen-md flex flex-col items-start justify-center">
+      <h1 class="font-semibold mt-20 mb-10">
+        Atteindre les objectifs de développement durable
+        <span class="inline-block after:block after:w-full after:h-1 after:-mt-2 after:bg-sky-500">avec fikiri</span>
+        <span class="text-sky-300 animate-pulse">.</span>
+      </h1>
+      <p class="font-light">Une plateforme d'accompagnement d'idées et de solutions</p>
+      <div class="flex gap-10 mt-10">
+        <div class="flex flex-col gap-3 items-start">
+          <h1 class="capitalize">utilisateurs</h1>
+          @if (vm.isLoading) {
+          <app-spinner />
+          } @else {
+          <p class="font-semibold">+{{ vm.totals?.totalUsers }}</p>
+          }
+        </div>
+        <div class="flex flex-col gap-3 items-start">
+          <h1 class="capitalize">solutions</h1>
+          @if (vm.isLoading) {
+          <app-spinner />
+          } @else {
+          <p class="font-semibold">+{{ vm.totals?.totalSolutions }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

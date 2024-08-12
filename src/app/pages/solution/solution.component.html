@@ -1,0 +1,69 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
+    @if (vm.solutionStore.solutionResponse?.solution; as solution) { @if (solution && solution.name) {
+    <h2 class="font-semibold text-gray-800 text-2xl mb-2 p-3 pt-24 first-letter:capitalize">
+      {{ solution.name | convertToLowercase }}, {{ solution.created_at | date : 'longDate' }}
+    </h2>
+    }
+    <div class="relative mb-4 h-auto w-full aspect-video">
+      @if (solution.images.length === 0) {
+      <img
+        ngSrc="assets/images/default-placeholder.png"
+        alt="hero"
+        class="object-cover transition-opacity duration-300"
+        fill />
+      } @else { @for (image of solution.images; track $index) {
+      <img
+        [ngClass]="$index === currentImageIndex ? 'opacity-100' : 'opacity-0'"
+        [ngSrc]="displayImage(image)"
+        alt="hero"
+        class="object-cover transition-opacity duration-300"
+        fill />
+      } @if (solution.images.length > 1) {
+      <app-pagination
+        [disablePrev]="currentImageIndex === 0"
+        [disableNext]="currentImageIndex === solution.images.length - 1"
+        (handlePrevClick)="prevImage()"
+        (handleNexClick)="nextImage(solution.images)" />
+      } }
+    </div>
+
+    <div class="p-4">
+      <p class="mb-4">Ajouté le {{ solution.created_at | date : 'longDate' }}</p>
+      <p class="mb-6 hyphens-auto first-letter:capitalize">{{ solution.description | convertToLowercase }}</p>
+      <h2 class="font-semibold text-gray-800 text-2xl mb-2">Problème résolu</h2>
+      <p class="mb-6 hyphens-auto first-letter:capitalize">
+        {{ solution.targeted_problem | convertToLowercase }}
+      </p>
+      <h2 class="font-semibold text-2xl mb-2">Innovateur</h2>
+      <p class="">{{ solution.user.name }} &mdash; {{ solution.user.email }}</p>
+      <p class="mt-6">
+        {{ solution.thematic.name }}
+      </p>
+      <div class="mb-6">
+        @for (challenge of solution.challenges; track challenge.id) {
+        <p class="mr-2">&mdash; {{ challenge.name }}</p>
+        }
+      </div>
+    </div>
+    <app-pagination
+      class="flex justify-between items-center px-3 py-6 border-t"
+      [disablePrev]="!vm.solutionStore.solutionResponse?.prev"
+      [disableNext]="!vm.solutionStore.solutionResponse?.next"
+      (handlePrevClick)="load(vm.solutionStore.solutionResponse?.prev)"
+      (handleNexClick)="load(vm.solutionStore.solutionResponse?.next)"
+      type="withLabel" />
+    } @if (vm.solutionStore.isLoading) {
+    <div class="h-screen flex flex-col items-center gap-4 justify-center">
+      <app-spinner class="text-blue-400" />
+      En cours de chargement...
+    </div>
+    } @if (!vm.solutionStore.isLoading && !vm.solutionStore.solutionResponse?.solution) {
+    <div class="h-screen flex flex-col items-center gap-4 justify-center">
+      <h4>Aucune solution trouvé</h4>
+      <p class="text-4xl font-bondiMono font-black">404</p>
+      <a routerLink="/solutions" class="text-base inline-block text-blue-400">Voir toutes les solutions</a>
+    </div>
+    }
+  </div>
+</ng-container>

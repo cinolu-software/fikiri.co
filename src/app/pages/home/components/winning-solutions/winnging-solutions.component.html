@@ -1,0 +1,25 @@
+<ng-container *ngIf="vm$ | async as state">
+  <section class="px-8 max-w-screen-lg mx-auto">
+    @if (state.solutions.length > 0) {
+    <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold mb-6 mt-10">
+      Les champions
+      <span class="inline-block after:block after:w-full after:h-1 after:-mt-2 after:bg-blue-400">fikiri</span>
+    </h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8 mt-8">
+      @for (solution of state.solutions; track solution.id) {
+      <app-solution-card [solution]="solution" />
+      } @if (state.isLoading && state.solutions.length <= 0) { @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <app-solution-card-skeleton />
+      } }
+    </div>
+    }
+    <a
+      routerLink="/solutions"
+      class="rounded-md px-6 py-2 mt-8 inline-flex gap-1 border text-sky-700 text-sm border-sky-700 hover:bg-sky-700 hover:text-white transition-colors duration-300 group">
+      Dévouvrez plus
+      <span class="inline-block group-hover:translate-x-1 transition-transform duration-300">
+        <i class="bi bi-arrow-right"></i>
+      </span>
+    </a>
+  </section>
+</ng-container>

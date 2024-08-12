@@ -1,0 +1,37 @@
+<section class="px-8 mt-20 mb-10 max-w-screen-lg mx-auto" *ngIf="vm$ | async as vm">
+  @if (vm.events; as events) {
+  <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold mb-6">
+    Appels <span class="inline-block after:block after:w-full after:h-1 after:-mt-2 after:bg-sky-400">fikiri</span>
+  </h1>
+  <div class="">
+    @for (event of events; track event.id) {
+    <div class="grid grid-cols-1 md:grid-cols-2 mb-10">
+      <div class="relative w-full h-56 md:h-full mt-5 lg:mt-0">
+        @for (image of event.images; track $index) {
+        <img
+          class="object-cover transition-opacity duration-300 rounded-md"
+          [ngClass]="$index === currentImageIndex ? 'opacity-100' : 'opacity-0'"
+          [ngSrc]="displayImage(image)"
+          alt="hero"
+          fill />
+        }
+        <app-pagination
+          [disablePrev]="currentImageIndex === 0"
+          [disableNext]="currentImageIndex === event.images.length - 1"
+          (handlePrevClick)="prevImage()"
+          (handleNexClick)="nextImage(event.images)" />
+      </div>
+      <div
+        class="flex flex-col justify-center items-start bg-sky-950 text-white gap-4 gap-x-6 p-6 lg:py-16 lg:px-10 rounded-md">
+        <h2 class="text-lg md:text-xl font-semibold mb-3">
+          {{ event.name }}
+        </h2>
+        <p class="mb-3">
+          {{ event.description }}
+        </p>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</section>

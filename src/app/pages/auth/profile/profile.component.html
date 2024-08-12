@@ -1,0 +1,25 @@
+<section class="mx-auto max-w-screen-lg border-x border-dashed">
+  <div class="px-8 pt-20 pb-12">
+    <app-info />
+    <div class="mt-6 flex items-center gap-6 text-sm font-medium border-b">
+      <button
+        (click)="switchTab('profil')"
+        class="py-2 {{ activeTab() === 'profil' && 'border-b-2 border-sky-600 text-sky-500' }}">
+        Mes informations
+      </button>
+      <button
+        (click)="switchTab('solutions')"
+        class="py-2 {{ activeTab() === 'solutions' && 'border-b-2 border-sky-600 text-sky-500' }}">
+        Mes solutions
+      </button>
+    </div>
+    @if (activeTab() === 'profil') {
+    <div class="grid grid-cols-1 gap-y-16 mt-8">
+      <app-update-info />
+      <app-update-password />
+    </div>
+    } @if (activeTab() === 'solutions') {
+    <app-user-solutions />
+    }
+  </div>
+</section>
