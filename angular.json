@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fikiri.co": {
+    "fikiri": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/fikiri.co",
+            "outputPath": "dist/fikiri",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fikiri.co:build:production"
+              "buildTarget": "fikiri:build:production"
             },
             "development": {
-              "buildTarget": "fikiri.co:build:development"
+              "buildTarget": "fikiri:build:development"
             }
           },
           "defaultConfiguration": "development"
