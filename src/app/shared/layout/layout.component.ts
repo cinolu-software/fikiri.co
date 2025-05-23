@@ -14,7 +14,7 @@ import { fixedTopbarLayoutLayoutComponent } from './feature/fixed-topbar/fixed-t
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   config: AppConfig = {} as AppConfig;
-  layout: string = 'full';
+  layout = 'full';
   #unsubscribeAll = new Subject();
   #router = inject(Router);
   #activatedRoute = inject(ActivatedRoute);

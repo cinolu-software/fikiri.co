@@ -24,7 +24,7 @@ export class ApplicationComponent implements OnInit {
   #callsService = inject(CallsService);
 
   buildForm(): void {
-    const group: { [key: string]: unknown } = {};
+    const group: Record<string, unknown> = {};
     this.fields()?.forEach((field) => {
       group[field.label] = new FormControl('', field.required ? { nonNullable: true } : {});
     });

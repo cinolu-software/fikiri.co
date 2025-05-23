@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, input, OnDestroy, OnInit, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { ILink } from '../../utils/types/link.type';
 import { AuthService } from '../../../../auth/data-access/auth.service';
