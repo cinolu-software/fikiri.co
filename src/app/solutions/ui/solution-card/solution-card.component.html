@@ -1,0 +1,17 @@
+<a [routerLink]="['/solutions', solution().id]" class="flex flex-col">
+  <img
+    [src]="solution() | apiIMG: 'solution'"
+    class="rounded-md object-cover w-auto h-44 lg:h-36 mb-2 bg-gray-300"
+    alt="solution image"
+    fill />
+
+  <div class="flex gap-3 items-center">
+    <div class="w-10 h-10 bg-gray-200 relative rounded-full overflow-hidden flex items-center justify-center">
+      <img [ngSrc]="solution().user | apiIMG: 'user'" class="object-cover" alt="profile picture" fill />
+    </div>
+    <div class="text-gray-950 font-medium text-sm flex flex-col">
+      <p class="line-clamp-1">{{ solution().user.name | titlecase }}</p>
+      <p class="inline-block text-gray-500 font-normal line-clamp-1">{{ solution().created_at | date: 'longDate' }}</p>
+    </div>
+  </div>
+</a>

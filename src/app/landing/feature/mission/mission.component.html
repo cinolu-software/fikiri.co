@@ -1,0 +1,28 @@
+<section class="relative px-8 mx-auto md:max-w-screen-lg xl:px-0 pt-24" id="mission">
+  <h1 class="text-xl md:text-2xl lg:text-4xl font-bold mb-1" data-aos="fade-down">
+    Our
+    <span class="relative">
+      mission
+      <div class="absolute top-0 right-0 h-[1px] w-2/4 bg-gray-300"></div>
+    </span>
+  </h1>
+  <p class="mb-4 inline-flex items-center text-primary-400 gap-2" data-aos="fade-down">Notre mission</p>
+  <p class="font-medium mb-10" data-aos="fade-left">
+    Notre mission est d'identifier, structurer et accélérer la mise en œuvre de solutions innovantes visant à répondre
+    aux défis des Objectifs de Développement Durable. En facilitant la collaboration entre innovateurs, chercheurs,
+    entreprises et institutions, nous créons un écosystème dynamique où les idées prennent vie, sont testées et évoluent
+    vers des actions concrètes à grande échelle.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    @for (m of mission; track $index) {
+      <div class="flex flex-col gap-4 mb-2" data-aos="zoom-in">
+        <span class="h-10 w-10 border border-primary-600 flex justify-center items-center rounded-full">
+          <ng-icon [name]="m.icon" class="size-5! text-primary-600!" />
+        </span>
+        <h5 class="font-bold text-lg">{{ m.title }}</h5>
+        <p>{{ m.description }}</p>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,62 @@
+<section>
+  @let call = call$ | async;
+  @let user = user$ | async;
+  @if (call?.data; as o) {
+    <div class="relative min-h-[85vh] w-full">
+      <img [ngSrc]="o | apiIMG: 'call'" [alt]="o.name" class="object-cover" fill priority />
+      <div
+        class="absolute top-0 left-0 right-0 py-56 bottom-0 flex flex-col items-start justify-center bg-primary-950/35 gap-6 text-white">
+        <div class="flex flex-col items-start justify-center font-medium px-8 mx-auto md:max-w-screen-lg xl:px-0">
+          <h1 class="font-black block text-2xl hyphens-none md:text-3xl xl:text-6xl mb-8">
+            {{ o.name | titlecase }}
+          </h1>
+          <p class="font-medium block line-clamp-2 text-lg mb-6 hyphens-none">
+            {{ o.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="px-8 md:mx-auto md:max-w-screen-lg border-x border-dashed border-gray-200 min-h-[40vh] xl:px-0">
+      <div class="md:px-8 pb-16">
+        <button class="py-6 pb-8 text-primary-400 hover:underline flex items-center gap-2" (click)="back()">
+          <ng-icon name="matArrowBackOutline" class="size-4!" />
+          Revenir
+        </button>
+        <h1 class="font-extrabold mb-6 text-xl md:text-4xl md:w-5/6 hyphens-none">
+          {{ call?.data?.name | titlecase }}
+        </h1>
+        <p class="font-medium mb-8">
+          {{ o.description }}
+        </p>
+        <div class="flex flex-col gap-3">
+          <p>
+            Début : <span class="font-semibold">{{ o.started_at | date: 'longDate' }}</span>
+          </p>
+          <p>
+            Fin : <span class="font-semibold">{{ o.ended_at | date: 'longDate' }}</span>
+          </p>
+        </div>
+
+        @if (!isOver(o.ended_at) && user) {
+          <app-application-form [call]="o.id" [fields]="o.form" />
+        }
+        @if (isOver(o.ended_at)) {
+          <h5 class="font-medium text-lg my-6">Candidature fermée</h5>
+        }
+        @if (!user && !isOver(o.ended_at)) {
+          <h5 class="font-medium text-lg my-6">
+            Connectez-vous pour postuler
+            <a routerLink="/sign-in" class="hover:underline text-primary-700">cliquez-ici ! </a>
+          </h5>
+        }
+      </div>
+    </div>
+  }
+
+  @if (call?.isLoading) {
+    <app-call-skeleton />
+  }
+  @if (!call?.isSuccess && !call?.isLoading) {
+    <h2 class="px-8 py-12 text-3xl font-semibold">Aucun appel avec cet identifiant!</h2>
+  }
+</section>

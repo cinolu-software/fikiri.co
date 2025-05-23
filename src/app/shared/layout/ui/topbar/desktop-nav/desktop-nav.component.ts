@@ -1,0 +1,35 @@
+import { Component, input, output, signal } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
+import { ApiImgPipe } from '../../../../pipes/api-img.pipe';
+import { IUser } from '../../../../utils/types/models.type';
+import { ILink } from '../../../utils/types/link.type';
+import { getLinks } from '../../../../utils/helpers/get-links.fn';
+
+@Component({
+  selector: 'app-desktop-nav',
+  templateUrl: './desktop-nav.component.html',
+  imports: [CommonModule, RouterModule, NgOptimizedImage, ApiImgPipe, NgIcon]
+})
+export class DesktopNavComponent {
+  user = input.required<IUser | null>();
+  tabs = input.required<string[]>();
+  links = input.required<Record<string, ILink[]>>();
+  singOut = output<void>();
+  activeTab = signal<string>('');
+  getLinks = getLinks;
+
+  closeNav(): void {
+    this.setActiveTab('');
+  }
+
+  setActiveTab(tab: string): void {
+    this.activeTab.set(tab);
+  }
+
+  handleSignOut(): void {
+    this.singOut.emit();
+    this.setActiveTab('');
+  }
+}

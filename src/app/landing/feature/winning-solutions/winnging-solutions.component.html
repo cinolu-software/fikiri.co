@@ -1,0 +1,31 @@
+<section class="relative px-8 mx-auto md:max-w-screen-lg xl:px-0 pt-24" id="awards">
+  @let solutions = solutions$ | async;
+  @if (solutions?.data) {
+    <h1 class="text-xl md:text-2xl lg:text-4xl font-bold mb-1" data-aos="fade-down">
+      Les champions
+      <span class="relative">
+        fikiri
+        <div class="absolute top-0 left-0 right-0 h-[1px] bg-gray-300"></div>
+      </span>
+    </h1>
+    <a
+      routerLink="/solutions"
+      class="inline-flex group items-center gap-0.5 text-primary-400 hover:underline mb-6"
+      data-aos="fade-down">
+      En savoir plus
+      <ng-icon name="matArrowOutwardOutline" class="size-3! group-hover:rotate-45 duration-200" />
+    </a>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8 mt-8">
+      @for (solution of solutions?.data; track solution.id) {
+        <div data-aos="zoom-in">
+          <app-solution-card [solution]="solution" />
+        </div>
+      }
+      @if (solutions?.isLoading && solutions?.data?.length === 0) {
+        @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+          <app-solution-card-skeleton />
+        }
+      }
+    </div>
+  }
+</section>

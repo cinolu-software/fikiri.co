@@ -1,0 +1,48 @@
+<app-auth-card>
+  @let signIn = signIn$ | async;
+  <p class="text-sm text-gray-500 mb-4">
+    Vous n'avez pas de compte?&nbsp;
+    <a routerLink="/sign-up" class="text-primary-500 underline font-medium"> Inscrivez-vous! </a>
+  </p>
+  <form class="flex flex-col gap-4" (ngSubmit)="onSignIn()" [formGroup]="signInForm">
+    <div class="flex flex-col gap-1.5">
+      <label for="email" class="font-medium">Adresse e-mail</label>
+      <input pInputText type="email" id="email" name="email" formControlName="email" autocomplete="none" />
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <label for="passwordInput" class="font-medium">Mot de passe</label>
+      <p-password
+        id="password"
+        name="password"
+        [feedback]="false"
+        formControlName="password"
+        [toggleMask]="true"
+        autocomplete="none"
+        inputId="passwordInput" />
+    </div>
+    <div class="inline-flex -mt-2 w-full items-center justify-between">
+      Mot de passe oublié?
+      <a class="text-md font-medium text-primary-400 hover:underline" [routerLink]="['/forgot-password']">
+        Réinitialiser!
+      </a>
+    </div>
+    <p-button
+      [loading]="signIn?.isLoading"
+      [disabled]="signIn?.isLoading || signInForm.invalid"
+      class="mt-4"
+      type="submit">
+      Se connecter
+    </p-button>
+    <div class="mt-2.5 flex items-center">
+      <div class="mt-px flex-auto border-t border-gray-200"></div>
+      <div class="text-gray-700 mx-2">Ou</div>
+      <div class="mt-px flex-auto border-t border-gray-200"></div>
+    </div>
+    <p-button (onClick)="signinWithGoogle()" [outlined]="true" [severity]="'info'">
+      Continuer avec
+      <div class="relative h-5 w-5">
+        <img ngSrc="/images/google.svg" alt="Google" fill />
+      </div>
+    </p-button>
+  </form>
+</app-auth-card>

@@ -1,0 +1,19 @@
+@let user = user$ | async;
+<header
+  class="py-4 w-full right-0 left-0 flex flex-col text-base justify-center z-20 font-satoshi"
+  [ngClass]="{
+    'fixed top-0 bg-white shadow-md text-gray-800': isFixed() || fixed(),
+    'absolute top-4 text-white': !isFixed() && !fixed(),
+    'animate-fadeInUp': isFixed() && !fixed()
+  }">
+  <nav class="flex justify-between items-center w-full px-8 md:mx-auto md:max-w-screen-lg md:px-0">
+    <a routerLink="/" class="block font-extrabold text-2xl">
+      fikiri
+      <span class="text-primary-500 animate-ping">.</span>
+    </a>
+    <div>
+      <app-mobile-nav [user]="user" [tabs]="tabs()" [links]="links()" (singOut)="signOut()" />
+      <app-desktop-nav [user]="user" [tabs]="tabs()" [links]="links()" (singOut)="signOut()" />
+    </div>
+  </nav>
+</header>

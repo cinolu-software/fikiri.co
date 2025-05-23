@@ -1,0 +1,20 @@
+<div class="flex items-center justify-center my-1.5">
+  <p-card class="call-card">
+    <ng-template #header>
+      <div class="relative h-60 w-full bg-gray-100">
+        <img [ngSrc]="call() | apiIMG: 'call'" [alt]="call().name" class="object-cover rounded-t-lg" fill />
+      </div>
+    </ng-template>
+    <ng-template #title>
+      <h5 class="line-clamp-1">{{ call().name | titlecase }}</h5>
+    </ng-template>
+    <p class="line-clamp-2">
+      {{ call().description }}
+    </p>
+    <ng-template #footer>
+      <a pButton [outlined]="true" [severity]="'info'" [routerLink]="['/calls', call().id]" class="mt-4">
+        Voir les détails
+      </a>
+    </ng-template>
+  </p-card>
+</div>

@@ -1,0 +1,17 @@
+<div class="grid grid-cols-1 lg:grid-cols-2">
+  <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="px-10 w-full md:px-0 md:w-3/6">
+      <button (click)="back()" class="mb-4 text-primary-400 hover:underline flex items-center gap-2">
+        <ng-icon name="matArrowBackOutline" class="size-4!" />
+        Revenir en arrière
+      </button>
+      <ng-content />
+    </div>
+  </div>
+  <div class="hidden fixed md:block right-0 md:w-1/2">
+    <div
+      class="relative min-h-screen items-center justify-center overflow-hidden p-16 md:flex lg:px-28 bg-[url('/images/auth.webp')] bg-center bg-cover bg-no-repeat">
+      <div class="absolute top-0 bottom-0 left-0 right-0 bg-primary-950/40"></div>
+    </div>
+  </div>
+</div>

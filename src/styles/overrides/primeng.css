@@ -1,0 +1,44 @@
+/* Loading bar  */
+.loading-bar .p-progressbar {
+  @apply fixed top-0 w-full h-1 z-[999] rounded-none;
+}
+
+/* Progess Bar */
+.p-progressbar {
+  @apply bg-primary-100 rounded-none;
+}
+
+.p-progressbar-value {
+  @apply bg-primary-500;
+}
+
+/* Card */
+.p-card {
+  @apply w-auto h-auto  overflow-hidden bg-white text-gray-800;
+}
+
+/* Form */
+.p-inputtext {
+  @apply bg-white text-gray-800 w-full py-2 border-gray-200 focus:border-primary-500;
+}
+
+.p-password {
+  @apply w-full;
+}
+
+.p-inputtext.ng-touched.ng-invalid {
+  @apply border-red-400;
+}
+
+/* Buttons */
+.p-button {
+  @apply font-medium w-full;
+}
+
+.p-button-filled {
+  @apply text-white font-medium w-full;
+}
+
+.p-button-outlined {
+  @apply font-medium w-full;
+}

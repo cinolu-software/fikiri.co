@@ -1,0 +1,31 @@
+<section class="px-8 mx-auto md:max-w-screen-lg xl:px-0 py-28">
+  <h1 class="text-xl md:text-2xl lg:text-4xl font-bold mb-1" data-aos="fade-down">
+    Les objectifs de développement
+    <span class="relative">
+      durables
+      <div class="absolute top-0 left-0 right-0 h-[1px] bg-gray-300"></div>
+    </span>
+  </h1>
+  <a
+    href="https://www.un.org/sustainabledevelopment/fr/objectifs-de-developpement-durable/"
+    target="_blank"
+    class="group inline-flex items-center gap-0.5 text-primary-400 hover:underline mb-6"
+    data-aos="fade-down">
+    En savoir plus
+    <ng-icon name="matArrowOutwardOutline" class="size-3! group-hover:rotate-45 duration-200" />
+  </a>
+
+  <div class="relative grid lg:grid-cols-7 sm:grid-cols-4 grid-cols-3 gap-y-4 2xl:gap-y-8 mt-4">
+    @for (sdg of sdgs; track sdg.name) {
+      <div class="hover:-translate-y-2 duration-300 transition-transform">
+        <div class="relative h-24 w-24 md:h-32 md:w-32" data-aos="zoom-in">
+          <img
+            [ngSrc]="sdg.image"
+            class="transition-opacity duration-300 group-hover:opacity-0 rounded-[2px]"
+            alt="{{ sdg.name }}"
+            fill />
+        </div>
+      </div>
+    }
+  </div>
+</section>
