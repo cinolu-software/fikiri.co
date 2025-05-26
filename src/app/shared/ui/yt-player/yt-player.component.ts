@@ -1,14 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  inject,
-  input,
-  Input,
-  Signal,
-  viewChild,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { YouTubePlayer } from '@angular/youtube-player';
 
 @Component({
