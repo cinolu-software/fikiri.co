@@ -1,22 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IApplication, ICall } from '../../shared/utils/types/models.type';
-import { QueryParams } from '../utils/query-params.type';
 import { Router } from '@angular/router';
 import { APIService } from '../../shared/services/api/api.service';
 import { IAPIResponse } from '../../shared/services/api/types/api-response.type';
 import { ToastrService } from '../../shared/services/toast/toastr.service';
 import { buildQueryParams } from '../../shared/utils/helpers/build-query-params.fn';
+import { QueryParams } from '../utils/types/query-params.type';
 
 @Injectable()
-export class CallsService {
+export class CallService {
   #apiService = inject(APIService);
   #toast = inject(ToastrService);
   #router = inject(Router);
-
-  getLatest(): Observable<IAPIResponse<ICall[]>> {
-    return this.#apiService.get('calls/find-latest');
-  }
 
   getOne(id: string): Observable<IAPIResponse<ICall>> {
     return this.#apiService.get(`calls/${id}`);

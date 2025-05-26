@@ -3,8 +3,10 @@
     <ng-icon [name]="isOpen() ? 'matCloseOutline' : 'matMenuOutline'" class="size-5!" />
   </button>
   <div
-    class="fixed top-16 left-0 right-8 bottom-0 bg-white transition-transform duration-300"
-    [ngClass]="isOpen() ? 'translate-x-0 active-nav' : '-translate-x-[120vw]'">
+    class="fixed top-16 left-0 right-8 bottom-0 bg-white transition-transform duration-300 -translate-x-[120vw]"
+    [ngClass]="{
+      'translate-x-0 active-nav': isOpen() && !activeTab(),
+    }">
     <div class="flex flex-col justify-between py-16 px-10 h-full text-gray-900">
       <div class="flex flex-col gap-6 font-bold text-xl menu">
         @for (tab of tabs(); track $index) {
@@ -48,13 +50,11 @@
     </div>
   </div>
   <ul
-    class="text-base text-gray-800 fixed top-16 left-0 right-8 bottom-0 bg-white z-30 transition-transform duration-300"
-    [ngClass]="activeTab() && isOpen() ? 'translate-x-0' : '-translate-x-[120vw]'">
-    <div
-      class="flex flex-col items-start justify-start gap-7 font-medium py-16 px-10 h-full"
-      [ngClass]="{
-        'active-nav': activeTab() && isOpen(),
-      }">
+    class="text-base text-gray-800 fixed top-16 left-0 right-8 bottom-0 bg-white z-30 transition-transform duration-300 -translate-x-[120vw]"
+    [ngClass]="{
+      'translate-x-0 active-nav': isOpen() && activeTab(),
+    }">
+    <div class="flex flex-col items-start justify-start gap-7 font-medium py-16 px-10 h-full">
       <div class="menu">
         <button class="font-semibold text-gray-800 flex items-center gap-1.5 my-4" (click)="setActiveTab('')">
           <ng-icon name="matArrowBackOutline" class="size-3.5!" />

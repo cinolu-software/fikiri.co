@@ -6,7 +6,7 @@ import { unauthGuard } from './shared/guards/no-auth.guard';
 import { solutionsRoutes } from './solutions/solutions.routes';
 import { authGuard } from './shared/guards/auth.guard';
 import { profileRoutes } from './profile/profile.routes';
-import { callsRoutes } from './calls/calls.routes';
+import { callRoutes } from './call/call.routes';
 
 export const routes: Route[] = [
   {
@@ -33,7 +33,7 @@ export const routes: Route[] = [
     path: 'calls',
     component: LayoutComponent,
     data: { layout: 'full-layout' },
-    loadChildren: () => callsRoutes,
+    loadChildren: () => callRoutes,
   },
   {
     path: 'solutions',

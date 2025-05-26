@@ -6,22 +6,22 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
-import { CallsService } from '../../../data-access/calls.service';
-import { IAPIResponse } from '../../../../shared/services/api/types/api-response.type';
-import { Field, IApplication } from '../../../../shared/utils/types/models.type';
+import { CallService } from '../../data-access/call.service';
+import { IAPIResponse } from '../../../shared/services/api/types/api-response.type';
+import { Field, IApplication } from '../../../shared/utils/types/models.type';
 
 @Component({
   selector: 'app-application-form',
-  providers: [CallsService],
+  providers: [CallService],
   imports: [ReactiveFormsModule, CommonModule, InputTextModule, TextareaModule, ButtonModule, SelectModule],
-  templateUrl: './application.component.html'
+  templateUrl: './application.component.html',
 })
 export class ApplicationComponent implements OnInit {
   application$: Observable<IAPIResponse<IApplication>> | undefined;
   fields = input<Field[]>();
   call = input<string>();
   form: FormGroup = new FormGroup({});
-  #callsService = inject(CallsService);
+  #callsService = inject(CallService);
 
   buildForm(): void {
     const group: Record<string, unknown> = {};
