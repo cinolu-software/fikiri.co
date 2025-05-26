@@ -105,6 +105,11 @@ export interface ICall extends IBase {
   publisher: IUser;
   solutions: ISolution[];
   awards: ISolution[];
+  galery: IImage[];
+}
+
+export interface IImage extends IBase {
+  image: string;
 }
 
 export interface IOrganization extends IBase {
