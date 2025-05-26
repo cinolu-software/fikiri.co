@@ -10,7 +10,7 @@ import { IAPIResponse } from '../../../shared/services/api/types/api-response.ty
   imports: [CommonModule],
   providers: [ProfileService],
   selector: 'app-profile-outreach',
-  templateUrl: './outreach.component.html'
+  templateUrl: './outreach.component.html',
 })
 export class ProfileOutreachComponent implements OnInit {
   user = input<IUser>();
@@ -18,11 +18,10 @@ export class ProfileOutreachComponent implements OnInit {
   appUrl = environment.appUrl;
   countByOutreacher$: Observable<IAPIResponse<IUser[]>> | undefined;
   generateLink$: Observable<IAPIResponse<IUser>> | undefined;
-  #clipboard = inject(Clipboard);
   #profileService = inject(ProfileService);
 
-  copyLink(link: string) {
-    this.#clipboard.writeText(link);
+  async copyLink(link: string) {
+    await navigator.clipboard.writeText(link);
     this.copied.set(true);
     setTimeout(() => this.copied.set(false), 2000);
   }
