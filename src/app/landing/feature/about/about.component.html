@@ -25,10 +25,7 @@
       </div>
     }
   </div>
-  <div class="w-full mt-10">
-    <div class="aspect-video bg-gray-200">
-      <iframe class="w-full h-full rounded-md" src="https://www.youtube.com/embed/xuCLFkqhZAs" title="YouTube video">
-      </iframe>
-    </div>
+  <div class="aspect-video h-full w-full mt-6 rounded-md overflow-hidden bg-gray-200">
+    <app-yt-player [videoID]="'xuCLFkqhZAs'" />
   </div>
 </section>
