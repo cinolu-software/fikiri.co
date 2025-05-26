@@ -27,7 +27,7 @@
             </a>
           }
         </div>
-        @if ((c.galery.length || 0) > 0) {
+        @if ((c?.galery?.length || 0) > 0) {
           <p-galleria [value]="c.galery" [responsiveOptions]="responsiveOptions" [numVisible]="4" data-aos="fade-down">
             <ng-template #item let-item>
               <img [src]="imgUrl + item['image']" [alt]="item.id" class="h-60 md:h-72 w-full object-cover" />
