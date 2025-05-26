@@ -43,7 +43,7 @@ export class CallComponent implements OnInit {
     this.call$ = this.#callsService.getOne(id);
   }
 
-  isOver(date: Date): boolean {
+  isPast(date: Date): boolean {
     return new Date(date) < new Date();
   }
 

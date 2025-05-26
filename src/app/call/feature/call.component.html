@@ -2,7 +2,7 @@
   @let call = call$ | async;
   @let user = user$ | async;
   @if (call?.data; as o) {
-    <div class="relative min-h-[85vh] w-full">
+    <div class="relative h-[75vh] py-72 w-full">
       <img [ngSrc]="o | apiIMG: 'call'" [alt]="o.name" class="object-cover" fill priority />
       <div
         class="absolute top-0 left-0 right-0 py-56 bottom-0 flex flex-col items-start justify-center bg-primary-950/35 gap-6 text-white">
@@ -36,14 +36,13 @@
             Fin : <span class="font-semibold">{{ o.ended_at | date: 'longDate' }}</span>
           </p>
         </div>
-
-        @if (!isOver(o.ended_at) && user) {
+        @if (!isPast(o.ended_at) && user && o.form) {
           <app-application-form [call]="o.id" [fields]="o.form" />
         }
-        @if (isOver(o.ended_at)) {
+        @if (isPast(o.ended_at)) {
           <h5 class="font-medium text-lg my-6">Candidature fermée</h5>
         }
-        @if (!user && !isOver(o.ended_at)) {
+        @if (!user && !isPast(o.ended_at)) {
           <h5 class="font-medium text-lg my-6">
             Connectez-vous pour postuler
             <a routerLink="/sign-in" class="hover:underline text-primary-700">cliquez-ici ! </a>
@@ -52,7 +51,6 @@
       </div>
     </div>
   }
-
   @if (call?.isLoading) {
     <app-call-skeleton />
   }
