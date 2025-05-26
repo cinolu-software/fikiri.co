@@ -15,7 +15,7 @@ export class SolutionsService {
   }
 
   getSolutions(queryParams: QueryParams): Observable<IAPIResponse<[ISolution[], number]>> {
-    const params = buildQueryParams(queryParams);
+    const params = buildQueryParams(queryParams as unknown as Record<string, string>);
     return this.#apiService.get('solutions/mapped', params);
   }
 

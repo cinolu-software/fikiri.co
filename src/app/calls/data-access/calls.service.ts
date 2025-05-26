@@ -23,7 +23,7 @@ export class CallsService {
   }
 
   getPublished(queryParams: QueryParams): Observable<IAPIResponse<[ICall[], number]>> {
-    const params = buildQueryParams(queryParams);
+    const params = buildQueryParams(queryParams as unknown as Record<string, string>);
     return this.#apiService.get('calls/find-published', params);
   }
 
