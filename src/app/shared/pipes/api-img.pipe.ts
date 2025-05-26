@@ -6,6 +6,7 @@ export interface ImageValue {
   profile: string;
   google_image: string;
   image: string;
+  cover: string;
 }
 
 @Pipe({
@@ -37,8 +38,8 @@ export class ApiImgPipe implements PipeTransform {
           ? `${apiUrl}${this.#imagePaths['solution']}${typedValue['image']}`
           : this.#defaultImages['solution'];
       case 'call':
-        return typedValue['image']
-          ? `${apiUrl}${this.#imagePaths['call']}${typedValue['image']}`
+        return typedValue['cover']
+          ? `${apiUrl}${this.#imagePaths['call']}${typedValue['cover']}`
           : this.#defaultImages['call'];
       default:
         return this.#defaultImages['default'];
