@@ -1,5 +1,5 @@
 import { Component, input, output, signal } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
 import { ApiImgPipe } from '../../../../pipes/api-img.pipe';
@@ -9,8 +9,8 @@ import { getLinks } from '../../../../utils/helpers/get-links.fn';
 
 @Component({
   selector: 'app-mobile-nav',
-  imports: [RouterModule, CommonModule, NgOptimizedImage, NgIcon, ApiImgPipe],
-  templateUrl: './mobile-nav.component.html'
+  imports: [RouterModule, CommonModule, NgIcon, ApiImgPipe],
+  templateUrl: './mobile-nav.component.html',
 })
 export class MobileNavComponent {
   user = input.required<IUser | null>();
