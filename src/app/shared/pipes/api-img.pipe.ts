@@ -1,21 +1,39 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
-type ApiImageData = Record<string, string>;
+export type ImageSourceObject = Record<string, string>;
 
 @Pipe({
-  name: 'apiIMG'
+  name: 'apiIMG',
 })
 export class ApiImgPipe implements PipeTransform {
-  transform(value: ApiImageData, key: string): string {
+  #defaultImages: ImageSourceObject = {
+    user: '/images/avatar.webp',
+    solution: '/images/no-img.png',
+    call: '/images/no-img.png',
+    default: '/images/no-img.png',
+  };
+  #imagePaths: ImageSourceObject = {
+    user: 'uploads/profiles/',
+    solution: 'uploads/solutions/',
+    call: 'uploads/calls/covers/',
+  };
+  transform(value: Record<string, string> | null, key: string): string {
+    if (!value) return this.#defaultImages[key] || this.#defaultImages['default'];
     const apiUrl = environment.apiUrl;
-    const images: Record<string, string> = {
-      user: value['profile']
-        ? `${apiUrl}uploads/profiles/${value['profile']}`
-        : value['google_image'] || '/images/avatar.webp',
-      solution: value['image'] ? `${apiUrl}uploads/solutions/${value['image']}` : '/images/no-img.png',
-      call: value['image'] ? `${apiUrl}uploads/uploads/calls/covers/${value['image']}` : '/images/no-img.png'
-    };
-    return images[key];
+    switch (key) {
+      case 'user':
+        return value['profile']
+          ? `${apiUrl}${this.#imagePaths['user']}${value['profile']}`
+          : value['google_image'] || this.#defaultImages['user'];
+      case 'solution':
+        return value['image']
+          ? `${apiUrl}${this.#imagePaths['solution']}${value['image']}`
+          : this.#defaultImages['solution'];
+      case 'call':
+        return value['image'] ? `${apiUrl}${this.#imagePaths['call']}${value['image']}` : this.#defaultImages['call'];
+      default:
+        return this.#defaultImages['default'];
+    }
   }
 }
