@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { IUser } from '../../../shared/utils/types/models.type';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  imports: [NgOptimizedImage, ApiImgPipe, CommonModule, ProfileInfoComponent, ProfileOutreachComponent, NgIcon]
+  imports: [ApiImgPipe, CommonModule, ProfileInfoComponent, ProfileOutreachComponent, NgIcon],
 })
 export class ProfileComponent implements OnInit {
   #store = inject(Store);
@@ -22,14 +22,14 @@ export class ProfileComponent implements OnInit {
   activeTab = signal<string>('Mes informations');
   tabs = signal<{ label: string; icon: string }[]>([
     { label: 'Mes informations', icon: 'matInfoOutline' },
-    { label: 'Vulgarisation', icon: 'matCampaignOutline' }
+    { label: 'Vulgarisation', icon: 'matCampaignOutline' },
   ]);
   roles = signal<{ name: string; label: string }[]>([
     { name: 'admin', label: 'Administrateur' },
     { name: 'cartograph', label: 'Cartographe' },
     { name: 'explorator', label: 'Explorateur' },
     { name: 'experimentor', label: 'Expérimentateur' },
-    { name: 'user', label: 'Utilisateur' }
+    { name: 'user', label: 'Utilisateur' },
   ]);
 
   ngOnInit(): void {
