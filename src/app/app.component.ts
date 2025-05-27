@@ -7,12 +7,15 @@ import { LoadingBarComponent } from './shared/ui/loading-bar/loading-bar.compone
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet, LoaderComponent, LoadingBarComponent]
+  imports: [RouterOutlet, LoaderComponent, LoadingBarComponent],
 })
 export class AppComponent {
   constructor() {
     afterNextRender(() => {
-      AOS.init();
+      AOS.init({
+        offset: 70,
+        duration: 300,
+      });
     });
   }
 }
