@@ -5,12 +5,12 @@ import { EmptyLayoutComponent } from './feature/empty/empty.component';
 import { FullLayoutComponent } from './feature/full/full.component';
 import { AppConfig } from '../services/config/config.types';
 import { AppConfigService } from '../services/config/config.service';
-import { fixedTopbarLayoutLayoutComponent } from './feature/fixed-topbar/fixed-topbar.component';
+import { FixedTopbarLayoutComponent } from './feature/fixed-topbar/fixed-topbar.component';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  imports: [EmptyLayoutComponent, FullLayoutComponent, fixedTopbarLayoutLayoutComponent]
+  imports: [EmptyLayoutComponent, FullLayoutComponent, FixedTopbarLayoutComponent],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   config: AppConfig = {} as AppConfig;
@@ -28,7 +28,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.#router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntil(this.#unsubscribeAll)
+        takeUntil(this.#unsubscribeAll),
       )
       .subscribe(() => {
         this._updateLayout();
