@@ -1,48 +1,24 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
-export type ImageSourceObject = Record<string, string>;
-export interface ImageValue {
-  profile: string;
-  google_image: string;
-  image: string;
-  cover: string;
-}
-
 @Pipe({
   name: 'apiIMG',
 })
 export class ApiImgPipe implements PipeTransform {
-  #defaultImages: ImageSourceObject = {
-    user: '/images/avatar.webp',
-    solution: '/images/no-img.png',
-    call: '/images/no-img.png',
-    default: '/images/no-img.png',
-  };
-  #imagePaths: ImageSourceObject = {
-    user: 'uploads/profiles/',
-    solution: 'uploads/solutions/',
-    call: 'uploads/calls/covers/',
-  };
-  transform(value: unknown, key: string): string {
-    if (!value) return this.#defaultImages[key] || this.#defaultImages['default'];
+  transform(v: unknown, key: string): string {
     const apiUrl = environment.apiUrl;
-    const typedValue = value as ImageValue;
-    switch (key) {
-      case 'user':
-        return typedValue['profile']
-          ? `${apiUrl}${this.#imagePaths['user']}${typedValue['profile']}`
-          : typedValue['google_image'] || this.#defaultImages['user'];
-      case 'solution':
-        return typedValue['image']
-          ? `${apiUrl}${this.#imagePaths['solution']}${typedValue['image']}`
-          : this.#defaultImages['solution'];
-      case 'call':
-        return typedValue['cover']
-          ? `${apiUrl}${this.#imagePaths['call']}${typedValue['cover']}`
-          : this.#defaultImages['call'];
-      default:
-        return this.#defaultImages['default'];
-    }
+    const value = v as Record<string, string>;
+    const defaultImages: Record<string, string> = {
+      user: '/images/avatar-default.webp',
+      default: '/images/no-image.jpg',
+    };
+    const images: Record<string, string> = {
+      user: value['profile']
+        ? `${apiUrl}uploads/profiles/${value['profile']}`
+        : (value['google_image'] ?? defaultImages['user']),
+      solution: value['image'] ? `${apiUrl}uploads/solutions/${value['image']}` : defaultImages['default'],
+      call: value['cover'] ? `${apiUrl}uploads/calls/covers/${value['cover']}` : defaultImages['default'],
+    };
+    return images[key];
   }
 }
