@@ -6,9 +6,9 @@ import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
 import { ProfileInfoComponent } from '../info/info.component';
 import { ProfileOutreachComponent } from '../outreach/outreach.component';
 import { NgIcon } from '@ng-icons/core';
-import { environment } from '../../../../environments/environment.development';
 import { selectUser } from '../../../shared/store/auth/auth.reducers';
 import { IUser } from '../../../shared/utils/types/models.type';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
