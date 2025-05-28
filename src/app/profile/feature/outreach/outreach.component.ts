@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, NgZone, OnInit, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from '../../data-access/profile.service';
@@ -19,11 +19,16 @@ export class ProfileOutreachComponent implements OnInit {
   countByOutreacher$: Observable<IAPIResponse<IUser[]>> | undefined;
   generateLink$: Observable<IAPIResponse<IUser>> | undefined;
   #profileService = inject(ProfileService);
+  #ngZone = inject(NgZone);
 
   async copyLink(link: string) {
     await navigator.clipboard.writeText(link);
     this.copied.set(true);
-    setTimeout(() => this.copied.set(false), 2000);
+    this.#ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.copied.set(false);
+      }, 2000);
+    });
   }
 
   ngOnInit(): void {
