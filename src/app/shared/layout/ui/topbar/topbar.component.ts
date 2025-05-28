@@ -1,4 +1,15 @@
-import { Component, ElementRef, inject, input, OnDestroy, OnInit, signal, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -14,13 +25,14 @@ import { IUser } from '../../../utils/types/models.type';
 
 @Component({
   selector: 'app-topbar',
-  host: { '(document:click)': 'onClickOutside($event)', '(window:scroll)': 'onWindowScroll()' },
   imports: [CommonModule, RouterLink, MobileNavComponent, DesktopNavComponent],
-  templateUrl: './topbar.component.html'
+  templateUrl: './topbar.component.html',
 })
-export class TopbarComponent implements OnInit, OnDestroy {
+export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
   #store = inject(Store);
   #authService = inject(AuthService);
+  #zone = inject(NgZone);
+  elementRef = inject(ElementRef);
   user$: Observable<IUser | null> | undefined;
   logout$: Observable<IAPIResponse<void>> | undefined;
   tabs = signal<string[]>(['Parcourir']);
@@ -28,14 +40,42 @@ export class TopbarComponent implements OnInit, OnDestroy {
   fixed = input<boolean>(false);
   mobileNav = viewChild(MobileNavComponent);
   desktopNav = viewChild(DesktopNavComponent);
-  elementRef = inject(ElementRef);
-  #unSubscribe = new Subject();
+  #unSubscribe = new Subject<void>();
+  #removeListeners: (() => void)[] = [];
   links = signal<Record<string, ILink[]>>({
-    Parcourir: EXPLORATION_LINKS
+    Parcourir: EXPLORATION_LINKS,
   });
 
   ngOnInit(): void {
     this.user$ = this.#store.pipe(select(selectUser));
+  }
+
+  ngAfterViewInit(): void {
+    this.#zone.runOutsideAngular(() => {
+      const onClick = (event: Event) => {
+        if (
+          (this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen()) &&
+          !this.elementRef.nativeElement.contains(event.target)
+        ) {
+          this.#zone.run(() => this.closeNav());
+        }
+      };
+      const onScroll = () => {
+        const shouldBeFixed = window.scrollY > 50;
+        if (this.isFixed() !== shouldBeFixed) {
+          this.#zone.run(() => this.isFixed.set(shouldBeFixed));
+        }
+        if (this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen()) {
+          this.#zone.run(() => this.closeNav());
+        }
+      };
+      document.addEventListener('click', onClick);
+      window.addEventListener('scroll', onScroll);
+      this.#removeListeners = [
+        () => document.removeEventListener('click', onClick),
+        () => window.removeEventListener('scroll', onScroll),
+      ];
+    });
   }
 
   signOut(): void {
@@ -47,22 +87,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.mobileNav()?.closeNav();
   }
 
-  onClickOutside(event: Event) {
-    if (
-      (this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen()) &&
-      !this.elementRef.nativeElement.contains(event.target)
-    ) {
-      this.closeNav();
-    }
-  }
-
-  onWindowScroll(): void {
-    this.isFixed.set(window.scrollY > 50);
-    if (this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen()) this.closeNav();
-  }
-
   ngOnDestroy(): void {
-    this.#unSubscribe.next(null);
+    this.#unSubscribe.next();
     this.#unSubscribe.complete();
+    this.#removeListeners.forEach((fn) => fn());
   }
 }
