@@ -10,7 +10,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { IAPIResponse } from '../../../shared/services/api/types/api-response.type';
 import { IUser } from '../../../shared/utils/types/models.type';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-sign-in',
