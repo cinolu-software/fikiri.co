@@ -16,7 +16,7 @@ import { IAPIResponse } from '../../../shared/services/api/types/api-response.ty
   selector: 'app-profile-info',
   templateUrl: './info.component.html',
   providers: [ProfileService],
-  imports: [ButtonModule, InputTextModule, CommonModule, ReactiveFormsModule, FileUploadComponent]
+  imports: [ButtonModule, InputTextModule, CommonModule, ReactiveFormsModule, FileUploadComponent],
 })
 export class ProfileInfoComponent implements OnDestroy, OnInit {
   user = input<IUser>();
@@ -35,11 +35,11 @@ export class ProfileInfoComponent implements OnDestroy, OnInit {
       email: ['', Validators.email],
       address: ['', [Validators.required, Validators.minLength(3)]],
       phone_number: ['', [Validators.minLength(10), Validators.pattern(/^\+?[1-9]\d{1,14}$/)]],
-      name: ['', Validators.minLength(3)]
+      name: ['', Validators.minLength(3)],
     });
     this.passwordForm = this.#formBuilder.group({
       password: ['', [Validators.minLength(6), Validators.required]],
-      password_confirm: ['', [Validators.minLength(6), Validators.required]]
+      password_confirm: ['', [Validators.minLength(6), Validators.required]],
     });
   }
 
@@ -48,7 +48,7 @@ export class ProfileInfoComponent implements OnDestroy, OnInit {
       email: this.user()?.email,
       address: this.user()?.address,
       phone_number: this.user()?.phone_number,
-      name: this.user()?.name
+      name: this.user()?.name,
     });
   }
 

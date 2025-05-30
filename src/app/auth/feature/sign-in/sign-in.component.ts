@@ -24,8 +24,8 @@ import { environment } from '../../../../environments/environment.development';
     ReactiveFormsModule,
     NgOptimizedImage,
     CommonModule,
-    AuthCardComponent
-  ]
+    AuthCardComponent,
+  ],
 })
 export class AuthSignInComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);
@@ -38,7 +38,7 @@ export class AuthSignInComponent {
   constructor() {
     this.signInForm = this.#formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 

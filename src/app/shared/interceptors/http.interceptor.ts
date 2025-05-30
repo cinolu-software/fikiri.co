@@ -7,7 +7,7 @@ export const httpInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn):
   const url = req.url;
   newReq = req.clone({
     url: environment.apiUrl + url,
-    withCredentials: true
+    withCredentials: true,
   });
   return next(newReq);
 };
