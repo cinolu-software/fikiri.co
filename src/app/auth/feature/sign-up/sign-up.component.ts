@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthCardComponent } from '../../ui/auth-card/auth-card.component';
@@ -22,14 +22,14 @@ import { environment } from '../../../../environments/environment.development';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    AuthCardComponent
-  ]
+    AuthCardComponent,
+  ],
 })
-export class AuthSignUpComponent {
+export class AuthSignUpComponent implements OnInit {
   #formBuilder: FormBuilder = inject(FormBuilder);
   #authService = inject(AuthService);
   #route = inject(ActivatedRoute);
-  #link = signal<string>(this.#route.snapshot.queryParams?.['link'] || '');
+  #link = signal<string>('');
   signUpForm: FormGroup;
   signIn$: Observable<IAPIResponse<IUser>> | undefined;
 
@@ -38,8 +38,12 @@ export class AuthSignUpComponent {
       email: ['', [Validators.email, Validators.required]],
       address: ['', [Validators.required, Validators.minLength(3)]],
       phone_number: ['', [Validators.minLength(10), Validators.pattern(/^\+?[1-9]\d{1,14}$/)]],
-      name: ['', [Validators.minLength(3), Validators.required]]
+      name: ['', [Validators.minLength(3), Validators.required]],
     });
+  }
+
+  ngOnInit(): void {
+    this.#link.set(this.#route.snapshot.queryParams?.['link']);
   }
 
   onSignUp(): void {

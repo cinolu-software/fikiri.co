@@ -12,25 +12,25 @@ import { primeNGPreset } from './shared/utils/config/primeng.config';
 import localeFr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { authReducers } from './shared/store/auth/auth.reducers';
 import { LoadingInterceptor } from './shared/services/loading/loading.interceptor';
 import { provideApp } from './shared/providers/app.provider';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 registerLocaleData(localeFr, 'fr');
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideAnimations(),
-    provideApp(),
-    provideHttpClient(withFetch(), withInterceptors([httpInterceptor, LoadingInterceptor])),
     provideRouter(
       routes,
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled',
-        anchorScrolling: 'enabled'
-      })
+        anchorScrolling: 'enabled',
+      }),
     ),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideAnimations(),
+    provideApp(),
+    provideHttpClient(withFetch(), withInterceptors([httpInterceptor, LoadingInterceptor])),
     { provide: LOCALE_ID, useValue: 'fr' },
     { provide: TitleStrategy, useClass: PageTitleStrategy },
     provideIcons({ ...matIconOutline }),
@@ -41,14 +41,14 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: false,
           cssLayer: {
             name: 'primeng',
-            order: 'theme, base, primeng'
-          }
-        }
-      }
+            order: 'theme, base, primeng',
+          },
+        },
+      },
     }),
     provideStore({
-      auth: authReducers
+      auth: authReducers,
     }),
-    provideClientHydration(withEventReplay())
-  ]
+    provideClientHydration(withEventReplay()),
+  ],
 };
