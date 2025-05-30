@@ -13,7 +13,13 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "allowedCommonJsDependencies": ["aos"],
+            "allowedCommonJsDependencies": [
+              "aos", 
+              "filepond",
+              "filepond-plugin-image-preview", 
+              "filepond-plugin-file-validate-size", 
+              "filepond-plugin-file-validate-type"
+            ],
             "outputPath": "dist/fikiri.co",
             "index": "src/index.html",
             "browser": "src/main.ts",
