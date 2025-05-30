@@ -8,7 +8,7 @@ registerPlugin(imagePreview, validateType, validateSize);
 @Component({
   selector: 'app-file-upload',
   imports: [FilePondModule],
-  templateUrl: './file-upload.component.html'
+  templateUrl: './file-upload.component.html',
 })
 export class FileUploadComponent implements OnInit {
   name = input.required<string>();
@@ -34,9 +34,9 @@ export class FileUploadComponent implements OnInit {
           withCredentials: true,
           onload: () => {
             this.handleLoaded();
-          }
-        }
-      }
+          },
+        },
+      },
     };
   }
 
