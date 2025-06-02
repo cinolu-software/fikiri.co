@@ -18,14 +18,14 @@ export const routes: Route[] = [
   {
     path: '',
     component: LayoutComponent,
-    data: { layout: 'empty' },
+    data: { layout: 'empty-layout' },
     canActivate: [unauthGuard],
     loadChildren: () => auhtRoutes,
   },
   {
     path: 'account',
     component: LayoutComponent,
-    data: { layout: 'fixed-topbar' },
+    data: { layout: 'fixed-layout' },
     canActivate: [authGuard],
     loadChildren: () => profileRoutes,
   },
@@ -38,7 +38,7 @@ export const routes: Route[] = [
   {
     path: 'solutions',
     component: LayoutComponent,
-    data: { layout: 'fixed-topbar' },
+    data: { layout: 'fixed-layout' },
     loadChildren: () => solutionsRoutes,
   },
   {

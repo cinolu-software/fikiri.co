@@ -1,16 +1,16 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { EmptyLayoutComponent } from './feature/empty/empty.component';
-import { FullLayoutComponent } from './feature/full/full.component';
 import { AppConfig } from '../services/config/config.types';
 import { AppConfigService } from '../services/config/config.service';
-import { FixedTopbarLayoutComponent } from './feature/fixed-topbar/fixed-topbar.component';
+import { FixedLayoutComponent } from './feature/fixed-layout/fixed-layout.component';
+import { EmptyLayoutComponent } from './feature/empty-layout/empty-layout.component';
+import { FullLayoutComponent } from './feature/full-layout/full-layout.component';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  imports: [EmptyLayoutComponent, FullLayoutComponent, FixedTopbarLayoutComponent],
+  imports: [FixedLayoutComponent, EmptyLayoutComponent, FullLayoutComponent],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   config: AppConfig = {} as AppConfig;
