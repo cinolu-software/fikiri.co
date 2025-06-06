@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
     { label: 'Vulgarisation', icon: 'matCampaignOutline' },
   ]);
   roles = signal<{ name: string; label: string }[]>([
+    { name: 'cartographer-assistant', label: 'Assistant cartographe' },
     { name: 'admin', label: 'Administrateur' },
     { name: 'cartograph', label: 'Cartographe' },
     { name: 'explorator', label: 'Explorateur' },
@@ -42,8 +43,8 @@ export class ProfileComponent implements OnInit {
 
   hasRole(roles: string[] | undefined): boolean {
     if (!roles) return false;
-    const requiredRoles = ['admin', 'cartograph', 'explorator', 'experimentor'];
-    return roles.some((role) => requiredRoles.includes(role));
+    const required = ['admin', 'cartograph', 'explorator', 'experimentor', 'cartographer-assistant'];
+    return roles.some((role) => required.includes(role));
   }
 
   findRoleLabel(roles: string[] | undefined): string {
