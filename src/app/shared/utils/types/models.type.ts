@@ -105,7 +105,7 @@ export interface ICall extends IBase {
   publisher: IUser;
   solutions: ISolution[];
   awards: ISolution[];
-  galery: IImage[];
+  gallery: IImage[];
 }
 
 export interface IImage extends IBase {
