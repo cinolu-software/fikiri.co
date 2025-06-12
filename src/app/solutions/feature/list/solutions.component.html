@@ -19,17 +19,19 @@
         ) {
           <app-solution-card [solution]="solution" />
         }
-        <div class="flex justify-center items-center mt-20">
-          <pagination-controls
-            nextLabel=""
-            previousLabel=""
-            [autoHide]="true"
-            [maxSize]="5"
-            (pageChange)="onPageChange($event)"
-            class="pg">
-          </pagination-controls>
-        </div>
       }
     </div>
+    @if ((solutions?.data?.[0]?.length || 1) > 9) {
+      <div class="flex justify-center-safe items-center gap-3 mt-14">
+        <pagination-controls
+          nextLabel=""
+          previousLabel=""
+          [autoHide]="true"
+          [maxSize]="5"
+          (pageChange)="onPageChange($event)"
+          class="pg">
+        </pagination-controls>
+      </div>
+    }
   </div>
 </div>
