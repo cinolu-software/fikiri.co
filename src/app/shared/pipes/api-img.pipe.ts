@@ -9,7 +9,7 @@ export class ApiImgPipe implements PipeTransform {
     const apiUrl = environment.apiUrl;
     const value = v as Record<string, string>;
     const defaultImages: Record<string, string> = {
-      user: '/images/avatar-default.webp',
+      user: '/images/avatar.webp',
       default: '/images/no-img.png',
     };
     const images: Record<string, string> = {
