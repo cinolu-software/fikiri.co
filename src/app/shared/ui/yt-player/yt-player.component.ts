@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectorRef, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { YouTubePlayer } from '@angular/youtube-player';
 
 @Component({
@@ -13,9 +13,11 @@ export class YtPlayerComponent {
   videoWidth: number | undefined;
   #changeDetectorRef = inject(ChangeDetectorRef);
 
-  ngAfterViewInit(): void {
-    this.onResize();
-    window.addEventListener('resize', this.onResize.bind(this));
+  constructor() {
+    afterNextRender(() => {
+      this.onResize();
+      window.addEventListener('resize', this.onResize.bind(this));
+    });
   }
 
   onResize(): void {

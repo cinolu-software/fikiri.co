@@ -1,17 +1,24 @@
 <section class="px-8 mx-auto md:max-w-screen-lg 2xl:max-w-screen-lg xl:px-0 pt-8" id="about">
-  <h1 class="text-xl md:text-2xl lg:text-4xl font-bold mb-1">
-    About
-    <span class="relative">
-      us
-      <div class="absolute top-0 left-0 right-0 h-[1px] bg-gray-300"></div>
-    </span>
-  </h1>
-  <p class="mb-8 inline-flex items-center text-primary-500 gap-2">A propos de nous</p>
-  <p class="mb-6 text-lg">
-    Notre plateforme vise à identifier, cartographier et expérimenter des solutions innovantes pour accélérer l'atteinte
-    des Objectifs de Développement Durable (ODD). À travers un processus structuré en trois phases, nous offrons un
-    cadre de collaboration et d'exploration pour les porteurs de solutions, les experts et les institutions engagées.
-  </p>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-10">
+    <div class="">
+      <h1 class="text-xl md:text-2xl lg:text-5xl font-bold mb-1">
+        About
+        <span class="relative">
+          us
+          <div class="absolute top-0 left-0 right-0 h-[1px] bg-gray-300"></div>
+        </span>
+      </h1>
+      <p class="mb-8 inline-flex items-center text-primary-500 gap-2">A propos de nous</p>
+      <p class="mb-6 text-lg">
+        Notre plateforme vise à identifier, cartographier et expérimenter des solutions innovantes pour accélérer
+        l'atteinte des Objectifs de Développement Durable (ODD). À travers un processus structuré en trois phases, nous
+        offrons un cadre de collaboration et d'exploration pour les porteurs de solutions, les experts et les
+        institutions engagées.
+      </p>
+    </div>
+
+    <app-yt-player [videoID]="'xuCLFkqhZAs'" />
+  </div>
 
   <div class="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
     @for (d of aboutData; track $index) {
@@ -24,8 +31,5 @@
         <p>{{ d.description }}</p>
       </div>
     }
-  </div>
-  <div class="aspect-video h-full w-full mt-6 rounded-md overflow-hidden bg-gray-200" data-aos="fade-down">
-    <app-yt-player [videoID]="'xuCLFkqhZAs'" />
   </div>
 </section>

@@ -53,6 +53,9 @@ importers:
       '@ngrx/operators':
         specifier: 19.2.0
         version: 19.2.0(rxjs@7.8.2)
+      '@ngrx/signals':
+        specifier: ^19.2.1
+        version: 19.2.1(@angular/core@19.2.14(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@ngrx/store':
         specifier: ^19.2.0
         version: 19.2.1(@angular/core@19.2.14(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
@@ -1823,6 +1826,15 @@ packages:
     resolution: {integrity: sha512-kv3hFlpWbZxfyILvQAJT2JNbsRGauUIj67U6zOUd8psD7qoJdtdUAZmr/LUgu/6/tweYDUj1mcQJfvaudik0ZQ==}
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
+
+  '@ngrx/signals@19.2.1':
+    resolution: {integrity: sha512-Tajd2TVjkxxyFMhnMSWLa5pAWfynjP0VM0B/BCMaLiBrwBBxybxRVENoUDU5tGyiKSax/2tBJC3+sOglmxm27A==}
+    peerDependencies:
+      '@angular/core': ^19.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    peerDependenciesMeta:
+      rxjs:
+        optional: true
 
   '@ngrx/store@19.2.1':
     resolution: {integrity: sha512-c5vQId7YoAhM0y4HASrz9mtLju+28vJspd6OBlhPbBlSae8GN8m9S/oav+8LaSY19yh95cZ5B/nMcLNNWgL/jA==}
@@ -7369,6 +7381,13 @@ snapshots:
     dependencies:
       rxjs: 7.8.2
       tslib: 2.8.1
+
+  '@ngrx/signals@19.2.1(@angular/core@19.2.14(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/core': 19.2.14(rxjs@7.8.2)(zone.js@0.15.1)
+      tslib: 2.8.1
+    optionalDependencies:
+      rxjs: 7.8.2
 
   '@ngrx/store@19.2.1(@angular/core@19.2.14(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)':
     dependencies:
