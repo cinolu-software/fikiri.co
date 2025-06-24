@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { signalStore, withState, withMethods, patchState, withProps } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, tap, map, catchError, of, switchMap } from 'rxjs';
-import { IApplication, ICall } from '../../shared/utils/types/models.type';
+import { pipe, tap, catchError, of, switchMap } from 'rxjs';
+import { IApplication } from '../../shared/utils/types/models.type';
 import { ToastrService } from '../../shared/services/toast/toastr.service';
 import { Router } from '@angular/router';
 
