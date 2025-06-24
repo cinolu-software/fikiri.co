@@ -1,10 +1,9 @@
 <div class="relative">
-  @let solution = solution$ | async;
   <div class="p-8 min-h-[105vh] text-gray-600 border-x border-dashed border-gray-200 lg:mx-auto lg:max-w-screen-lg">
-    @if (solution?.isLoading) {
+    @if (store.isLoading()) {
       <app-solution-skeleton />
     }
-    @if (solution?.data; as s) {
+    @if (store.solution(); as s) {
       <div class="flex flex-col md:flex-row md:items-center mb-6 gap-6 pt-16">
         <div class="relative h-16 w-16 bg-gray-200 rounded-full">
           <img [ngSrc]="s.user | apiIMG: 'user'" alt="User Image" class="object-cover rounded-full" fill />
@@ -35,8 +34,7 @@
         }
       }
     }
-
-    @if (!solution?.data && !solution?.isLoading) {
+    @if (!store.solution() && !store.isLoading()) {
       <div class="py-8 max-w-screen-xl lg:py-20">
         <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600">404</h1>
         <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">Aucune solution trouvée</p>

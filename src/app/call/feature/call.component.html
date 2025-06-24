@@ -1,7 +1,6 @@
 <section>
-  @let call = call$ | async;
-  @let user = user$ | async;
-  @if (call?.data; as o) {
+  @let user = authStore.user();
+  @if (store.call(); as o) {
     <div class="relative h-[75vh] py-72 w-full">
       <img [ngSrc]="o | apiIMG: 'call'" [alt]="o.name" class="object-cover" fill priority />
       <div
@@ -25,7 +24,7 @@
           Revenir
         </button>
         <h1 class="font-extrabold mb-6 text-xl md:text-4xl md:w-5/6 hyphens-none">
-          {{ call?.data?.name | titlecase }}
+          {{ o.name | titlecase }}
         </h1>
         <p class="font-medium mb-8">
           {{ o.description }}
@@ -53,10 +52,12 @@
       </div>
     </div>
   }
-  @if (call?.isLoading) {
+  @if (store.isLoading()) {
     <app-call-skeleton />
   }
-  @if (!call?.isSuccess && !call?.isLoading) {
-    <h2 class="px-8 py-12 text-3xl font-semibold">Aucun appel avec cet identifiant!</h2>
+  @if (!store.call() && !store.isLoading()) {
+    <div class="h-screen flex items-center justify-center">
+      <h2 class="px-8 py-12 text-3xl font-semibold">Aucun appel avec cet identifiant!</h2>
+    </div>
   }
 </section>

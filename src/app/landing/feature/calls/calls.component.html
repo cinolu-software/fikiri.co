@@ -1,5 +1,4 @@
 <section class="px-8 mx-auto md:max-w-screen-lg 2xl:max-w-screen-lg xl:px-0 pt-20" id="calls">
-  @let calls = calls$ | async;
   <h1 class="text-xl md:text-2xl lg:text-4xl font-bold mb-1" data-aos="fade-down">
     Les appels à
     <span class="relative">
@@ -8,9 +7,9 @@
     </span>
   </h1>
   <p class="mb-8 inline-flex items-center text-primary-500 gap-2">Calls to solutions</p>
-  @if (calls?.data?.[0]; as d) {
+  @if (store.calls()?.[0]; as d) {
     @for (
-      c of d | paginate: { itemsPerPage: 20, currentPage: queryParams().page || 1, totalItems: calls?.data?.[1] };
+      c of d | paginate: { itemsPerPage: 20, currentPage: queryParams().page || 1, totalItems: store.calls()?.[1] };
       track c?.id
     ) {
       <div class="grid grid-cols-1 items-center md:grid-cols-2 gap-12 md:gap-8 mb-10">
@@ -43,7 +42,7 @@
       </div>
     }
   }
-  @if ((calls?.data?.[0]?.length || 1) > 5) {
+  @if ((store.calls()?.[1] || 1) > 5) {
     <div class="flex justify-center items-center mt-20">
       <pagination-controls
         nextLabel=""

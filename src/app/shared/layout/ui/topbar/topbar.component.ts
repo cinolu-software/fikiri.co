@@ -1,85 +1,51 @@
 import {
-  AfterViewInit,
+  afterNextRender,
   Component,
   ElementRef,
   inject,
   input,
   NgZone,
   OnDestroy,
-  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { ILink } from '../../utils/types/link.type';
-import { AuthService } from '../../../../auth/data-access/auth.service';
-import { IAPIResponse } from '../../../services/api/types/api-response.type';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { EXPLORATION_LINKS } from '../../utils/data/links';
 import { DesktopNavComponent } from './desktop-nav/desktop-nav.component';
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 import { RouterLink } from '@angular/router';
-import { selectUser } from '../../../store/auth/auth.reducers';
-import { IUser } from '../../../utils/types/models.type';
+import { AuthStore } from '../../../store/auth.store';
 
 @Component({
   selector: 'app-topbar',
   imports: [CommonModule, RouterLink, MobileNavComponent, DesktopNavComponent],
   templateUrl: './topbar.component.html',
 })
-export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  #store = inject(Store);
-  #authService = inject(AuthService);
-  #zone = inject(NgZone);
-  elementRef = inject(ElementRef);
-  user$: Observable<IUser | null> | undefined;
-  logout$: Observable<IAPIResponse<void>> | undefined;
-  tabs = signal<string[]>(['Parcourir']);
-  isFixed = signal<boolean>(false);
-  fixed = input<boolean>(false);
-  mobileNav = viewChild(MobileNavComponent);
-  desktopNav = viewChild(DesktopNavComponent);
-  #unSubscribe = new Subject<void>();
-  #removeListeners: (() => void)[] = [];
-  links = signal<Record<string, ILink[]>>({
+export class TopbarComponent implements OnDestroy {
+  #elementRef = inject(ElementRef);
+  isFixed = signal(false);
+  tabs = signal(['Parcourir']);
+  links = signal({
     Parcourir: EXPLORATION_LINKS,
   });
+  fixed = input(false);
+  mobileNav = viewChild(MobileNavComponent);
+  desktopNav = viewChild(DesktopNavComponent);
+  #destroy$ = new Subject<void>();
+  #ngZone = inject(NgZone);
+  authStore = inject(AuthStore);
 
-  ngOnInit(): void {
-    this.user$ = this.#store.pipe(select(selectUser));
-  }
-
-  ngAfterViewInit(): void {
-    this.#zone.runOutsideAngular(() => {
-      const onClick = (event: Event) => {
-        if (
-          (this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen()) &&
-          !this.elementRef.nativeElement.contains(event.target)
-        ) {
-          this.#zone.run(() => this.closeNav());
-        }
-      };
-      const onScroll = () => {
-        const shouldBeFixed = window.scrollY > 50;
-        if (this.isFixed() !== shouldBeFixed) {
-          this.#zone.run(() => this.isFixed.set(shouldBeFixed));
-        }
-        if (this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen()) {
-          this.#zone.run(() => this.closeNav());
-        }
-      };
-      document.addEventListener('click', onClick);
-      window.addEventListener('scroll', onScroll);
-      this.#removeListeners = [
-        () => document.removeEventListener('click', onClick),
-        () => window.removeEventListener('scroll', onScroll),
-      ];
+  constructor() {
+    afterNextRender(() => {
+      this.#ngZone.runOutsideAngular(() => {
+        this.setupEventListeners();
+      });
     });
   }
 
   signOut(): void {
-    this.#authService.signOut().pipe(takeUntil(this.#unSubscribe)).subscribe();
+    this.authStore.signOut();
   }
 
   closeNav(): void {
@@ -87,9 +53,23 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mobileNav()?.closeNav();
   }
 
+  setupEventListeners(): void {
+    const click$ = fromEvent(document, 'click');
+    const scroll$ = fromEvent(window, 'scroll');
+    click$.pipe(takeUntil(this.#destroy$)).subscribe((event: Event) => {
+      const isInside = this.#elementRef.nativeElement.contains(event.target);
+      const isMenuOpen = this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen();
+      if (isMenuOpen && !isInside) this.closeNav();
+    });
+    scroll$.pipe(takeUntil(this.#destroy$)).subscribe(() => {
+      const shouldFix = window.scrollY > 20;
+      if (this.isFixed() !== shouldFix) this.isFixed.set(shouldFix);
+      if (this.desktopNav()?.activeTab() || this.mobileNav()?.isOpen()) this.closeNav();
+    });
+  }
+
   ngOnDestroy(): void {
-    this.#unSubscribe.next();
-    this.#unSubscribe.complete();
-    this.#removeListeners.forEach((fn) => fn());
+    this.#destroy$.next();
+    this.#destroy$.complete();
   }
 }

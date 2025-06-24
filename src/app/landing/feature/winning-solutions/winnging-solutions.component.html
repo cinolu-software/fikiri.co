@@ -1,6 +1,5 @@
 <section class="relative px-8 mx-auto md:max-w-screen-lg 2xl:max-w-screen-lg xl:px-0 pt-24" id="awards">
-  @let solutions = solutions$ | async;
-  @if (solutions?.data) {
+  @if (store.solutions().length > 0) {
     <h1 class="text-xl md:text-2xl lg:text-4xl font-bold mb-1" data-aos="fade-down">
       Les champions
       <span class="relative">
@@ -16,12 +15,12 @@
       <ng-icon name="matArrowOutwardOutline" class="size-3! group-hover:rotate-45 duration-200" />
     </a>
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8 mt-8">
-      @for (solution of solutions?.data; track solution.id) {
+      @for (solution of store.solutions(); track solution.id) {
         <div data-aos="zoom-in">
           <app-solution-card [solution]="solution" />
         </div>
       }
-      @if (solutions?.isLoading && solutions?.data?.length === 0) {
+      @if (store.isLoading()) {
         @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
           <app-solution-card-skeleton />
         }

@@ -1,7 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { CallsService } from '../../data-access/calls.service';
-import { Observable } from 'rxjs';
-import { IAPIResponse } from '../../../shared/services/api/types/api-response.type';
+import { Component, inject, signal } from '@angular/core';
 import { ICall } from '../../../shared/utils/types/models.type';
 import { QueryParams } from '../../utils/types/query-params.type';
 import { Router, RouterLink } from '@angular/router';
@@ -11,17 +8,16 @@ import { GalleriaModule } from 'primeng/galleria';
 import { environment } from '../../../../environments/environment';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
 import { NgIcon } from '@ng-icons/core';
+import { CallsStore } from '../../data-access/calls.store';
 
 @Component({
   selector: 'app-calls',
-  providers: [CallsService],
+  providers: [CallsStore],
   imports: [CommonModule, NgIcon, RouterLink, NgxPaginationModule, GalleriaModule, ApiImgPipe],
   templateUrl: './calls.component.html',
 })
-export class CallsComponent implements OnInit {
-  #callsService = inject(CallsService);
+export class CallsComponent {
   #router = inject(Router);
-  calls$: Observable<IAPIResponse<[ICall[], number]>> | undefined;
   imgUrl = `${environment.apiUrl}uploads/calls/`;
   queryParams = signal<QueryParams>({
     page: this.#router.routerState.snapshot.root.queryParams['page'] || null,
@@ -30,10 +26,7 @@ export class CallsComponent implements OnInit {
     { breakpoint: '1300px', numVisible: 4 },
     { breakpoint: '575px', numVisible: 2 },
   ];
-
-  ngOnInit(): void {
-    this.calls$ = this.#callsService.getPublished(this.queryParams());
-  }
+  store = inject(CallsStore);
 
   onPageChange(currentPage: number): void {
     this.queryParams().page = currentPage === 1 ? null : currentPage;
@@ -47,7 +40,7 @@ export class CallsComponent implements OnInit {
   }
 
   loadCalls(): void {
-    this.calls$ = this.#callsService.getPublished(this.queryParams());
+    this.store.loadCalls(this.queryParams());
   }
 
   updateRouteAndSolutions(): void {

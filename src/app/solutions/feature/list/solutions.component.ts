@@ -1,35 +1,27 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { QueryParams } from '../../types/query-params.type';
 import { Router } from '@angular/router';
-import { IAPIResponse } from '../../../shared/services/api/types/api-response.type';
-import { ISolution } from '../../../shared/utils/types/models.type';
-import { SolutionsService } from '../../data-access/solutions.service';
 import { SolutionCardSkeletonComponent } from '../../ui/solution-card-skeleton/solution-card-skeleton.component';
 import { SolutionCardComponent } from '../../ui/solution-card/solution-card.component';
+import { SolutionsStore } from '../../data-access/solutions.store';
 
 @Component({
   selector: 'app-solutions',
   templateUrl: './solutions.component.html',
-  providers: [SolutionsService],
-  imports: [CommonModule, SolutionCardComponent, SolutionCardSkeletonComponent, NgxPaginationModule]
+  providers: [SolutionsStore],
+  imports: [CommonModule, SolutionCardComponent, SolutionCardSkeletonComponent, NgxPaginationModule],
 })
-export class SolutionsComponent implements OnInit {
-  #solutionsService = inject(SolutionsService);
+export class SolutionsComponent {
   #router = inject(Router);
-  solutions$: Observable<IAPIResponse<[ISolution[], number]>> | undefined;
   queryParams = signal<QueryParams>({
-    page: this.#router.routerState.snapshot.root.queryParams['page'] || null
+    page: this.#router.routerState.snapshot.root.queryParams['page'] || null,
   });
-
-  ngOnInit(): void {
-    this.loadSolutions();
-  }
+  store = inject(SolutionsStore);
 
   loadSolutions(): void {
-    this.solutions$ = this.#solutionsService.getSolutions(this.queryParams());
+    this.store.loadSolutions(this.queryParams());
   }
 
   onPageChange(currentPage: number): void {

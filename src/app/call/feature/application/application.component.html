@@ -1,4 +1,3 @@
-@let application = application$ | async;
 <form class="mt-6 md:w-3/4 lg:w-2/4 flex flex-col gap-8" [formGroup]="form" (ngSubmit)="submitForm()">
   @for (f of fields(); track $index) {
     @if (f.type !== 'textarea' && f.type !== 'select') {
@@ -43,7 +42,7 @@
       </div>
     }
   }
-  <p-button [loading]="application?.isLoading" [disabled]="application?.isLoading || form.invalid" type="submit">
+  <p-button [loading]="store.isLoading()" [disabled]="store.isLoading() || form.invalid" type="submit">
     Soumettre
   </p-button>
 </form>
