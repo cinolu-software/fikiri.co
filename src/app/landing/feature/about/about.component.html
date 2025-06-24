@@ -16,8 +16,11 @@
         institutions engagées.
       </p>
     </div>
-
-    <app-yt-player [videoID]="'xuCLFkqhZAs'" />
+    @if (isBrowser()) {
+      <app-yt-player [videoID]="'xuCLFkqhZAs'" />
+    } @else {
+      <div class="h-full w-full bg-gray-200 animate-pulse"></div>
+    }
   </div>
 
   <div class="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">

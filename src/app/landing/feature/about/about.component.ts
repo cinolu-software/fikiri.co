@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { afterNextRender, Component, signal } from '@angular/core';
 import { ABOUT } from '../../utils/data/about';
 import { YtPlayerComponent } from '../../../shared/ui/yt-player/yt-player.component';
 
@@ -9,4 +9,11 @@ import { YtPlayerComponent } from '../../../shared/ui/yt-player/yt-player.compon
 })
 export class AboutComponent {
   aboutData = ABOUT;
+  isBrowser = signal<boolean>(false);
+
+  constructor() {
+    afterNextRender(() => {
+      this.isBrowser.set(true);
+    });
+  }
 }
