@@ -1,5 +1,7 @@
+import { LucideIconData } from 'lucide-angular';
+
 export interface IMission {
-  icon: string;
+  icon: LucideIconData;
   title: string;
   description: string;
 }

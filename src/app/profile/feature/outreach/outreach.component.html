@@ -1,6 +1,4 @@
 <div>
-  @let countByOutreacher = countByOutreacher$ | async;
-  @let generateLink = generateLink$ | async;
   @let link = appUrl + 'sign-up?link=' + user()?.outreach_link;
   <p class="mb-4">
     <span class="text-gray-500 font-medium">
@@ -16,22 +14,22 @@
       class="flex items-center gap-2 text-sm font-medium text-gray-900 bg-gray-200 hover:bg-gray-300 rounded-lg px-4 py-2 mt-4 transition-colors duration-300">
       {{ copied() ? 'Lien copié !' : 'Copier le lien' }}
     </button>
-    @if (countByOutreacher?.isLoading) {
+    @if (store.isLoading()) {
       <div class="rounded-md bg-gray-200 animate-pulse h-6 w-full md:w-3/6 mt-6"></div>
     }
-    @if (countByOutreacher?.data) {
+    @if (store.count()) {
       <h3 class="font-medium mt-6">
         Nombre d'inscriptions en utilisant mon lien :
         <span class="text-lg font-medium text-primary-900">
-          {{ countByOutreacher?.data }}
+          {{ store.count() }}
         </span>
       </h3>
     }
   } @else {
     <button
-      (click)="generatePopularizationLink()"
+      (click)="generateLink()"
       class="flex items-center gap-2 text-sm font-medium text-gray-900 bg-gray-200 hover:bg-gray-300 rounded-lg px-4 py-2 mt-4 transition-colors duration-300">
-      {{ generateLink?.isLoading ? 'Génération du lien...' : 'Générer le lien' }}
+      {{ store.isLoading() ? 'Génération du lien...' : 'Générer le lien' }}
     </button>
   }
 </div>

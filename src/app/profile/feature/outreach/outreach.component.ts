@@ -1,24 +1,20 @@
-import { Component, inject, input, NgZone, OnInit, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileService } from '../../data-access/profile.service';
 import { IUser } from '../../../shared/utils/types/models.type';
 import { environment } from '../../../../environments/environment';
-import { IAPIResponse } from '../../../shared/services/api/types/api-response.type';
+import { OutreachStore } from '../../data-access/outreach.store';
 
 @Component({
   imports: [CommonModule],
-  providers: [ProfileService],
+  providers: [OutreachStore],
   selector: 'app-profile-outreach',
   templateUrl: './outreach.component.html',
 })
-export class ProfileOutreachComponent implements OnInit {
+export class ProfileOutreachComponent {
   user = input<IUser>();
   copied = signal<boolean>(false);
   appUrl = environment.appUrl;
-  countByOutreacher$: Observable<IAPIResponse<IUser[]>> | undefined;
-  generateLink$: Observable<IAPIResponse<IUser>> | undefined;
-  #profileService = inject(ProfileService);
+  store = inject(OutreachStore);
   #ngZone = inject(NgZone);
 
   async copyLink(link: string) {
@@ -31,11 +27,7 @@ export class ProfileOutreachComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.countByOutreacher$ = this.#profileService.getByOutreacher(this.user()?.email);
-  }
-
-  generatePopularizationLink(): void {
-    this.generateLink$ = this.#profileService.generateOutreacherLink();
+  generateLink(): void {
+    this.store.generateLink();
   }
 }

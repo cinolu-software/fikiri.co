@@ -1,34 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import { FileUploadComponent } from '../../../shared/ui/file-upload/file-upload.component';
-import { ProfileService } from '../../data-access/profile.service';
 import { IUser } from '../../../shared/utils/types/models.type';
 import { environment } from '../../../../environments/environment.development';
-import { AuthService } from '../../../auth/data-access/auth.service';
-import { IAPIResponse } from '../../../shared/services/api/types/api-response.type';
+import { AuthStore } from '../../../shared/store/auth.store';
+import { UpdateInfoStore } from '../../data-access/update-info.store';
+import { UpdatePasswordStore } from '../../data-access/update-password.store';
 
 @Component({
   selector: 'app-profile-info',
   templateUrl: './info.component.html',
-  providers: [ProfileService],
+  providers: [UpdateInfoStore, UpdatePasswordStore],
   imports: [ButtonModule, InputTextModule, CommonModule, ReactiveFormsModule, FileUploadComponent],
 })
-export class ProfileInfoComponent implements OnDestroy, OnInit {
+export class ProfileInfoComponent implements OnInit {
   user = input<IUser>();
   infoForm: FormGroup;
   passwordForm: FormGroup;
-  updateInfo$: Observable<IAPIResponse<IUser>> | undefined;
-  updatePassword$: Observable<IAPIResponse<IUser>> | undefined;
   url = environment.apiUrl + 'users/image-profile';
   #formBuilder = inject(FormBuilder);
-  #profileService = inject(ProfileService);
-  #authService = inject(AuthService);
-  #unSubscribe = new Subject();
+  authStore = inject(AuthStore);
+  updateInfoStore = inject(UpdateInfoStore);
+  updatePasswordStore = inject(UpdatePasswordStore);
 
   constructor() {
     this.infoForm = this.#formBuilder.group({
@@ -45,29 +41,24 @@ export class ProfileInfoComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.infoForm.patchValue({
-      email: this.user()?.email,
-      address: this.user()?.address,
-      phone_number: this.user()?.phone_number,
-      name: this.user()?.name,
+      email: this.authStore.user()?.email,
+      address: this.authStore.user()?.address,
+      phone_number: this.authStore.user()?.phone_number,
+      name: this.authStore.user()?.name,
     });
   }
 
   handleLoaded(): void {
-    this.#authService.getProfile().pipe(takeUntil(this.#unSubscribe)).subscribe();
+    this.authStore.getProfile();
   }
 
   onUpdateInfo(): void {
     if (!this.infoForm.valid) return;
-    this.updateInfo$ = this.#profileService.updateProfile(this.infoForm.value);
+    this.updateInfoStore.updateInfo(this.infoForm.value);
   }
 
   onUpdatePassword(): void {
     if (!this.passwordForm.valid) return;
-    this.updatePassword$ = this.#profileService.updatePassword(this.passwordForm.value);
-  }
-
-  ngOnDestroy(): void {
-    this.#unSubscribe.next(null);
-    this.#unSubscribe.complete();
+    this.updatePasswordStore.updatePassword(this.passwordForm.value);
   }
 }

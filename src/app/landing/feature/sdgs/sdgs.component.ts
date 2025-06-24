@@ -2,13 +2,16 @@ import { Component } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { sdgs } from '../../utils/data/sdgs';
 import { RouterModule } from '@angular/router';
-import { NgIcon } from '@ng-icons/core';
+import { LucideAngularModule, MoveUpRight } from 'lucide-angular';
 
 @Component({
   selector: 'app-sdgs',
-  imports: [NgIcon, RouterModule, NgOptimizedImage],
-  templateUrl: './sdgs.component.html'
+  imports: [LucideAngularModule, RouterModule, NgOptimizedImage],
+  templateUrl: './sdgs.component.html',
 })
 export class SdgsComponent {
   sdgs = sdgs;
+  icons = {
+    moveUpRight: MoveUpRight,
+  };
 }

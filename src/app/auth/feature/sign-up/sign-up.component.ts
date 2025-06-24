@@ -1,20 +1,18 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthCardComponent } from '../../ui/auth-card/auth-card.component';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../data-access/auth.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute } from '@angular/router';
-import { IAPIResponse } from '../../../shared/services/api/types/api-response.type';
-import { IUser } from '../../../shared/utils/types/models.type';
 import { environment } from '../../../../environments/environment.development';
+import { SignUpStore } from '../../data-access/sign-up.store';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
+  providers: [SignUpStore],
   imports: [
     InputTextModule,
     PasswordModule,
@@ -25,16 +23,15 @@ import { environment } from '../../../../environments/environment.development';
     AuthCardComponent,
   ],
 })
-export class AuthSignUpComponent implements OnInit {
+export class AuthSignUpComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);
-  #authService = inject(AuthService);
   #route = inject(ActivatedRoute);
-  #link = signal<string>('');
-  signUpForm: FormGroup;
-  signIn$: Observable<IAPIResponse<IUser>> | undefined;
+  #link = this.#route.snapshot.queryParams?.['link'] || '';
+  form: FormGroup;
+  store = inject(SignUpStore);
 
   constructor() {
-    this.signUpForm = this.#formBuilder.group({
+    this.form = this.#formBuilder.group({
       email: ['', [Validators.email, Validators.required]],
       address: ['', [Validators.required, Validators.minLength(3)]],
       phone_number: ['', [Validators.minLength(10), Validators.pattern(/^\+?[1-9]\d{1,14}$/)]],
@@ -42,13 +39,9 @@ export class AuthSignUpComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.#link.set(this.#route.snapshot.queryParams?.['link']);
-  }
-
   onSignUp(): void {
-    if (this.signUpForm.invalid) return;
-    this.signIn$ = this.#authService.signUp(this.signUpForm.value, this.#link());
+    if (this.form.invalid) return;
+    this.store.signUp({ payload: this.form.value, link: this.#link });
   }
 
   signinWithGoogle(): void {

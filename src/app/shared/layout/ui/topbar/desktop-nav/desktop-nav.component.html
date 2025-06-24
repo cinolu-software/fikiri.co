@@ -4,9 +4,9 @@
       <button class="relative" (click)="setActiveTab(tab)">
         <div class="menu flex items-center font-medium text-lg">
           {{ tab }}
-          <ng-icon
-            name="matKeyboardArrowDownOutline"
-            class="transition-transform duration-300 size-5! fill-black!"
+          <i-lucide
+            [name]="icons.chevronDown"
+            class="transition-transform duration-300 size-4"
             [ngClass]="{
               'rotate-180': activeTab() === tab,
             }" />
@@ -18,7 +18,7 @@
             @for (link of getLinks(links(), activeTab()); track $index) {
               <a [routerLink]="link.path" [fragment]="link.fragment" class="group flex items-center gap-2.5">
                 <span class="h-8 w-8 flex items-center justify-center bg-primary-600 text-white rounded-full">
-                  <ng-icon [name]="link.icon" class="size-4! group-hover:animate-spin" />
+                  <i-lucide [name]="link.icon" class="size-4 group-hover:animate-spin" />
                 </span>
                 <p class="flex flex-col gap-0.5 font-medium">
                   {{ link.name }}
@@ -37,9 +37,9 @@
             [src]="user() | apiIMG: 'user'"
             alt="User Image"
             class="object-cover h-8 w-8 ring-2 ring-primary-600 bg-gray-200 rounded-full" />
-          <ng-icon
-            name="matKeyboardArrowDownOutline"
-            class="transition-transform duration-300 size-5! fill-black!"
+          <i-lucide
+            [name]="icons.chevronDown"
+            class="transition-transform duration-300 size-4"
             [ngClass]="{
               'rotate-180': activeTab() === 'account',
             }" />
@@ -49,13 +49,13 @@
             <div class="grid grid-cols-1 gap-x-8 gap-y-6 font-medium text-gray-900">
               <a [routerLink]="'/account'" class="group flex items-center gap-2.5">
                 <span class="h-8 w-8 flex items-center justify-center text-white bg-primary-600 rounded-full">
-                  <ng-icon [name]="'matDashboardOutline'" class="size-4! group-hover:animate-spin" />
+                  <i-lucide [name]="icons.dashboard" class="size-4 group-hover:animate-spin" />
                 </span>
                 Mon compte
               </a>
               <button class="group flex items-center gap-2.5" (click)="handleSignOut()">
                 <span class="h-8 w-8 flex items-center justify-center text-white bg-red-600 rounded-full">
-                  <ng-icon [name]="'matLogOutOutline'" class="size-4! group-hover:animate-spin" />
+                  <i-lucide [name]="icons.logOut" class="size-4 group-hover:animate-spin" />
                 </span>
                 Déconnexion
               </button>

@@ -7,13 +7,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { GalleriaModule } from 'primeng/galleria';
 import { environment } from '../../../../environments/environment';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
-import { NgIcon } from '@ng-icons/core';
 import { CallsStore } from '../../data-access/calls.store';
+import { LucideAngularModule, ArrowRight } from 'lucide-angular';
 
 @Component({
   selector: 'app-calls',
   providers: [CallsStore],
-  imports: [CommonModule, NgIcon, RouterLink, NgxPaginationModule, GalleriaModule, ApiImgPipe],
+  imports: [CommonModule, LucideAngularModule, RouterLink, NgxPaginationModule, GalleriaModule, ApiImgPipe],
   templateUrl: './calls.component.html',
 })
 export class CallsComponent {
@@ -26,6 +26,9 @@ export class CallsComponent {
     { breakpoint: '1300px', numVisible: 4 },
     { breakpoint: '575px', numVisible: 2 },
   ];
+  icons = {
+    arrowRight: ArrowRight,
+  };
   store = inject(CallsStore);
 
   onPageChange(currentPage: number): void {

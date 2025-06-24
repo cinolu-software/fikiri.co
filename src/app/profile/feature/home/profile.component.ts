@@ -1,28 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, inject, signal } from '@angular/core';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
 import { ProfileInfoComponent } from '../info/info.component';
 import { ProfileOutreachComponent } from '../outreach/outreach.component';
-import { NgIcon } from '@ng-icons/core';
-import { selectUser } from '../../../shared/store/auth/auth.reducers';
-import { IUser } from '../../../shared/utils/types/models.type';
 import { environment } from '../../../../environments/environment';
+import { AuthStore } from '../../../shared/store/auth.store';
+import { LucideAngularModule, LucideIconData, Telescope, Info } from 'lucide-angular';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  imports: [ApiImgPipe, CommonModule, ProfileInfoComponent, ProfileOutreachComponent, NgIcon],
+  imports: [ApiImgPipe, CommonModule, ProfileInfoComponent, ProfileOutreachComponent, LucideAngularModule],
 })
-export class ProfileComponent implements OnInit {
-  #store = inject(Store);
-  user$: Observable<IUser | null> | undefined;
+export class ProfileComponent {
   accUrl = environment.accountUrl;
   activeTab = signal<string>('Mes informations');
-  tabs = signal<{ label: string; icon: string }[]>([
-    { label: 'Mes informations', icon: 'matInfoOutline' },
-    { label: 'Vulgarisation', icon: 'matCampaignOutline' },
+  tabs = signal<{ label: string; icon: LucideIconData }[]>([
+    { label: 'Mes informations', icon: Info },
+    { label: 'Vulgarisation', icon: Telescope },
   ]);
   roles = signal<{ name: string; label: string }[]>([
     { name: 'cartographer-assistant', label: 'Assistant cartographe' },
@@ -32,10 +27,7 @@ export class ProfileComponent implements OnInit {
     { name: 'experimentor', label: 'Expérimentateur' },
     { name: 'user', label: 'Utilisateur' },
   ]);
-
-  ngOnInit(): void {
-    this.user$ = this.#store.pipe(select(selectUser));
-  }
+  authStore = inject(AuthStore);
 
   setActiveTab(tab: string) {
     this.activeTab.set(tab);

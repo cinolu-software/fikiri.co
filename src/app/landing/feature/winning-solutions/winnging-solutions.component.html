@@ -12,11 +12,11 @@
       class="inline-flex group items-center gap-0.5 text-primary-400 hover:underline mb-6"
       data-aos="fade-down">
       En savoir plus
-      <ng-icon name="matArrowOutwardOutline" class="size-3! group-hover:rotate-45 duration-200" />
+      <i-lucide [name]="icons.moveUpRight" class="size-3 group-hover:rotate-45 duration-200" />
     </a>
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8 mt-8">
       @for (solution of store.solutions(); track solution.id) {
-        <div data-aos="zoom-in">
+        <div data-aos="fade-up">
           <app-solution-card [solution]="solution" />
         </div>
       }

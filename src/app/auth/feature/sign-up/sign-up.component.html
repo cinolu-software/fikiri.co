@@ -1,6 +1,5 @@
 <app-auth-card>
-  @let signIn = signIn$ | async;
-  <form class="flex flex-col gap-4" (ngSubmit)="onSignUp()" [formGroup]="signUpForm">
+  <form class="flex flex-col gap-4" (ngSubmit)="onSignUp()" [formGroup]="form">
     <div class="flex flex-col gap-1.5">
       <label for="address" class="font-medium">Adresse (Ville)</label>
       <input pInputText type="text" id="address" name="address" formControlName="address" autocomplete="none" />
@@ -23,11 +22,7 @@
         formControlName="phone_number"
         autocomplete="none" />
     </div>
-    <p-button
-      [loading]="signIn?.isLoading"
-      [disabled]="signIn?.isLoading || signUpForm.invalid"
-      class="mt-4"
-      type="submit">
+    <p-button [loading]="store.isLoading()" [disabled]="store.isLoading() || form.invalid" class="mt-4" type="submit">
       S'inscrire
     </p-button>
   </form>

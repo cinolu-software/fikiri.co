@@ -1,18 +1,19 @@
 import { ILink } from '../types/link.type';
+import { Home, Blend, Info, ChartNoAxesColumn } from 'lucide-angular';
 
 export const EXPLORATION_LINKS: ILink[] = [
   {
     name: 'Accueil',
     path: '/',
     description: 'Découvez la plateforme',
-    icon: 'matHomeOutline',
+    icon: Home,
     exactUrl: true,
   },
   {
     name: 'Solutions',
     path: '/solutions',
     description: 'Voir les solutions',
-    icon: 'matPsychologyOutline',
+    icon: Blend,
     exactUrl: true,
   },
   {
@@ -20,7 +21,7 @@ export const EXPLORATION_LINKS: ILink[] = [
     path: '/',
     fragment: 'about',
     description: 'A propos de nous',
-    icon: 'matInfoOutline',
+    icon: Info,
     exactUrl: false,
   },
   {
@@ -28,7 +29,7 @@ export const EXPLORATION_LINKS: ILink[] = [
     path: '/',
     fragment: 'mission',
     description: 'Voir notre mission',
-    icon: 'matBarChartOutline',
+    icon: ChartNoAxesColumn,
     exactUrl: false,
   },
 ];

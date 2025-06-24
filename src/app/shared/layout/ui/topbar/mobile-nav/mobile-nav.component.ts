@@ -1,15 +1,15 @@
 import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NgIcon } from '@ng-icons/core';
 import { ApiImgPipe } from '../../../../pipes/api-img.pipe';
 import { IUser } from '../../../../utils/types/models.type';
 import { ILink } from '../../../utils/types/link.type';
 import { getLinks } from '../../../../utils/helpers/get-links.fn';
+import { LucideAngularModule, ChevronRight, Menu, X, ArrowLeft } from 'lucide-angular';
 
 @Component({
   selector: 'app-mobile-nav',
-  imports: [RouterModule, CommonModule, NgIcon, ApiImgPipe],
+  imports: [RouterModule, CommonModule, LucideAngularModule, ApiImgPipe],
   templateUrl: './mobile-nav.component.html',
 })
 export class MobileNavComponent {
@@ -20,6 +20,12 @@ export class MobileNavComponent {
   isOpen = signal<boolean>(false);
   activeTab = signal<string>('');
   getLinks = getLinks;
+  icons = {
+    menu: Menu,
+    close: X,
+    chevronRight: ChevronRight,
+    back: ArrowLeft,
+  };
 
   toogleNav(): void {
     this.isOpen.update((isOpen) => !isOpen);
