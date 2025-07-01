@@ -28,22 +28,18 @@ export const SignUpStore = signalStore(
         switchMap((params) => {
           const { payload, link } = params;
           const queryParams = buildQueryParams({ link });
-          return _http
-            .post<{ data: IUser }>('auth/sign-in', payload, {
-              params: queryParams,
-            })
-            .pipe(
-              tap(() => {
-                patchState(store, { isLoading: false });
-                _toast.showSuccess('Inscription réussie');
-                _router.navigate(['/sign-in']);
-              }),
-              catchError((err) => {
-                patchState(store, { isLoading: false });
-                _toast.showError(err.error['message'] || 'Erreur de connexion');
-                return of(null);
-              }),
-            );
+          return _http.post<{ data: IUser }>('auth/sign-up', payload, { params: queryParams }).pipe(
+            tap(() => {
+              patchState(store, { isLoading: false });
+              _toast.showSuccess('Inscription réussie');
+              _router.navigate(['/sign-in']);
+            }),
+            catchError((err) => {
+              patchState(store, { isLoading: false });
+              _toast.showError(err.error['message'] || 'Erreur de connexion');
+              return of(null);
+            }),
+          );
         }),
       ),
     ),
