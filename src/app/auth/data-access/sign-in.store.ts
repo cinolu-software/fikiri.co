@@ -33,9 +33,9 @@ export const SignInStore = signalStore(
               _toast.showSuccess('Connexion réussie');
               _router.navigate(['/account']);
             }),
-            catchError((err) => {
+            catchError(() => {
               patchState(store, { isLoading: false });
-              _toast.showError(err.error['message'] || 'Erreur de connexion');
+              _toast.showError('Echec lors de la connexion');
               return of(null);
             }),
           );

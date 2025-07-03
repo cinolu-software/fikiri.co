@@ -1,6 +1,6 @@
 import { CommonModule, Location, NgOptimizedImage } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { ApiImgPipe } from '../../shared/pipes/api-img.pipe';
 import { FormsModule } from '@angular/forms';
 import { CallSkeletonComponent } from '../ui/call-skeleton/call-skeleton.component';
@@ -24,20 +24,13 @@ import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
   ],
   templateUrl: './call.component.html',
 })
-export class CallComponent implements OnInit {
-  #route = inject(ActivatedRoute);
+export class CallComponent {
   #location = inject(Location);
   store = inject(CallStore);
   authStore = inject(AuthStore);
   icons = {
     back: ArrowLeft,
   };
-
-  ngOnInit(): void {
-    const id = this.#route.snapshot.paramMap.get('id');
-    if (!id) return;
-    this.store.loadCall(id);
-  }
 
   isPast(date: Date): boolean {
     return new Date(date) < new Date();
