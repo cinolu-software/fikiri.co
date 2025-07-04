@@ -5,7 +5,7 @@
 
 /* Progess Bar */
 .p-progressbar {
-  @apply bg-primary-100 rounded-none;
+  @apply bg-primary-200 rounded-none;
 }
 
 .p-progressbar-value {
