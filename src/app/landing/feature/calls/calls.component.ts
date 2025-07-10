@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ICall } from '../../../shared/utils/types/models.type';
 import { QueryParams } from '../../utils/types/query-params.type';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { GalleriaModule } from 'primeng/galleria';
 import { environment } from '../../../../environments/environment';
@@ -13,7 +13,15 @@ import { LucideAngularModule, ArrowRight } from 'lucide-angular';
 @Component({
   selector: 'app-calls',
   providers: [CallsStore],
-  imports: [CommonModule, LucideAngularModule, RouterLink, NgxPaginationModule, GalleriaModule, ApiImgPipe],
+  imports: [
+    CommonModule,
+    LucideAngularModule,
+    NgOptimizedImage,
+    RouterLink,
+    NgxPaginationModule,
+    GalleriaModule,
+    ApiImgPipe,
+  ],
   templateUrl: './calls.component.html',
 })
 export class CallsComponent {

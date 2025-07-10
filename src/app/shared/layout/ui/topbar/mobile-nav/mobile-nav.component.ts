@@ -1,5 +1,5 @@
 import { Component, input, output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ApiImgPipe } from '../../../../pipes/api-img.pipe';
 import { IUser } from '../../../../utils/types/models.type';
@@ -9,7 +9,7 @@ import { LucideAngularModule, ChevronRight, Menu, X, ArrowLeft } from 'lucide-an
 
 @Component({
   selector: 'app-mobile-nav',
-  imports: [RouterModule, CommonModule, LucideAngularModule, ApiImgPipe],
+  imports: [RouterModule, NgOptimizedImage, CommonModule, LucideAngularModule, ApiImgPipe],
   templateUrl: './mobile-nav.component.html',
 })
 export class MobileNavComponent {

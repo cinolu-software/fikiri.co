@@ -28,15 +28,19 @@
         @if ((c?.gallery?.length || 0) > 0) {
           <p-galleria [value]="c.gallery" [responsiveOptions]="responsiveOptions" [numVisible]="4" data-aos="fade-down">
             <ng-template #item let-item>
-              <img [src]="imgUrl + item['image']" [alt]="item.id" class="h-60 md:h-72 w-full object-cover" />
+              <div class="relative h-60 w-full md:h-72">
+                <img [ngSrc]="imgUrl + item['image']" [alt]="item.id" class="aspect-video object-cover" fill />
+              </div>
             </ng-template>
             <ng-template #thumbnail let-item>
-              <img [src]="imgUrl + item['image']" [alt]="item.id" class="h-16 w-20 object-cover" />
+              <div class="relative h-16 w-24">
+                <img [ngSrc]="imgUrl + item['image']" [alt]="item.id" class="aspect-video object-cover" fill />
+              </div>
             </ng-template>
           </p-galleria>
         } @else {
-          <div class="aspect-video h-full w-full rounded-md overflow-hidden bg-gray-200" data-aos="fade-down">
-            <img [src]="c | apiIMG: 'call'" [alt]="c.id" class="h-60 md:h-80 w-[100%] object-cover" />
+          <div class="relative h-60 md:h-80 w-full bg-gray-200">
+            <img [ngSrc]="c | apiIMG: 'call'" [alt]="c.id" class="aspect-video object-cover" fill />
           </div>
         }
       </div>

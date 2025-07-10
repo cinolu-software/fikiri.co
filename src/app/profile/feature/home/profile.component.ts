@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
 import { ProfileInfoComponent } from '../info/info.component';
@@ -10,7 +10,14 @@ import { LucideAngularModule, LucideIconData, Telescope, Info } from 'lucide-ang
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  imports: [ApiImgPipe, CommonModule, ProfileInfoComponent, ProfileOutreachComponent, LucideAngularModule],
+  imports: [
+    ApiImgPipe,
+    NgOptimizedImage,
+    CommonModule,
+    ProfileInfoComponent,
+    ProfileOutreachComponent,
+    LucideAngularModule,
+  ],
 })
 export class ProfileComponent {
   accUrl = environment.accountUrl;
