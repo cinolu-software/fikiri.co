@@ -1,7 +1,7 @@
 <section>
   @let user = authStore.user();
-  @let s = store.call();
-  @if (s?.[0]; as call) {
+  @let call = store.call();
+  @if (call) {
     <div class="relative h-[75vh] py-72 w-full">
       <img [ngSrc]="call | apiIMG: 'call'" [alt]="call.name" class="object-cover" fill priority />
       <div

@@ -14,9 +14,12 @@
     ) {
       <div class="grid grid-cols-1 items-center md:grid-cols-2 gap-12 md:gap-8 mb-10">
         <div class="" data-aos="fade-down">
-          <h3 class="text-3xl font-bold text-gray-800 mb-4">{{ c.name }}</h3>
-          <p class="text-gray-700 mb-6">
+          <h3 class="text-4xl font-bold text-gray-800 mb-4 hyphens-none">{{ c.name }}</h3>
+          <p class="text-gray-700 mb-4">
             {{ c.description }}
+          </p>
+          <p class="text-2xl font-bold mb-6">
+            <span class="font-extrabold">{{ c.solutionsCount }}</span> Solutions soumises
           </p>
           <a [routerLink]="['/calls', c.slug]" class="tertiary-link text-lg items-center! gap-3">
             Plus des détails

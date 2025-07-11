@@ -95,6 +95,7 @@ export interface ICall extends IBase {
   started_at: Date;
   published_at: Date;
   cover: string;
+  solutionsCount: number;
   document: string;
   form: Field[];
   reviewers: string;

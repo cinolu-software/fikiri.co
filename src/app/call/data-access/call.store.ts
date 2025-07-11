@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 
 interface ICallStore {
   isLoading: boolean;
-  call: [ICall, number] | null;
+  call: ICall | null;
 }
 
 export const CallStore = signalStore(
@@ -22,7 +22,7 @@ export const CallStore = signalStore(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((slug) => {
-          return _http.get<{ data: [ICall, number] }>(`calls/find-by-slug/${slug}`).pipe(
+          return _http.get<{ data: ICall }>(`calls/find-by-slug/${slug}`).pipe(
             tap(({ data }) => patchState(store, { isLoading: false, call: data })),
             catchError(() => {
               patchState(store, { isLoading: false });
