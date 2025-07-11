@@ -1,4 +1,4 @@
-<a [routerLink]="['/solutions', solution().id]" class="flex flex-col">
+<a [routerLink]="['/solutions', solution().slug]" class="flex flex-col">
   <div class="relative w-auto h-44 mb-3">
     <img
       [ngSrc]="solution() | apiIMG: 'solution'"

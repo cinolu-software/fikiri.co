@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { ICall } from '../../../shared/utils/types/models.type';
 import { QueryParams } from '../../utils/types/query-params.type';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
@@ -57,9 +56,5 @@ export class CallsComponent {
   updateRouteAndSolutions(): void {
     this.updateRoute();
     this.loadCalls();
-  }
-
-  isPast(call: ICall): boolean {
-    return new Date(call.ended_at) < new Date();
   }
 }

@@ -4,11 +4,11 @@ export const solutionsRoutes: Routes = [
   {
     path: '',
     title: 'Solutions',
-    loadComponent: () => import('./feature/list/solutions.component').then((c) => c.SolutionsComponent)
+    loadComponent: () => import('./feature/list/solutions.component').then((c) => c.SolutionsComponent),
   },
   {
-    path: ':id',
+    path: ':slug',
     title: 'Solution',
-    loadComponent: () => import('./feature/details/solution.component').then((c) => c.SolutionComponent)
-  }
+    loadComponent: () => import('./feature/details/solution.component').then((c) => c.SolutionComponent),
+  },
 ];

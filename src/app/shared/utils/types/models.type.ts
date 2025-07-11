@@ -10,6 +10,10 @@ export interface IBlogCategory extends IBase {
 }
 
 export interface ISolution extends IBase {
+  name: string;
+  description: string;
+  slug: string;
+  problem_solved: string;
   responses: Record<string, string>;
   reviewer: string;
   status: 'pending' | 'mapped' | 'explored' | 'experimented';
@@ -33,13 +37,6 @@ export interface IComment extends IBase {
   content: string;
   by: IUser;
   post: IPost;
-}
-
-export interface IApplication extends IBase {
-  responses: JSON;
-  document: JSON;
-  reviews: IReview[];
-  applicant: IUser;
 }
 
 export interface IReview extends IBase {
@@ -92,6 +89,7 @@ export interface IApplication extends IBase {
 
 export interface ICall extends IBase {
   name: string;
+  slug: string;
   description: string;
   ended_at: Date;
   started_at: Date;

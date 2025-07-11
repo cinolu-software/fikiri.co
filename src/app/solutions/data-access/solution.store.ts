@@ -21,8 +21,8 @@ export const SolutionStore = signalStore(
     loadSolution: rxMethod<string>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
-        switchMap((id) => {
-          return _http.get<{ data: ISolution }>(`solutions/${id}`).pipe(
+        switchMap((slug) => {
+          return _http.get<{ data: ISolution }>(`solutions/find-by-slug/${slug}`).pipe(
             map(({ data }) => patchState(store, { isLoading: false, solution: data })),
             catchError(() => {
               patchState(store, { isLoading: false });
@@ -35,8 +35,8 @@ export const SolutionStore = signalStore(
   })),
   withHooks({
     onInit: ({ _route, loadSolution }) => {
-      const id = _route.snapshot.paramMap.get('id') || '';
-      loadSolution(id);
+      const slug = _route.snapshot.paramMap.get('slug') || '';
+      loadSolution(slug);
     },
   }),
 );

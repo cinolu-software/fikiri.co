@@ -1,49 +1,49 @@
 <section>
   @let user = authStore.user();
-  @if (store.call(); as o) {
+  @let s = store.call();
+  @if (s?.[0]; as call) {
     <div class="relative h-[75vh] py-72 w-full">
-      <img [ngSrc]="o | apiIMG: 'call'" [alt]="o.name" class="object-cover" fill priority />
+      <img [ngSrc]="call | apiIMG: 'call'" [alt]="call.name" class="object-cover" fill priority />
       <div
-        class="absolute top-0 left-0 right-0 py-56 bottom-0 flex flex-col items-start justify-center bg-primary-950/35 gap-6 text-white">
+        class="absolute top-0 left-0 right-0 py-56 bottom-0 flex flex-col items-start justify-center bg-gray-800/80 gap-6 text-white">
         <div
           class="flex flex-col items-start justify-center font-medium px-8 sm:px-6 lg:px-16 xl:px-20 2xl:px-32 max-w-screen-2xl mx-auto">
-          <h1 class="font-black block text-2xl hyphens-none md:text-3xl xl:text-6xl mb-8">
-            {{ o.name | titlecase }}
+          <h1 class="font-black block text-2xl hyphens-none md:text-2xl xl:text-4xl mb-8">
+            {{ call.name | titlecase }}
           </h1>
           <p class="font-medium block line-clamp-2 text-lg mb-6 hyphens-none">
-            {{ o.description }}
+            {{ call.description }}
           </p>
         </div>
       </div>
     </div>
-    <div
-      class="px-8 md:mx-auto md:max-w-screen-lg 2xl:max-w-screen-lg border-x border-dashed border-gray-200 min-h-[40vh] xl:px-0">
-      <div class="md:px-8 pb-16">
+    <div class="px-8 sm:px-6 lg:px-16 xl:px-20 2xl:px-32 max-w-screen-2xl mx-auto min-h-[40vh]">
+      <div class="md:px-8 pb-16 border-x border-dashed border-gray-200">
         <button class="py-6 pb-8 text-primary-400 hover:underline flex items-center gap-2" (click)="back()">
           <i-lucide [name]="icons.back" class="size-4" />
           Revenir
         </button>
-        <h1 class="font-extrabold mb-6 text-xl md:text-4xl md:w-5/6 hyphens-none">
-          {{ o.name | titlecase }}
+        <h1 class="font-extrabold mb-6 text-xl md:text-4xl hyphens-none">
+          {{ call.name | titlecase }}
         </h1>
         <p class="font-medium mb-8">
-          {{ o.description }}
+          {{ call.description }}
         </p>
         <div class="flex flex-col gap-3">
           <p>
-            Début : <span class="font-semibold">{{ o.started_at | date: 'longDate' }}</span>
+            Début : <span class="font-semibold">{{ call.started_at | date: 'longDate' }}</span>
           </p>
           <p>
-            Fin : <span class="font-semibold">{{ o.ended_at | date: 'longDate' }}</span>
+            Fin : <span class="font-semibold">{{ call.ended_at | date: 'longDate' }}</span>
           </p>
         </div>
-        @if (!isPast(o.ended_at) && user && o.form) {
-          <app-application-form [call]="o.id" [fields]="o.form" />
+        @if (!isPast(call.ended_at) && user && call.form) {
+          <app-application-form [call]="call.id" [fields]="call.form" />
         }
-        @if (isPast(o.ended_at)) {
+        @if (isPast(call.ended_at)) {
           <h5 class="font-medium text-lg my-6">Candidature fermée</h5>
         }
-        @if (!user && !isPast(o.ended_at)) {
+        @if (!user && !isPast(call.ended_at)) {
           <h5 class="font-medium text-lg my-6">
             Connectez-vous pour postuler
             <a routerLink="/sign-in" class="hover:underline text-primary-700">cliquez-ici ! </a>
