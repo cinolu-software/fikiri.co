@@ -1,7 +1,7 @@
 import { definePreset } from '@primeng/themes';
-import Material from '@primeng/themes/material';
+import Aura from '@primeng/themes/aura';
 
-export const primeNGPreset = definePreset(Material, {
+export const primeNGPreset = definePreset(Aura, {
   semantic: {
     primary: {
       50: 'var(--color-primary-50)',

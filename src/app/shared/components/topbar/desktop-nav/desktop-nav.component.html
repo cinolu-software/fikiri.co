@@ -33,10 +33,13 @@
     @if (user()) {
       <div class="flex items-center gap-3">
         <button class="relative menu flex items-center gap-0.5" (click)="setActiveTab('account')">
-          <img
-            [src]="user() | apiIMG: 'user'"
-            alt="User Image"
-            class="object-cover h-8 w-8 ring-2 ring-primary-600 bg-gray-200 rounded-full" />
+          <div class="relative h-8 w-8">
+            <img
+              [ngSrc]="user | apiIMG: 'user'"
+              alt="User  Image"
+              class="aspect-video object-cover ring-2 ring-primary-600 bg-gray-200 rounded-full"
+              fill />
+          </div>
           <i-lucide
             [name]="icons.chevronDown"
             class="transition-transform duration-300 size-4"

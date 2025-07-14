@@ -1,5 +1,5 @@
 import { ILink } from '../types/link.type';
-import { Home, Blend, Info, ChartNoAxesColumn, LayoutGrid, Settings, PhoneCall } from 'lucide-angular';
+import { Home, Blend, Info, ChartNoAxesColumn, LayoutGrid, Settings, PhoneCall, UserCheck } from 'lucide-angular';
 
 export const PROFILE_LINKS = [
   {
@@ -13,6 +13,12 @@ export const PROFILE_LINKS = [
     exactUrl: true,
     path: '/dashboard/account',
     icon: Settings,
+  },
+  {
+    name: 'Utilisateurs',
+    exactUrl: true,
+    path: '/dashboard/users',
+    icon: UserCheck,
   },
   {
     name: 'Les appels',

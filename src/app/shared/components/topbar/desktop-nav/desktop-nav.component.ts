@@ -1,5 +1,5 @@
 import { Component, input, output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ApiImgPipe } from '../../../pipes/api-img.pipe';
 import { IUser } from '../../../utils/types/models.type';
@@ -10,7 +10,7 @@ import { LucideAngularModule, ChevronDown, LayoutGrid, LogOut } from 'lucide-ang
 @Component({
   selector: 'app-desktop-nav',
   templateUrl: './desktop-nav.component.html',
-  imports: [CommonModule, LucideAngularModule, RouterModule, ApiImgPipe],
+  imports: [CommonModule, NgOptimizedImage, LucideAngularModule, RouterModule, ApiImgPipe],
 })
 export class DesktopNavComponent {
   user = input.required<IUser | null>();

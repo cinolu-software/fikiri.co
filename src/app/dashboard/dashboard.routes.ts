@@ -11,4 +11,9 @@ export const dashboardRoutes: Routes = [
     title: 'Account',
     loadComponent: () => import('./features/account/account.component').then((c) => c.AccountComponent),
   },
+  {
+    path: 'users',
+    title: 'Users',
+    loadComponent: () => import('./features/users/users.component').then((c) => c.UsersComponent),
+  },
 ];
