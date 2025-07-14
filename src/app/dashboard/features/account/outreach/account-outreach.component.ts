@@ -12,6 +12,7 @@ import { OutreachStore } from '../../../data-access/account/outreach.store';
 })
 export class AccountOutreachComponent {
   user = input<IUser>();
+  outreached = input.required<number | null>();
   copied = signal<boolean>(false);
   appUrl = environment.appUrl;
   store = inject(OutreachStore);

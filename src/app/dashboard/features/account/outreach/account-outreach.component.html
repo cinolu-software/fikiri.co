@@ -14,14 +14,12 @@
       class="flex items-center gap-2 text-sm font-medium text-gray-900 bg-gray-200 hover:bg-gray-300 rounded-lg px-4 py-2 mt-4 transition-colors duration-300">
       {{ copied() ? 'Lien copié !' : 'Copier le lien' }}
     </button>
-    @if (store.isLoading()) {
-      <div class="rounded-md bg-gray-200 animate-pulse h-6 w-full md:w-3/6 mt-6"></div>
-    }
-    @if (store.count()) {
+
+    @if (outreached()) {
       <h3 class="font-medium mt-6">
         Nombre d'inscriptions en utilisant mon lien :
         <span class="text-lg font-medium text-primary-900">
-          {{ store.count() }}
+          {{ outreached() }}
         </span>
       </h3>
     }

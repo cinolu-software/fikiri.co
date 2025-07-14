@@ -16,7 +16,7 @@
     </div>
     <div class="pb-10">
       <div
-        class="flex overflow-x-auto gap-5 border-b border-primary-200 font-medium pt-4 whitespace-nowrap mb-4 scrollbar-hide">
+        class="flex overflow-x-auto gap-5 border-b border-gray-300/80 font-medium pt-4 whitespace-nowrap mb-4 scrollbar-hide">
         @for (tab of tabs(); track $index) {
           <button
             class="relative pb-2 hover:text-primary-500 transition-colors duration-200"
@@ -37,7 +37,7 @@
         <app-account-info [user]="user" />
       }
       @if (activeTab() === 'Vulgarisation') {
-        <app-account-outreach [user]="user" />
+        <app-account-outreach [user]="user" [outreached]="outreachStore.count()" />
       }
     </div>
   }
