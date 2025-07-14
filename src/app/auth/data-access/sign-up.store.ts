@@ -7,7 +7,7 @@ import { ToastrService } from '../../shared/services/toast/toastr.service';
 import { Router } from '@angular/router';
 import { IUser } from '../../shared/utils/types/models.type';
 import { ISignUpPayload } from '../utils/types/sign-up.type';
-import { buildQueryParams } from '../../shared/utils/helpers/build-query-params.fn';
+import { buildQueryParams } from '../../shared/helpers/build-query-params';
 
 interface ISignUpStore {
   isLoading: boolean;

@@ -3,10 +3,10 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { AppConfig } from '../services/config/config.types';
 import { AppConfigService } from '../services/config/config.service';
-import { FixedLayoutComponent } from './features/fixed-layout/fixed-layout.component';
-import { FullLayoutComponent } from './features/full-layout/full-layout.component';
-import { EmptyLayoutComponent } from './features/empty-layout/empty-layout.component';
-import { DashboardLayoutComponent } from './features/dashboard-layout/dashboard-layout.component';
+import { FixedLayoutComponent } from './fixed-layout/fixed-layout.component';
+import { FullLayoutComponent } from './full-layout/full-layout.component';
+import { EmptyLayoutComponent } from './empty-layout/empty-layout.component';
+import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 
 @Component({
   selector: 'app-layout',

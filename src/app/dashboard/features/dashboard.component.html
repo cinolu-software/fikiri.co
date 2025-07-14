@@ -1,3 +1,85 @@
-<section class="min-h-[105vh] text-gray-600">
-  <h2>Dashboard</h2>
+<section class="min-h-[105vh] text-gray-600 my-10">
+  @let stats = store.stats();
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="p-5 bg-white rounded-xl shadow-sm flex flex-col">
+      <p class="font-medium leading-5 hyphens-none text-lg">Nombre Total d'appels</p>
+      <div class="flex items-center gap-2 mt-4">
+        <div class="flex flex-col justify-center items-center py-4 h-10 w-10 rounded-full bg-primary-950">
+          <i-lucide [name]="icons.phoneCall" class="text-white size-5" />
+        </div>
+        @if (store.isLoading()) {
+          <p-progress-spinner
+            strokeWidth="5"
+            animationDuration=".5s"
+            fill="transparent"
+            [style]="{ width: '25px', height: '25px' }" />
+        }
+        @if (stats?.calls; as c) {
+          <p class="text-2xl font-medium">
+            {{ c }}
+          </p>
+        }
+      </div>
+    </div>
+    <div class="p-5 bg-white rounded-xl shadow-sm flex flex-col">
+      <p class="font-medium leading-5 hyphens-none text-lg">Nombre Total d'appels publiés</p>
+      <div class="flex items-center gap-2 mt-4">
+        <div class="flex flex-col justify-center items-center py-4 h-10 w-10 rounded-full bg-primary-950">
+          <i-lucide [name]="icons.megaphone" class="text-white size-5" />
+        </div>
+        @if (store.isLoading()) {
+          <p-progress-spinner
+            strokeWidth="5"
+            animationDuration=".5s"
+            fill="transparent"
+            [style]="{ width: '25px', height: '25px' }" />
+        }
+        @if (stats?.publishedCalls; as pc) {
+          <p class="text-2xl font-medium">
+            {{ pc }}
+          </p>
+        }
+      </div>
+    </div>
+    <div class="p-5 bg-white rounded-xl shadow-sm flex flex-col">
+      <p class="font-medium leading-5 hyphens-none text-lg">Nombre Total d'utilisateurs</p>
+      <div class="flex items-center gap-2 mt-4">
+        <div class="flex flex-col justify-center items-center py-4 h-10 w-10 rounded-full bg-primary-950">
+          <i-lucide [name]="icons.userCog" class="text-white size-5" />
+        </div>
+        @if (store.isLoading()) {
+          <p-progress-spinner
+            strokeWidth="5"
+            animationDuration=".5s"
+            fill="transparent"
+            [style]="{ width: '25px', height: '25px' }" />
+        }
+        @if (stats?.users; as u) {
+          <p class="text-2xl font-medium">
+            {{ u }}
+          </p>
+        }
+      </div>
+    </div>
+    <div class="p-5 bg-white rounded-xl shadow-sm flex flex-col">
+      <p class="font-medium leading-5 hyphens-none text-lg">Nombre Total de solutions</p>
+      <div class="flex items-center gap-2 mt-4">
+        <div class="flex flex-col justify-center items-center py-4 h-10 w-10 rounded-full bg-primary-950">
+          <i-lucide [name]="icons.lightbulb" class="text-white size-5" />
+        </div>
+        @if (store.isLoading()) {
+          <p-progress-spinner
+            strokeWidth="5"
+            animationDuration=".5s"
+            fill="transparent"
+            [style]="{ width: '25px', height: '25px' }" />
+        }
+        @if (stats?.solutions; as s) {
+          <p class="text-2xl font-medium">
+            {{ s }}
+          </p>
+        }
+      </div>
+    </div>
+  </div>
 </section>

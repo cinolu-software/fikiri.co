@@ -5,7 +5,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, tap, map, catchError, of, switchMap } from 'rxjs';
 import { ISolution } from '../../shared/utils/types/models.type';
 import { QueryParams } from '../types/query-params.type';
-import { buildQueryParams } from '../../shared/utils/helpers/build-query-params.fn';
+import { buildQueryParams } from '../../shared/helpers/build-query-params';
 import { ActivatedRoute } from '@angular/router';
 
 interface ISolutionsStore {

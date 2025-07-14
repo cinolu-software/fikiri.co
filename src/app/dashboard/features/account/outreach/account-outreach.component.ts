@@ -2,7 +2,7 @@ import { Component, inject, input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { IUser } from '../../../../shared/utils/types/models.type';
-import { OutreachStore } from '../../../data-access/outreach.store';
+import { OutreachStore } from '../../../data-access/account/outreach.store';
 
 @Component({
   imports: [CommonModule],

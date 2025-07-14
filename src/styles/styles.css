@@ -40,7 +40,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply shadow-md bg-primary-200/30;
+    @apply shadow-md bg-primary-200;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -58,12 +58,16 @@
 }
 
 @layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
+  .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  .no-scrollbar {
+  .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .main-content {
+    @apply bg-white rounded-lg shadow-md px-8 py-10 my-10;
   }
 }
 
@@ -83,6 +87,4 @@
    .tertiary-link {
     @apply  border border-primary-500 rounded-[2px] px-4 py-1.5 text-primary-500 hover:bg-primary-500 hover:text-white transition-colors duration-300;
   }
-
- 
 }

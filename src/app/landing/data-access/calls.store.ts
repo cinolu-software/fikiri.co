@@ -5,7 +5,7 @@ import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { ICall } from '../../shared/utils/types/models.type';
 import { QueryParams } from '../utils/types/query-params.type';
-import { buildQueryParams } from '../../shared/utils/helpers/build-query-params.fn';
+import { buildQueryParams } from '../../shared/helpers/build-query-params';
 
 interface ICallsStore {
   isLoading: boolean;

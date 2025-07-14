@@ -5,10 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { environment } from '../../../../../environments/environment';
 import { AuthStore } from '../../../../shared/store/auth.store';
-import { FileUploadComponent } from '../../../../shared/ui/file-upload/file-upload.component';
+import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
 import { IUser } from '../../../../shared/utils/types/models.type';
-import { UpdateInfoStore } from '../../../data-access/update-info.store';
-import { UpdatePasswordStore } from '../../../data-access/update-password.store';
+import { UpdateInfoStore } from '../../../data-access/account/update-info.store';
+import { UpdatePasswordStore } from '../../../data-access/account/update-password.store';
 
 @Component({
   selector: 'app-account-info',

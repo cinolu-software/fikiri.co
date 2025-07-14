@@ -1,4 +1,4 @@
-<section class="min-h-[105vh] text-gray-600">
+<section class="min-h-[105vh] text-gray-600 main-content">
   @let user = authStore.user();
   @if (user) {
     <div class="flex flex-wrap items-center gap-4 mb-4">
@@ -16,7 +16,7 @@
     </div>
     <div class="pb-10">
       <div
-        class="flex overflow-x-auto gap-5 border-b border-primary-200 font-medium pt-4 whitespace-nowrap mb-4 no-scrollbar">
+        class="flex overflow-x-auto gap-5 border-b border-primary-200 font-medium pt-4 whitespace-nowrap mb-4 scrollbar-hide">
         @for (tab of tabs(); track $index) {
           <button
             class="relative pb-2 hover:text-primary-500 transition-colors duration-200"

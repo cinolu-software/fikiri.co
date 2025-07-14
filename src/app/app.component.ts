@@ -1,7 +1,7 @@
 import { afterNextRender, Component, inject, NgZone } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import AOS from 'aos';
-import { LoadingBarComponent } from './shared/ui/loading-bar/loading-bar.component';
+import { LoadingBarComponent } from './shared/components/loading-bar/loading-bar.component';
 
 @Component({
   selector: 'app-root',
