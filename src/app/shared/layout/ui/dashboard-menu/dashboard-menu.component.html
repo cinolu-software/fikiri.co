@@ -1,0 +1,7 @@
+<header
+  class="fixed top-0 left-0 md:left-[20vw] px-6 right-0 h-16 flex items-center z-30 bg-white shadow-xs text-gray-800 transition-colors duration-300 font-satoshi">
+  <nav class="ml-auto flex items-center gap-4">
+    <app-mobile-profile-menu [user]="authStore.user()" [links]="links()" (singOut)="signOut()" />
+    <app-desktop-profile-menu [user]="authStore.user()" />
+  </nav>
+</header>

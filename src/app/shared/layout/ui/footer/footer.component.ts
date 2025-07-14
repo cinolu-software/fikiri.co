@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
-import { contactLinks, EXPLORATION_LINKS, socialLinks } from '../../utils/data/links';
+import { CONTACT_LINKS, EXPLORATION_LINKS, SOCIAL_LINKS } from '../../utils/data/links';
 
 @Component({
   selector: 'app-footer',
   imports: [RouterLink, NgOptimizedImage],
-  templateUrl: './footer.component.html'
+  templateUrl: './footer.component.html',
 })
 export class FooterComponent {
   links = [
     { title: 'Parcourir', urls: EXPLORATION_LINKS },
-    { title: 'Contact', urls: contactLinks },
-    { title: 'Socials', urls: socialLinks }
+    { title: 'Contact', urls: CONTACT_LINKS },
+    { title: 'Socials', urls: SOCIAL_LINKS },
   ];
 
   getYear(): number {

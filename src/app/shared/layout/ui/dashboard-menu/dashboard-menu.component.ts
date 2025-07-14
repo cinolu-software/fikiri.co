@@ -9,31 +9,29 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
-import { EXPLORATION_LINKS } from '../../utils/data/links';
-import { DesktopNavComponent } from './desktop-nav/desktop-nav.component';
-import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
-import { RouterLink } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 import { AuthStore } from '../../../store/auth.store';
+import { DesktopDashboardMenuComponent } from './desktop-menu/desktop-dashboard-menu.component';
+import { MobileDashboardMenuComponent } from './mobile-menu/mobile-dashboard.component';
+import { PROFILE_LINKS } from '../../utils/data/links';
 
 @Component({
-  selector: 'app-topbar',
-  imports: [CommonModule, NgOptimizedImage, RouterLink, MobileNavComponent, DesktopNavComponent],
-  templateUrl: './topbar.component.html',
+  selector: 'app-dashboard-menu',
+  imports: [CommonModule, DesktopDashboardMenuComponent, MobileDashboardMenuComponent],
+  templateUrl: './dashboard-menu.component.html',
 })
-export class TopbarComponent implements OnDestroy {
+export class DashboardMenuComponent implements OnDestroy {
   #elementRef = inject(ElementRef);
   isFixed = signal(false);
-  tabs = signal(['Parcourir']);
-  links = signal({
-    Parcourir: EXPLORATION_LINKS,
-  });
+  links = signal(PROFILE_LINKS);
   fixed = input(false);
-  mobileNav = viewChild(MobileNavComponent);
-  desktopNav = viewChild(DesktopNavComponent);
+  mobileNav = viewChild(MobileDashboardMenuComponent);
+  desktopNav = viewChild(DesktopDashboardMenuComponent);
   #destroy$ = new Subject<void>();
   #ngZone = inject(NgZone);
+  accountUrl = environment.accountUrl;
   authStore = inject(AuthStore);
 
   constructor() {

@@ -4,6 +4,6 @@ export const callRoutes: Routes = [
   {
     path: ':slug',
     title: 'Call Details',
-    loadComponent: () => import('./feature/call.component').then((c) => c.CallComponent),
+    loadComponent: () => import('./features/call.component').then((c) => c.CallComponent),
   },
 ];

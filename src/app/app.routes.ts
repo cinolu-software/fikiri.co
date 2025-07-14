@@ -23,9 +23,9 @@ export const routes: Route[] = [
     loadChildren: () => auhtRoutes,
   },
   {
-    path: 'account',
+    path: 'dashboard',
     component: LayoutComponent,
-    data: { layout: 'fixed-layout' },
+    data: { layout: 'dashboard-layout' },
     canActivate: [authGuard],
     loadChildren: () => profileRoutes,
   },

@@ -1,5 +1,28 @@
 import { ILink } from '../types/link.type';
-import { Home, Blend, Info, ChartNoAxesColumn } from 'lucide-angular';
+import { Home, Blend, Info, ChartNoAxesColumn, LayoutGrid, Settings, PhoneCall } from 'lucide-angular';
+
+export const PROFILE_LINKS = [
+  {
+    name: 'Dashboard',
+    path: '/dashboard/dashboard',
+    icon: LayoutGrid,
+  },
+  {
+    name: 'Mon compte',
+    path: '/dashboard/account',
+    icon: Settings,
+  },
+  {
+    name: 'Les appels',
+    path: '/dashboard/calls',
+    icon: PhoneCall,
+  },
+  {
+    name: 'Les solutions',
+    path: '/dashboard/solutions',
+    icon: Blend,
+  },
+];
 
 export const EXPLORATION_LINKS: ILink[] = [
   {
@@ -34,7 +57,7 @@ export const EXPLORATION_LINKS: ILink[] = [
   },
 ];
 
-export const contactLinks: ILink[] = [
+export const CONTACT_LINKS: ILink[] = [
   {
     name: 'Email',
     path: 'mailto:support@fikiri.co',
@@ -52,7 +75,7 @@ export const contactLinks: ILink[] = [
   },
 ];
 
-export const socialLinks: ILink[] = [
+export const SOCIAL_LINKS: ILink[] = [
   { name: 'Facebook', path: 'https://www.facebook.com/fikiriSDG?mibextid=ViGcVu', external: true },
   {
     name: 'Instagram',

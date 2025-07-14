@@ -3,14 +3,15 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { AppConfig } from '../services/config/config.types';
 import { AppConfigService } from '../services/config/config.service';
-import { FixedLayoutComponent } from './feature/fixed-layout/fixed-layout.component';
-import { EmptyLayoutComponent } from './feature/empty-layout/empty-layout.component';
-import { FullLayoutComponent } from './feature/full-layout/full-layout.component';
+import { FixedLayoutComponent } from './features/fixed-layout/fixed-layout.component';
+import { FullLayoutComponent } from './features/full-layout/full-layout.component';
+import { EmptyLayoutComponent } from './features/empty-layout/empty-layout.component';
+import { DashboardLayoutComponent } from './features/dashboard-layout/dashboard-layout.component';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  imports: [FixedLayoutComponent, EmptyLayoutComponent, FullLayoutComponent],
+  imports: [FixedLayoutComponent, EmptyLayoutComponent, FullLayoutComponent, DashboardLayoutComponent],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   config: AppConfig = {} as AppConfig;

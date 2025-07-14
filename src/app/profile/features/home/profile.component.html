@@ -1,8 +1,6 @@
-<section
-  class="pt-24 min-h-[105vh] text-gray-600 border-x border-dashed border-gray-200 px-8 sm:px-6 lg:px-16 xl:px-20 2xl:px-32 max-w-screen-2xl mx-auto">
+<section class="min-h-[105vh] text-gray-600">
   @let user = authStore.user();
   @if (user) {
-    <h2 class="font-black mb-8 text-2xl md:text-4xl w-full md:w-2/3">Mon compte</h2>
     <div class="flex flex-wrap items-center gap-4 mb-4">
       <div class="relative h-14 w-14 bg-gray-200 rounded-full">
         <img
@@ -16,20 +14,6 @@
         <p class="text-gray-900">{{ user.name }} · {{ user.email }}</p>
       </div>
     </div>
-    <p class="mb-2">
-      Vous avez le.s rôle.s
-      <span class="font-medium text-primary-800">{{ findRoleLabel(user?.roles) }}</span>
-      {{ hasRole(user?.roles) ? ' et ' : ' ' }}
-      @if (hasRole(user?.roles)) {
-        voici le lien du dashboard
-        <a
-          [href]="accUrl"
-          target="_blank"
-          class="text-primary-600 hover:text-primary-800 transition-colors duration-300">
-          admin.fikiri.co
-        </a>
-      }
-    </p>
     <div class="pb-10">
       <div
         class="flex overflow-x-auto gap-5 border-b border-dashed border-primary-200 font-medium pt-4 whitespace-nowrap mb-4 no-scrollbar">

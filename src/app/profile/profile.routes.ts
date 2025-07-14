@@ -2,8 +2,8 @@ import { Routes } from '@angular/router';
 
 export const profileRoutes: Routes = [
   {
-    path: '',
+    path: 'account',
     title: 'Profile',
-    loadComponent: () => import('./feature/home/profile.component').then((c) => c.ProfileComponent)
-  }
+    loadComponent: () => import('./features/home/profile.component').then((c) => c.ProfileComponent),
+  },
 ];
