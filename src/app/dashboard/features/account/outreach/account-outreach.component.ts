@@ -1,16 +1,16 @@
 import { Component, inject, input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IUser } from '../../../shared/utils/types/models.type';
-import { environment } from '../../../../environments/environment';
-import { OutreachStore } from '../../data-access/outreach.store';
+import { environment } from '../../../../../environments/environment';
+import { IUser } from '../../../../shared/utils/types/models.type';
+import { OutreachStore } from '../../../data-access/outreach.store';
 
 @Component({
   imports: [CommonModule],
   providers: [OutreachStore],
-  selector: 'app-profile-outreach',
-  templateUrl: './outreach.component.html',
+  selector: 'app-account-outreach',
+  templateUrl: './account-outreach.component.html',
 })
-export class ProfileOutreachComponent {
+export class AccountOutreachComponent {
   user = input<IUser>();
   copied = signal<boolean>(false);
   appUrl = environment.appUrl;

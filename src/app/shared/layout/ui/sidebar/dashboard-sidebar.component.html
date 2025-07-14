@@ -9,8 +9,9 @@
     @for (link of links(); track $index) {
       <a
         [routerLink]="link.path"
-        class="group inline-flex items-center gap-2 px-8 py-2.5 font-medium hover:bg-primary-700 transition-colors duration-200"
-        [routerLinkActive]="'bg-primary-600'">
+        class="group inline-flex items-center gap-2 px-8 py-2.5 font-medium hover:bg-primary-800 transition-colors duration-200"
+        [routerLinkActiveOptions]="{ exact: link.exactUrl }"
+        [routerLinkActive]="'bg-primary-800'">
         <i-lucide [name]="link.icon" class="size-4.5 text-inherit" />
         {{ link.name }}
       </a>

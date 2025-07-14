@@ -3,16 +3,16 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { FileUploadComponent } from '../../../shared/ui/file-upload/file-upload.component';
-import { IUser } from '../../../shared/utils/types/models.type';
-import { environment } from '../../../../environments/environment.development';
-import { AuthStore } from '../../../shared/store/auth.store';
-import { UpdateInfoStore } from '../../data-access/update-info.store';
-import { UpdatePasswordStore } from '../../data-access/update-password.store';
+import { environment } from '../../../../../environments/environment';
+import { AuthStore } from '../../../../shared/store/auth.store';
+import { FileUploadComponent } from '../../../../shared/ui/file-upload/file-upload.component';
+import { IUser } from '../../../../shared/utils/types/models.type';
+import { UpdateInfoStore } from '../../../data-access/update-info.store';
+import { UpdatePasswordStore } from '../../../data-access/update-password.store';
 
 @Component({
-  selector: 'app-profile-info',
-  templateUrl: './info.component.html',
+  selector: 'app-account-info',
+  templateUrl: './account-info.component.html',
   providers: [UpdateInfoStore, UpdatePasswordStore],
   imports: [ButtonModule, InputTextModule, CommonModule, ReactiveFormsModule, FileUploadComponent],
 })

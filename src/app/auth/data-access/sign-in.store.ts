@@ -31,7 +31,7 @@ export const SignInStore = signalStore(
               patchState(store, { isLoading: false });
               _authStore.setUser(data);
               _toast.showSuccess('Connexion réussie');
-              _router.navigate(['/account']);
+              _router.navigate(['/dashboard']);
             }),
             catchError(() => {
               patchState(store, { isLoading: false });

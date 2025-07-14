@@ -4,21 +4,25 @@ import { Home, Blend, Info, ChartNoAxesColumn, LayoutGrid, Settings, PhoneCall }
 export const PROFILE_LINKS = [
   {
     name: 'Dashboard',
-    path: '/dashboard/dashboard',
+    path: '/dashboard',
+    exactUrl: true,
     icon: LayoutGrid,
   },
   {
     name: 'Mon compte',
+    exactUrl: true,
     path: '/dashboard/account',
     icon: Settings,
   },
   {
     name: 'Les appels',
+    exactUrl: true,
     path: '/dashboard/calls',
     icon: PhoneCall,
   },
   {
     name: 'Les solutions',
+    exactUrl: true,
     path: '/dashboard/solutions',
     icon: Blend,
   },

@@ -5,8 +5,8 @@ import { LayoutComponent } from './shared/layout/layout.component';
 import { unauthGuard } from './shared/guards/no-auth.guard';
 import { solutionsRoutes } from './solutions/solutions.routes';
 import { authGuard } from './shared/guards/auth.guard';
-import { profileRoutes } from './profile/profile.routes';
 import { callRoutes } from './call/call.routes';
+import { dashboardRoutes } from './dashboard/dashboard.routes';
 
 export const routes: Route[] = [
   {
@@ -27,7 +27,7 @@ export const routes: Route[] = [
     component: LayoutComponent,
     data: { layout: 'dashboard-layout' },
     canActivate: [authGuard],
-    loadChildren: () => profileRoutes,
+    loadChildren: () => dashboardRoutes,
   },
   {
     path: 'calls',
