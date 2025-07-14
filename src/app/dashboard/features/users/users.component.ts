@@ -7,7 +7,6 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
 import { AvatarModule } from 'primeng/avatar';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-users',
@@ -21,7 +20,6 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
     ProgressSpinnerModule,
     ApiImgPipe,
     AvatarModule,
-    PaginatorModule,
   ],
 })
 export class UsersComponent {
@@ -32,11 +30,4 @@ export class UsersComponent {
     edit: Edit,
     trash: Trash,
   };
-  first: number = 0;
-  rows: number = 30;
-
-  onPageChange(event: PaginatorState) {
-    this.first = event.first ?? 0;
-    this.rows = event.rows ?? 10;
-  }
 }
