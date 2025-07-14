@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { LucideAngularModule, LucideIconData, Telescope, Info } from 'lucide-angular';
 import { ProfileInfoComponent } from './info/account-info.component';
 import { AccountOutreachComponent } from './outreach/account-outreach.component';
-import { environment } from '../../../../environments/environment';
 import { AuthStore } from '../../../shared/store/auth.store';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
 
@@ -20,7 +19,6 @@ import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
   ],
 })
 export class AccountComponent {
-  accUrl = environment.accountUrl;
   activeTab = signal<string>('Mes informations');
   authStore = inject(AuthStore);
   tabs = signal<{ label: string; icon: LucideIconData }[]>([

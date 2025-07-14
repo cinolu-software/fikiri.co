@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 import { AuthStore } from '../../store/auth.store';
 import { DesktopDashboardMenuComponent } from './desktop-menu/desktop-dashboard-menu.component';
 import { MobileDashboardMenuComponent } from './mobile-menu/mobile-dashboard.component';
@@ -31,7 +30,6 @@ export class DashboardMenuComponent implements OnDestroy {
   desktopNav = viewChild(DesktopDashboardMenuComponent);
   #destroy$ = new Subject<void>();
   #ngZone = inject(NgZone);
-  accountUrl = environment.accountUrl;
   authStore = inject(AuthStore);
 
   constructor() {
