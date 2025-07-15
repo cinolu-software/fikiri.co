@@ -5,12 +5,12 @@ import { ProfileInfoComponent } from './info/account-info.component';
 import { AccountOutreachComponent } from './outreach/account-outreach.component';
 import { AuthStore } from '../../../shared/store/auth.store';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
-import { OutreachStore } from '../../data-access/account/outreach.store';
+import { DashboardOutreachStore } from '../../data-access/account/dashboard-outreach.store';
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  providers: [OutreachStore],
+  selector: 'app-dashboard-account',
+  templateUrl: './dashboard-account.component.html',
+  providers: [DashboardOutreachStore],
   imports: [
     NgOptimizedImage,
     CommonModule,
@@ -20,10 +20,10 @@ import { OutreachStore } from '../../data-access/account/outreach.store';
     ApiImgPipe,
   ],
 })
-export class AccountComponent implements OnInit {
+export class DashboardAccountComponent implements OnInit {
   activeTab = signal<string>('Mes informations');
   authStore = inject(AuthStore);
-  outreachStore = inject(OutreachStore);
+  outreachStore = inject(DashboardOutreachStore);
   tabs = signal<{ label: string; icon: LucideIconData }[]>([
     { label: 'Mes informations', icon: Info },
     { label: 'Vulgarisation', icon: Telescope },

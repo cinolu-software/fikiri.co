@@ -1,0 +1,86 @@
+<section class="min-h-[105vh] text-gray-600 dashboard-main-content">
+  @if (store.isLoading()) {
+    <div class="flex items-center justify-between mb-8">
+      <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
+    </div>
+    <div class="grid grid-cols-5">
+      @for (i of skeletonArray; track $index) {
+        <div class="border-y border-gray-200 py-3 px-2">
+          <div class="h-4 w-full rounded-md bg-gray-200 animate-pulse mb-2"></div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (store.solutions()?.[1] === 0) {
+    <p>Aucune solution trouvé.</p>
+  }
+
+  @if (store.solutions()?.[0]; as solutions) {
+    <p-table
+      class="text-sm"
+      [value]="solutions"
+      [size]="'small'"
+      class="text-sm"
+      stripedRows
+      [tableStyle]="{ 'min-width': '30rem' }">
+      <ng-template #caption>
+        <div class="flex items-center justify-between mb-8">
+          <h5 class="text-lg font-bold">
+            Liste des solutions
+            @if (store.solutions()?.[1]) {
+              <span class="text-sm text-gray-500">({{ store.solutions()?.[1] }} résultats)</span>
+            }
+          </h5>
+        </div>
+      </ng-template>
+      <ng-template #header>
+        <tr>
+          <th>Image</th>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Par</th>
+          <!-- <th>Actions</th> -->
+        </tr>
+      </ng-template>
+      <ng-template #body let-solution>
+        <tr>
+          <td>
+            <p-avatar [image]="solution | apiIMG: 'solution'" />
+          </td>
+          <td class="max-w-[300px]">{{ solution.name | titlecase | slice: 0 : 20 }}</td>
+          <td class="lowercase first-letter:uppercase max-w-[300px]">{{ solution.description }}</td>
+          <td>{{ solution.user.name | titlecase }}</td>
+          <!-- <td>
+            <div class="flex items-center gap-2">
+              <button>
+                <i-lucide [name]="icons.edit" class="size-4" />
+              </button>
+              <button>
+                <i-lucide [name]="icons.trash" class="size-4" />
+              </button>
+            </div>
+          </td> -->
+        </tr>
+      </ng-template>
+      <ng-template #footer>
+        @if ((store.solutions()?.[1] || 0) > 12) {
+          <tr>
+            <td colspan="5" class="text-center text-sm">
+              <div class="card flex justify-center text-center text-sm mt-2">
+                <p-paginator
+                  (onPageChange)="onPageChange($event)"
+                  [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 40 : 0"
+                  [rows]="40"
+                  [pageLinkSize]="5"
+                  [showCurrentPageReport]="true"
+                  [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
+                  [totalRecords]="store.solutions()?.[1]" />
+              </div>
+            </td>
+          </tr>
+        }
+      </ng-template>
+    </p-table>
+  }
+</section>

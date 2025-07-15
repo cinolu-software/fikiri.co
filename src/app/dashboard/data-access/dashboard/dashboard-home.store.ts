@@ -1,31 +1,31 @@
 import { patchState, signalStore, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
-import { IUser } from '../../../shared/utils/types/models.type';
 import { inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, exhaustMap, of, pipe, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { IAdminStats } from '../../utils/types/dashboard/stats.type';
 
-interface IUsersStore {
+interface IDashboardHomeStore {
   isLoading: boolean;
-  users: [IUser[], number] | null;
+  stats: IAdminStats | null;
 }
 
-export const UsersStore = signalStore(
-  withState<IUsersStore>({ isLoading: false, users: null }),
+export const DashboardHomeStore = signalStore(
+  withState<IDashboardHomeStore>({ isLoading: false, stats: null }),
   withProps(() => ({
     _http: inject(HttpClient),
   })),
   withMethods(({ _http, ...store }) => ({
-    loadUsers: rxMethod<void>(
+    loadStats: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         exhaustMap(() => {
-          return _http.get<{ data: [IUser[], number] }>('users').pipe(
+          return _http.get<{ data: IAdminStats }>('stats/admin-stats').pipe(
             tap(({ data }) => {
-              patchState(store, { isLoading: false, users: data });
+              patchState(store, { isLoading: false, stats: data });
             }),
             catchError(() => {
-              patchState(store, { isLoading: false, users: null });
+              patchState(store, { isLoading: false });
               return of(null);
             }),
           );
@@ -34,8 +34,8 @@ export const UsersStore = signalStore(
     ),
   })),
   withHooks({
-    onInit({ loadUsers }) {
-      loadUsers();
+    onInit({ loadStats }) {
+      loadStats();
     },
   }),
 );

@@ -6,14 +6,14 @@ import { catchError, exhaustMap, of, pipe, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from '../../../shared/services/toast/toastr.service';
 
-interface IOutreachStore {
+interface IDashboardOutreachStore {
   isLoading: boolean;
   count: number | null;
   generatingLink: boolean;
 }
 
-export const OutreachStore = signalStore(
-  withState<IOutreachStore>({ isLoading: false, generatingLink: false, count: null }),
+export const DashboardOutreachStore = signalStore(
+  withState<IDashboardOutreachStore>({ isLoading: false, generatingLink: false, count: null }),
   withProps(() => ({
     _http: inject(HttpClient),
     _toast: inject(ToastrService),

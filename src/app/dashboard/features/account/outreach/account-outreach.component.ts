@@ -2,11 +2,11 @@ import { Component, inject, input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { IUser } from '../../../../shared/utils/types/models.type';
-import { OutreachStore } from '../../../data-access/account/outreach.store';
+import { DashboardOutreachStore } from '../../../data-access/account/dashboard-outreach.store';
 
 @Component({
   imports: [CommonModule],
-  providers: [OutreachStore],
+  providers: [DashboardOutreachStore],
   selector: 'app-account-outreach',
   templateUrl: './account-outreach.component.html',
 })
@@ -15,7 +15,7 @@ export class AccountOutreachComponent {
   outreached = input.required<number | null>();
   copied = signal<boolean>(false);
   appUrl = environment.appUrl;
-  store = inject(OutreachStore);
+  store = inject(DashboardOutreachStore);
   #ngZone = inject(NgZone);
 
   async copyLink(link: string) {

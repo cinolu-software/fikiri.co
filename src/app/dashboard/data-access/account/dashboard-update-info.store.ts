@@ -8,12 +8,12 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from '../../../shared/services/toast/toastr.service';
 import { AuthStore } from '../../../shared/store/auth.store';
 
-interface IUpdateInfoStore {
+interface DashboardUpdateInfoStore {
   isLoading: boolean;
 }
 
-export const UpdateInfoStore = signalStore(
-  withState<IUpdateInfoStore>({ isLoading: false }),
+export const DashboardUpdateInfoStore = signalStore(
+  withState<DashboardUpdateInfoStore>({ isLoading: false }),
   withProps(() => ({
     _http: inject(HttpClient),
     _toast: inject(ToastrService),

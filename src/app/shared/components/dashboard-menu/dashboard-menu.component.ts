@@ -9,7 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { AuthStore } from '../../store/auth.store';
 import { DesktopDashboardMenuComponent } from './desktop-menu/desktop-dashboard-menu.component';
@@ -18,7 +18,7 @@ import { PROFILE_LINKS } from '../../utils/data/links';
 
 @Component({
   selector: 'app-dashboard-menu',
-  imports: [CommonModule, DesktopDashboardMenuComponent, MobileDashboardMenuComponent],
+  imports: [CommonModule, NgOptimizedImage, DesktopDashboardMenuComponent, MobileDashboardMenuComponent],
   templateUrl: './dashboard-menu.component.html',
 })
 export class DashboardMenuComponent implements OnDestroy {

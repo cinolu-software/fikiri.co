@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { QueryParams } from '../../types/query-params.type';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SolutionCardSkeletonComponent } from '../../ui/solution-card-skeleton/solution-card-skeleton.component';
 import { SolutionCardComponent } from '../../ui/solution-card/solution-card.component';
 import { SolutionsStore } from '../../data-access/solutions.store';
@@ -14,9 +14,10 @@ import { SolutionsStore } from '../../data-access/solutions.store';
   imports: [CommonModule, SolutionCardComponent, SolutionCardSkeletonComponent, NgxPaginationModule],
 })
 export class SolutionsComponent {
+  #route = inject(ActivatedRoute);
   #router = inject(Router);
   queryParams = signal<QueryParams>({
-    page: this.#router.routerState.snapshot.root.queryParams['page'] || null,
+    page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
   });
   store = inject(SolutionsStore);
 

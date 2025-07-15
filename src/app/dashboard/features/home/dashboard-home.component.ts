@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { DashboardStore } from '../data-access/dashboard/dashboard.store';
+import { DashboardHomeStore } from '../../data-access/dashboard/dashboard-home.store';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LucideAngularModule, PhoneCall, Megaphone, UserCog, Lightbulb } from 'lucide-angular';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  providers: [DashboardStore],
+  selector: 'app-dashboard-home',
+  templateUrl: './dashboard-home.component.html',
+  providers: [DashboardHomeStore],
   imports: [LucideAngularModule, ProgressSpinnerModule],
 })
-export class DashboardComponent {
-  store = inject(DashboardStore);
+export class DashboardHomeComponent {
+  store = inject(DashboardHomeStore);
   icons = {
     phoneCall: PhoneCall,
     megaphone: Megaphone,

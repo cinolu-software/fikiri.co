@@ -7,13 +7,13 @@ import { environment } from '../../../../../environments/environment';
 import { AuthStore } from '../../../../shared/store/auth.store';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
 import { IUser } from '../../../../shared/utils/types/models.type';
-import { UpdateInfoStore } from '../../../data-access/account/update-info.store';
-import { UpdatePasswordStore } from '../../../data-access/account/update-password.store';
+import { DashboardUpdateInfoStore } from '../../../data-access/account/dashboard-update-info.store';
+import { DashboardUpdatePasswordStore } from '../../../data-access/account/dashboard-update-password.store';
 
 @Component({
   selector: 'app-account-info',
   templateUrl: './account-info.component.html',
-  providers: [UpdateInfoStore, UpdatePasswordStore],
+  providers: [DashboardUpdateInfoStore, DashboardUpdatePasswordStore],
   imports: [ButtonModule, InputTextModule, CommonModule, ReactiveFormsModule, FileUploadComponent],
 })
 export class ProfileInfoComponent implements OnInit {
@@ -23,8 +23,8 @@ export class ProfileInfoComponent implements OnInit {
   url = environment.apiUrl + 'users/image-profile';
   #formBuilder = inject(FormBuilder);
   authStore = inject(AuthStore);
-  updateInfoStore = inject(UpdateInfoStore);
-  updatePasswordStore = inject(UpdatePasswordStore);
+  updateInfoStore = inject(DashboardUpdateInfoStore);
+  updatePasswordStore = inject(DashboardUpdatePasswordStore);
 
   constructor() {
     this.infoForm = this.#formBuilder.group({

@@ -1,5 +1,15 @@
 import { ILink } from '../types/link.type';
-import { Home, Blend, Info, ChartNoAxesColumn, LayoutGrid, Settings, PhoneCall, UserCheck } from 'lucide-angular';
+import {
+  Home,
+  Blend,
+  Info,
+  ChartNoAxesColumn,
+  LayoutGrid,
+  Settings,
+  PhoneCall,
+  UserCheck,
+  Telescope,
+} from 'lucide-angular';
 
 export const PROFILE_LINKS = [
   {
@@ -16,21 +26,27 @@ export const PROFILE_LINKS = [
   },
   {
     name: 'Utilisateurs',
-    exactUrl: true,
+    exactUrl: false,
     path: '/dashboard/users',
     icon: UserCheck,
   },
   {
-    name: 'Les appels',
-    exactUrl: true,
+    name: 'Appels',
+    exactUrl: false,
     path: '/dashboard/calls',
     icon: PhoneCall,
   },
   {
-    name: 'Les solutions',
-    exactUrl: true,
+    name: 'Solutions',
+    exactUrl: false,
     path: '/dashboard/solutions',
     icon: Blend,
+  },
+  {
+    name: 'Vulgarisateurs',
+    exactUrl: false,
+    path: '/dashboard/outreachers',
+    icon: Telescope,
   },
 ];
 

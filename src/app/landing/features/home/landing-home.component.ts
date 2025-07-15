@@ -9,6 +9,6 @@ import { CallsComponent } from '../calls/calls.component';
 @Component({
   selector: 'app-home',
   imports: [HeroComponent, SdgsComponent, AboutComponent, MissionComponent, WinningSolutionsComponent, CallsComponent],
-  templateUrl: './home.component.html',
+  templateUrl: './landing-home.component.html',
 })
-export class HomeComponent {}
+export class LandingHomeComponent {}

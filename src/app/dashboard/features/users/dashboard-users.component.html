@@ -1,0 +1,80 @@
+<section class="min-h-[105vh] text-gray-600 dashboard-main-content">
+  @if (store.isLoading()) {
+    <div class="flex items-center justify-between mb-8">
+      <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
+    </div>
+    <div class="grid grid-cols-5">
+      @for (i of skeletonArray; track $index) {
+        <div class="border-y border-gray-200 py-3 px-2">
+          <div class="h-4 w-full rounded-md bg-gray-200 animate-pulse mb-2"></div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (store.users()?.[1] === 0) {
+    <p>Aucun utilisateur trouvé.</p>
+  }
+
+  @if (store.users()?.[0]; as users) {
+    <p-table class="text-sm" [value]="users" [size]="'small'" stripedRows [tableStyle]="{ 'min-width': '40rem' }">
+      <ng-template #caption>
+        <div class="flex items-center justify-between mb-8">
+          <h5 class="text-lg font-bold">
+            Liste des utilisateurs
+            @if (store.users()?.[1]) {
+              <span class="text-sm text-gray-500">({{ store.users()?.[1] }} résultats)</span>
+            }
+          </h5>
+        </div>
+      </ng-template>
+      <ng-template #header>
+        <tr>
+          <th>Image</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Join le</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-user>
+        <tr>
+          <td>
+            <p-avatar [image]="user | apiIMG: 'user'" />
+          </td>
+          <td>{{ user.name | titlecase | slice: 0 : 20 }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.created_at | date: 'longDate' }}</td>
+          <td>
+            <div class="flex items-center gap-2">
+              <button>
+                <i-lucide [name]="icons.edit" class="size-4" />
+              </button>
+              <button>
+                <i-lucide [name]="icons.trash" class="size-4" />
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #footer>
+        @if ((store.users()?.[1] || 0) > 12) {
+          <tr>
+            <td colspan="5" class="text-center text-sm">
+              <div class="card flex justify-center text-center text-sm mt-2">
+                <p-paginator
+                  (onPageChange)="onPageChange($event)"
+                  [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 30 : 0"
+                  [rows]="30"
+                  [pageLinkSize]="5"
+                  [showCurrentPageReport]="true"
+                  [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
+                  [totalRecords]="store.users()?.[1]" />
+              </div>
+            </td>
+          </tr>
+        }
+      </ng-template>
+    </p-table>
+  }
+</section>
