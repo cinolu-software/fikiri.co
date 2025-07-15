@@ -9,11 +9,12 @@ import { ActivatedRoute } from '@angular/router';
 
 interface IDashboardOutreachersStore {
   isLoading: boolean;
+  isDownLoadingCSV: boolean;
   outreachers: [{ outreacher: string; count: number }[], number] | null;
 }
 
 export const DashboardOutreachersStore = signalStore(
-  withState<IDashboardOutreachersStore>({ isLoading: false, outreachers: null }),
+  withState<IDashboardOutreachersStore>({ isLoading: false, isDownLoadingCSV: false, outreachers: null }),
   withProps(() => ({
     _http: inject(HttpClient),
     _route: inject(ActivatedRoute),
@@ -35,6 +36,28 @@ export const DashboardOutreachersStore = signalStore(
                 return of(null);
               }),
             );
+        }),
+      ),
+    ),
+    downloadOutreachersCSV: rxMethod<void>(
+      pipe(
+        tap(() => patchState(store, { isDownLoadingCSV: true })),
+        switchMap(() => {
+          return _http.get('users/export-csv/outreachers', { responseType: 'blob' }).pipe(
+            tap((blob) => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'outreachers.csv';
+              a.click();
+              window.URL.revokeObjectURL(url);
+              patchState(store, { isDownLoadingCSV: false });
+            }),
+            catchError(() => {
+              patchState(store, { isDownLoadingCSV: false });
+              return of(null);
+            }),
+          );
         }),
       ),
     ),

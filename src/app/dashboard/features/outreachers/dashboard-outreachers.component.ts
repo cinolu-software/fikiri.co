@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { LucideAngularModule, RefreshCcw, Edit, Trash } from 'lucide-angular';
+import { LucideAngularModule, RefreshCcw, Edit, Trash, Download } from 'lucide-angular';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,7 @@ export class DashboardOutreachersComponent {
   #router = inject(Router);
   store = inject(DashboardOutreachersStore);
   skeletonArray = Array.from({ length: 100 }, (_, i) => i + 1);
-  icons = { refresh: RefreshCcw, edit: Edit, trash: Trash };
+  icons = { refresh: RefreshCcw, edit: Edit, trash: Trash, download: Download };
   queryParams = signal<QueryParams>({
     page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
   });
@@ -45,5 +45,9 @@ export class DashboardOutreachersComponent {
   updateRouteAndOutreachers(): void {
     this.updateRoute();
     this.loadOutreachers();
+  }
+
+  downloadOutreachersCSV(): void {
+    this.store.downloadOutreachersCSV();
   }
 }

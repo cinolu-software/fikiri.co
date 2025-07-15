@@ -10,11 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 
 interface IDashboardUsersStore {
   isLoading: boolean;
+  isDownLoadingCSV: boolean;
   users: [IUser[], number] | null;
 }
 
 export const DashboardUsersStore = signalStore(
-  withState<IDashboardUsersStore>({ isLoading: false, users: null }),
+  withState<IDashboardUsersStore>({ isLoading: false, isDownLoadingCSV: false, users: null }),
   withProps(() => ({
     _http: inject(HttpClient),
     _route: inject(ActivatedRoute),
@@ -31,6 +32,28 @@ export const DashboardUsersStore = signalStore(
             }),
             catchError(() => {
               patchState(store, { isLoading: false, users: null });
+              return of(null);
+            }),
+          );
+        }),
+      ),
+    ),
+    downloadUsersCSV: rxMethod<void>(
+      pipe(
+        tap(() => patchState(store, { isDownLoadingCSV: true })),
+        switchMap(() => {
+          return _http.get('users/export-csv/all', { responseType: 'blob' }).pipe(
+            tap((blob) => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'users.csv';
+              a.click();
+              window.URL.revokeObjectURL(url);
+              patchState(store, { isDownLoadingCSV: false });
+            }),
+            catchError(() => {
+              patchState(store, { isDownLoadingCSV: false });
               return of(null);
             }),
           );

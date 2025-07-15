@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { LucideAngularModule, RefreshCcw, Edit, Trash } from 'lucide-angular';
+import { LucideAngularModule, RefreshCcw, Edit, Trash, Download } from 'lucide-angular';
 import { DashboardUsersStore } from '../../data-access/users/dashboard-users.store';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -31,7 +31,7 @@ export class DashboardUsersComponent {
   #router = inject(Router);
   store = inject(DashboardUsersStore);
   skeletonArray = Array.from({ length: 100 }, (_, i) => i + 1);
-  icons = { refresh: RefreshCcw, edit: Edit, trash: Trash };
+  icons = { refresh: RefreshCcw, edit: Edit, trash: Trash, download: Download };
   queryParams = signal<QueryParams>({
     page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
   });
@@ -56,5 +56,9 @@ export class DashboardUsersComponent {
   updateRouteAndUsers(): void {
     this.updateRoute();
     this.loadUsers();
+  }
+
+  downloadUsersCSV(): void {
+    this.store.downloadUsersCSV();
   }
 }

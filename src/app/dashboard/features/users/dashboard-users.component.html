@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-8">
       <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
     </div>
-    <div class="grid grid-cols-5">
+    <div class="grid grid-cols-5 overflow-x-auto">
       @for (i of skeletonArray; track $index) {
         <div class="border-y border-gray-200 py-3 px-2">
           <div class="h-4 w-full rounded-md bg-gray-200 animate-pulse mb-2"></div>
@@ -26,6 +26,19 @@
               <span class="text-sm text-gray-500">({{ store.users()?.[1] }} résultats)</span>
             }
           </h5>
+          <button
+            pButton
+            class="w-1/5!"
+            [outlined]="true"
+            [size]="'small'"
+            [loading]="store.isDownLoadingCSV()"
+            [disabled]="store.isDownLoadingCSV()"
+            (click)="downloadUsersCSV()">
+            @if (!store.isDownLoadingCSV()) {
+              <i-lucide [name]="icons.download" class="size-4" />
+            }
+            Télécharger CSV
+          </button>
         </div>
       </ng-template>
       <ng-template #header>
