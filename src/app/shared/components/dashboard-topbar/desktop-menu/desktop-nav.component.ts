@@ -7,11 +7,11 @@ import { LucideAngularModule, LogOut, ChevronDown } from 'lucide-angular';
 import { getLinks } from '../../../helpers/get-links.fn';
 
 @Component({
-  selector: 'app-desktop-profile-menu',
-  templateUrl: './desktop-dashboard-menu.component.html',
+  selector: 'app-desktop-nav',
+  templateUrl: './desktop-nav.component.html',
   imports: [CommonModule, RouterModule, ApiImgPipe, LucideAngularModule, NgOptimizedImage],
 })
-export class DesktopDashboardMenuComponent {
+export class DesktopNavComponent {
   user = input.required<IUser | null>();
   singOut = output<void>();
   activeTab = signal<string>('');

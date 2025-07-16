@@ -7,11 +7,11 @@ import { IUser } from '../../../utils/types/models.type';
 import { LucideAngularModule, Menu, X, ChevronDown, ArrowLeft } from 'lucide-angular';
 
 @Component({
-  selector: 'app-mobile-profile-menu',
-  templateUrl: './mobile-dashboard-menu.component.html',
+  selector: 'app-mobile-nav',
+  templateUrl: './mobile-nav.component.html',
   imports: [LucideAngularModule, RouterModule, CommonModule],
 })
-export class MobileDashboardMenuComponent {
+export class MobileNavComponent {
   user = input.required<IUser | null>();
   links = input.required<ILink[]>();
   singOut = output<void>();

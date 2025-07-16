@@ -53,6 +53,7 @@ export interface IUser extends IBase {
   phone_number: string;
   address: string;
   google_image: string;
+  outreachCount?: number;
   profile: string;
   verified_at: Date;
   outreacher?: string;

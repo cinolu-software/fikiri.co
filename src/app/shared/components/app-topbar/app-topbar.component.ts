@@ -20,9 +20,9 @@ import { AuthStore } from '../../store/auth.store';
 @Component({
   selector: 'app-topbar',
   imports: [CommonModule, NgOptimizedImage, RouterLink, MobileNavComponent, DesktopNavComponent],
-  templateUrl: './topbar.component.html',
+  templateUrl: './app-topbar.component.html',
 })
-export class TopbarComponent implements OnDestroy {
+export class AppTopbarComponent implements OnDestroy {
   #elementRef = inject(ElementRef);
   isFixed = signal(false);
   tabs = signal(['Parcourir']);

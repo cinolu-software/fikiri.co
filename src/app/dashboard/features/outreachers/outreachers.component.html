@@ -1,76 +1,87 @@
-<section class="min-h-[105vh] text-gray-600 dashboard-main-content">
+<section class="min-h-[105vh] mt-16">
+  @let outreachers = store.outreachers()?.[0];
+  @let count = store.outreachers()?.[1];
   @if (store.isLoading()) {
-    <div class="flex items-center justify-between mb-8">
-      <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
-    </div>
-    <div class="grid grid-cols-4 overflow-x-auto">
-      @for (i of skeletonArray; track $index) {
-        <div class="border-y border-gray-200 py-3 px-2">
-          <div class="h-4 rounded-md bg-gray-200 animate-pulse mb-2"></div>
-        </div>
-      }
+    <div class="px-3 py-4 bg-white shadow-md sm:rounded-lg">
+      <div class="flex items-center justify-between mb-8">
+        <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
+        <div class="h-5 w-40 rounded-md bg-gray-200 animate-pulse"></div>
+      </div>
+      <div class="grid grid-cols-4 overflow-x-auto">
+        @for (i of skeletonArray; track $index) {
+          <div class="border-y border-gray-200 py-3 px-2">
+            <div class="h-4 rounded-md bg-gray-200 animate-pulse mb-2"></div>
+          </div>
+        }
+      </div>
     </div>
   }
-  @if (store.outreachers()?.[1] === 0) {
+  @if (count === 0) {
     <p>Aucun appel trouvé.</p>
   }
-  @let outreachers = store.outreachers()?.[0];
   @if (outreachers && !store.isLoading()) {
-    <p-table [size]="'small'" [value]="outreachers" [tableStyle]="{ 'min-width': '20rem' }">
-      <ng-template #caption>
-        <div class="flex items-center justify-between mb-8">
-          <h5 class="text-lg font-bold">Liste des vulgarisateurs</h5>
-          <button
-            pButton
-            class="w-1/5!"
-            [outlined]="true"
-            [size]="'small'"
-            [loading]="downloadStore.isLoading()"
-            [disabled]="downloadStore.isLoading()"
-            (click)="downloadOutreachers()">
-            @if (!downloadStore.isLoading()) {
-              <i-lucide [name]="icons.download" class="size-4" />
-            }
-            Télécharger CSV
-          </button>
-        </div>
-      </ng-template>
-      <ng-template #header>
-        <tr>
-          <th>Image</th>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Stats</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-outreacher>
-        <tr>
-          <td>
-            <p-avatar [image]="outreacher | apiIMG: 'user'" />
-          </td>
-          <td>{{ outreacher.name | titlecase | slice: 0 : 20 }}</td>
-          <td>{{ outreacher.email }}</td>
-          <td class="py-3">{{ outreacher.outreachCount }}</td>
-        </tr>
-      </ng-template>
-      <ng-template #footer>
-        @if ((store.outreachers()?.[1] || 0) > 30) {
+    <div class="relative overflow-x-auto px-3 bg-white shadow-md sm:rounded-lg">
+      <div class="flex items-center justify-between px-2 py-6">
+        <h5 class="text-lg font-bold">Liste des vulgarisateurs</h5>
+        <button
+          pButton
+          class="w-1/5!"
+          [outlined]="true"
+          [size]="'small'"
+          [loading]="downloadStore.isLoading()"
+          [disabled]="downloadStore.isLoading()"
+          (click)="downloadOutreachers()">
+          @if (!downloadStore.isLoading()) {
+            <i-lucide [name]="icons.download" class="size-4" />
+          }
+          Télécharger CSV
+        </button>
+      </div>
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-sm text-gray-700 uppercase bg-gray-50">
           <tr>
-            <td colspan="5" class="text-center text-sm">
-              <div class="card flex justify-center text-center text-sm mt-2">
-                <p-paginator
-                  (onPageChange)="onPageChange($event)"
-                  [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 40 : 0"
-                  [rows]="40"
-                  [pageLinkSize]="5"
-                  [showCurrentPageReport]="true"
-                  [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
-                  [totalRecords]="store.outreachers()?.[1]" />
-              </div>
-            </td>
+            <th scope="col" class="px-4 py-2">Image</th>
+            <th scope="col" class="px-4 py-2">Nom</th>
+            <th scope="col" class="px-4 py-2">Email</th>
+            <th scope="col" class="px-4 py-2">Stats</th>
+            <th scope="col" class="px-4 py-2">Actions</th>
           </tr>
-        }
-      </ng-template>
-    </p-table>
+        </thead>
+        <tbody>
+          @for (outreacher of outreachers; track outreacher.id) {
+            <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-50">
+              <td class="px-4 py-2">
+                <p-avatar [image]="outreacher | apiIMG: 'user'" />
+              </td>
+              <th class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                {{ outreacher.name | titlecase | slice: 0 : 20 }}
+              </th>
+              <td class="px-4 py-2">{{ outreacher.email }}</td>
+              <td class="px-4 py-2">{{ outreacher?.outreachCount }}</td>
+              <td class="px-4 py-2">
+                <div class="flex items-center gap-2">
+                  <button>
+                    <i-lucide [name]="icons.edit" class="size-4" />
+                  </button>
+                  <button>
+                    <i-lucide [name]="icons.trash" class="size-4" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="text-sm py-3 my-5">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 40 : 0"
+        [rows]="40"
+        [pageLinkSize]="5"
+        [showCurrentPageReport]="true"
+        [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
+        [totalRecords]="count" />
+    </div>
   }
 </section>

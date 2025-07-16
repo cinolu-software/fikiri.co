@@ -22,7 +22,7 @@ export const SolutionStore = signalStore(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((slug) => {
-          return _http.get<{ data: ISolution }>(`solutions/find-by-slug/${slug}`).pipe(
+          return _http.get<{ data: ISolution }>(`solutions/slug/${slug}`).pipe(
             map(({ data }) => patchState(store, { isLoading: false, solution: data })),
             catchError(() => {
               patchState(store, { isLoading: false });

@@ -1,4 +1,4 @@
-<div class="px-8 sm:px-6 lg:px-16 xl:px-20 2xl:px-32 max-w-screen-2xl mx-auto">
+<div class="px-8 lg:px-16 xl:px-24 2xl:px-32 max-w-screen-2xl mx-auto">
   <div class="p-8 pt-24 text-gray-600 border-x border-dashed border-gray-200">
     @if (store.isLoading()) {
       <app-solution-skeleton />
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div
-        class="px-8 sm:px-6 lg:px-16 xl:px-20 2xl:px-32 max-w-screen-2xl mx-auto relative pb-10 h-60 w-full md:h-96 bg-gray-50 mb-10">
+        class="px-8 lg:px-16 xl:px-24 2xl:px-32 max-w-screen-2xl mx-auto relative pb-10 h-60 w-full md:h-96 bg-gray-50 mb-10">
         <img [ngSrc]="s | apiIMG: 'solution'" [alt]="'Photo de couverture'" class="object-cover" fill priority />
       </div>
       <div class="flex flex-col gap-1 mb-4">

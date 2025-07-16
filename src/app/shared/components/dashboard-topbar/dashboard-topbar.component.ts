@@ -12,22 +12,22 @@ import {
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { AuthStore } from '../../store/auth.store';
-import { DesktopDashboardMenuComponent } from './desktop-menu/desktop-dashboard-menu.component';
-import { MobileDashboardMenuComponent } from './mobile-menu/mobile-dashboard.component';
+import { DesktopNavComponent } from './desktop-menu/desktop-nav.component';
+import { MobileNavComponent } from './mobile-menu/mobile-nav.component';
 import { PROFILE_LINKS } from '../../utils/data/links';
 
 @Component({
-  selector: 'app-dashboard-menu',
-  imports: [CommonModule, NgOptimizedImage, DesktopDashboardMenuComponent, MobileDashboardMenuComponent],
-  templateUrl: './dashboard-menu.component.html',
+  selector: 'app-dashboard-topbar',
+  imports: [CommonModule, NgOptimizedImage, DesktopNavComponent, MobileNavComponent],
+  templateUrl: './dashboard-topbar.component.html',
 })
-export class DashboardMenuComponent implements OnDestroy {
+export class DashboardTopbarComponent implements OnDestroy {
   #elementRef = inject(ElementRef);
   isFixed = signal(false);
   links = signal(PROFILE_LINKS);
   fixed = input(false);
-  mobileNav = viewChild(MobileDashboardMenuComponent);
-  desktopNav = viewChild(DesktopDashboardMenuComponent);
+  mobileNav = viewChild(MobileNavComponent);
+  desktopNav = viewChild(DesktopNavComponent);
   #destroy$ = new Subject<void>();
   #ngZone = inject(NgZone);
   authStore = inject(AuthStore);
