@@ -23,7 +23,7 @@ export const DashboardOutreachStore = signalStore(
       pipe(
         tap(() => patchState(store, { generatingLink: true })),
         exhaustMap(() => {
-          return _http.post<{ data: IUser }>('users/generate-outreach-link', {}).pipe(
+          return _http.post<{ data: IUser }>('users/me/outreach-link', {}).pipe(
             tap(() => {
               patchState(store, { generatingLink: false });
               _toast.showSuccess('Lien de parrainage généré avec succès');
@@ -37,11 +37,11 @@ export const DashboardOutreachStore = signalStore(
         }),
       ),
     ),
-    countOutreaches: rxMethod<void>(
+    loadOutreachCount: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         exhaustMap(() => {
-          return _http.get<{ data: number }>('users/count-by-outreacher').pipe(
+          return _http.get<{ data: number }>('users/me/outreach-count').pipe(
             tap(({ data }) => {
               patchState(store, { isLoading: false, count: data });
             }),

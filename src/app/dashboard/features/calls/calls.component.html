@@ -1,4 +1,6 @@
 <section class="min-h-[105vh] text-gray-600 dashboard-main-content">
+  @let calls = store.calls()?.[0];
+  @let count = store.calls()?.[1];
   @if (store.isLoading()) {
     <div class="flex items-center justify-between mb-8">
       <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
@@ -11,12 +13,10 @@
       }
     </div>
   }
-
-  @if (store.calls()?.[1] === 0) {
+  @if (count === 0) {
     <p>Aucun appel trouvé.</p>
   }
-
-  @if (store.calls()?.[0]; as calls) {
+  @if (calls && !store.isLoading()) {
     <p-table class="text-sm" [value]="calls" [size]="'small'" stripedRows [tableStyle]="{ 'min-width': '40rem' }">
       <ng-template #caption>
         <div class="flex items-center justify-between mb-8">
@@ -29,7 +29,6 @@
           <th>Nom</th>
           <th>Date de début</th>
           <th>Date de fin</th>
-          <!-- <th>Actions</th> -->
         </tr>
       </ng-template>
       <ng-template #body let-call>
@@ -40,20 +39,10 @@
           <td class="max-w-[300px]">{{ call.name | titlecase }}</td>
           <td>{{ call.started_at | date: 'longDate' }}</td>
           <td>{{ call.ended_at | date: 'longDate' }}</td>
-          <!-- <td>
-            <div class="flex items-center gap-2">
-              <button>
-                <i-lucide [name]="icons.edit" class="size-4" />
-              </button>
-              <button>
-                <i-lucide [name]="icons.trash" class="size-4" />
-              </button>
-            </div>
-          </td> -->
         </tr>
       </ng-template>
       <ng-template #footer>
-        @if ((store.calls()?.[1] || 0) > 12) {
+        @if ((count || 0) > 12) {
           <tr>
             <td colspan="5" class="text-center text-sm">
               <div class="card flex justify-center text-center text-sm mt-2">
@@ -64,7 +53,7 @@
                   [pageLinkSize]="5"
                   [showCurrentPageReport]="true"
                   [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
-                  [totalRecords]="store.calls()?.[1]" />
+                  [totalRecords]="count" />
               </div>
             </td>
           </tr>

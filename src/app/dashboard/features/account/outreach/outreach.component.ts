@@ -2,13 +2,13 @@ import { Component, inject, input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { IUser } from '../../../../shared/utils/types/models.type';
-import { DashboardOutreachStore } from '../../../data-access/account/dashboard-outreach.store';
+import { DashboardOutreachStore } from '../../../data-access/account/outreach.store';
 
 @Component({
   imports: [CommonModule],
   providers: [DashboardOutreachStore],
-  selector: 'app-account-outreach',
-  templateUrl: './account-outreach.component.html',
+  selector: 'app-outreach',
+  templateUrl: './outreach.component.html',
 })
 export class AccountOutreachComponent {
   user = input<IUser>();

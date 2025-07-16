@@ -7,20 +7,20 @@ import { environment } from '../../../../../environments/environment';
 import { AuthStore } from '../../../../shared/store/auth.store';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
 import { IUser } from '../../../../shared/utils/types/models.type';
-import { DashboardUpdateInfoStore } from '../../../data-access/account/dashboard-update-info.store';
-import { DashboardUpdatePasswordStore } from '../../../data-access/account/dashboard-update-password.store';
+import { DashboardUpdateInfoStore } from '../../../data-access/account/update-info.store';
+import { DashboardUpdatePasswordStore } from '../../../data-access/account/update-password.store';
 
 @Component({
   selector: 'app-account-info',
-  templateUrl: './account-info.component.html',
+  templateUrl: './info.component.html',
   providers: [DashboardUpdateInfoStore, DashboardUpdatePasswordStore],
   imports: [ButtonModule, InputTextModule, CommonModule, ReactiveFormsModule, FileUploadComponent],
 })
-export class ProfileInfoComponent implements OnInit {
+export class AccountInfoComponent implements OnInit {
   user = input<IUser>();
   infoForm: FormGroup;
   passwordForm: FormGroup;
-  url = environment.apiUrl + 'users/image-profile';
+  url = environment.apiUrl + 'users/me/profile-image';
   #formBuilder = inject(FormBuilder);
   authStore = inject(AuthStore);
   updateInfoStore = inject(DashboardUpdateInfoStore);

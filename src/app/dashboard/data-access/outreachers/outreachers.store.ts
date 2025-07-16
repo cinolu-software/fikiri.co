@@ -6,11 +6,12 @@ import { HttpClient } from '@angular/common/http';
 import { buildQueryParams } from '../../../shared/helpers/build-query-params';
 import { QueryParams } from '../../utils/types/users/query-params';
 import { ActivatedRoute } from '@angular/router';
+import { IUser } from '../../../shared/utils/types/models.type';
 
 interface IDashboardOutreachersStore {
   isLoading: boolean;
   isDownLoadingCSV: boolean;
-  outreachers: [{ outreacher: string; count: number }[], number] | null;
+  outreachers: [IUser[], number] | null;
 }
 
 export const DashboardOutreachersStore = signalStore(
@@ -25,36 +26,12 @@ export const DashboardOutreachersStore = signalStore(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((queryParams) => {
           const params = buildQueryParams(queryParams);
-          return _http
-            .get<{ data: [{ outreacher: string; count: number }[], number] }>('users/count-by-outreachers', { params })
-            .pipe(
-              tap(({ data }) => {
-                patchState(store, { isLoading: false, outreachers: data });
-              }),
-              catchError(() => {
-                patchState(store, { isLoading: false, outreachers: null });
-                return of(null);
-              }),
-            );
-        }),
-      ),
-    ),
-    downloadOutreachersCSV: rxMethod<void>(
-      pipe(
-        tap(() => patchState(store, { isDownLoadingCSV: true })),
-        switchMap(() => {
-          return _http.get('users/export-csv/outreachers', { responseType: 'blob' }).pipe(
-            tap((blob) => {
-              const url = window.URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = 'outreachers.csv';
-              a.click();
-              window.URL.revokeObjectURL(url);
-              patchState(store, { isDownLoadingCSV: false });
+          return _http.get<{ data: [IUser[], number] }>('users/outreachers/count', { params }).pipe(
+            tap(({ data }) => {
+              patchState(store, { isLoading: false, outreachers: data });
             }),
             catchError(() => {
-              patchState(store, { isDownLoadingCSV: false });
+              patchState(store, { isLoading: false, outreachers: null });
               return of(null);
             }),
           );

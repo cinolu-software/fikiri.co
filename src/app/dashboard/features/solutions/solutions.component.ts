@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { LucideAngularModule, RefreshCcw, Edit, Trash, Download } from 'lucide-angular';
-import { DashboardUsersStore } from '../../data-access/users/dashboard-users.store';
+import { LucideAngularModule, RefreshCcw, Edit, Trash } from 'lucide-angular';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -10,11 +9,12 @@ import { AvatarModule } from 'primeng/avatar';
 import { QueryParams } from '../../utils/types/users/query-params';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { SolutionsStore } from '../../data-access/solutions/solutions.store';
 
 @Component({
-  selector: 'app-dashboard-users',
-  templateUrl: './dashboard-users.component.html',
-  providers: [DashboardUsersStore],
+  selector: 'app-solutions',
+  templateUrl: './solutions.component.html',
+  providers: [SolutionsStore],
   imports: [
     LucideAngularModule,
     CommonModule,
@@ -26,39 +26,35 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
     AvatarModule,
   ],
 })
-export class DashboardUsersComponent {
+export class DashboardSolutionsComponent {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
-  store = inject(DashboardUsersStore);
+  store = inject(SolutionsStore);
   skeletonArray = Array.from({ length: 100 }, (_, i) => i + 1);
-  icons = { refresh: RefreshCcw, edit: Edit, trash: Trash, download: Download };
+  icons = { refresh: RefreshCcw, edit: Edit, trash: Trash };
   queryParams = signal<QueryParams>({
     page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
   });
 
-  loadUsers(): void {
-    this.store.loadUsers(this.queryParams());
+  loadSolutions(): void {
+    this.store.loadSolutions(this.queryParams());
   }
 
   onPageChange(event: PaginatorState): void {
     this.queryParams.set({
       page: (event?.page || 0) + 1,
     });
-    this.updateRouteAndUsers();
+    this.updateRouteAndSolutions();
   }
 
   updateRoute(): void {
     const { page } = this.queryParams();
     const queryParams = { page };
-    this.#router.navigate(['/dashboard/users'], { queryParams });
+    this.#router.navigate(['/dashboard/solutions'], { queryParams });
   }
 
-  updateRouteAndUsers(): void {
+  updateRouteAndSolutions(): void {
     this.updateRoute();
-    this.loadUsers();
-  }
-
-  downloadUsersCSV(): void {
-    this.store.downloadUsersCSV();
+    this.loadSolutions();
   }
 }

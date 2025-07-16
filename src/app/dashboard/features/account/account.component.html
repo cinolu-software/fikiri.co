@@ -37,7 +37,7 @@
         <app-account-info [user]="user" />
       }
       @if (activeTab() === 'Vulgarisation') {
-        <app-account-outreach [user]="user" [outreached]="outreachStore.count()" />
+        <app-outreach [user]="user" [outreached]="outreachStore.count()" />
       }
     </div>
   }

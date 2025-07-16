@@ -1,53 +1,66 @@
 import { Component, inject, signal } from '@angular/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LucideAngularModule, RefreshCcw, Edit, Trash, Download } from 'lucide-angular';
+import { DashboardUsersStore } from '../../data-access/users/users.store';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
+import { AvatarModule } from 'primeng/avatar';
 import { QueryParams } from '../../utils/types/users/query-params';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { DashboardOutreachersStore } from '../../data-access/outreachers/dashboard-outreachers.store';
+import { DownloadUsersStore } from '../../data-access/users/download-users.store';
 
 @Component({
-  selector: 'app-dashboard-outreachers',
-  templateUrl: './dashboard-outreachers.component.html',
-  providers: [DashboardOutreachersStore],
-  imports: [LucideAngularModule, CommonModule, TableModule, ButtonModule, ProgressSpinnerModule, PaginatorModule],
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  providers: [DashboardUsersStore, DownloadUsersStore],
+  imports: [
+    LucideAngularModule,
+    CommonModule,
+    TableModule,
+    ButtonModule,
+    ProgressSpinnerModule,
+    PaginatorModule,
+    ApiImgPipe,
+    AvatarModule,
+  ],
 })
-export class DashboardOutreachersComponent {
+export class DashboardUsersComponent {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
-  store = inject(DashboardOutreachersStore);
+  store = inject(DashboardUsersStore);
+  downloadStore = inject(DownloadUsersStore);
   skeletonArray = Array.from({ length: 100 }, (_, i) => i + 1);
   icons = { refresh: RefreshCcw, edit: Edit, trash: Trash, download: Download };
   queryParams = signal<QueryParams>({
     page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
   });
 
-  loadOutreachers(): void {
-    this.store.loadOutreachers(this.queryParams());
+  loadUsers(): void {
+    this.store.loadUsers(this.queryParams());
   }
 
   onPageChange(event: PaginatorState): void {
     this.queryParams.set({
       page: (event?.page || 0) + 1,
     });
-    this.updateRouteAndOutreachers();
+    this.updateRouteAndUsers();
   }
 
   updateRoute(): void {
     const { page } = this.queryParams();
     const queryParams = { page };
-    this.#router.navigate(['/dashboard/outreachers'], { queryParams });
+    this.#router.navigate(['/dashboard/users'], { queryParams });
   }
 
-  updateRouteAndOutreachers(): void {
+  updateRouteAndUsers(): void {
     this.updateRoute();
-    this.loadOutreachers();
+    this.loadUsers();
   }
 
-  downloadOutreachersCSV(): void {
-    this.store.downloadOutreachersCSV();
+  downloadUsers(): void {
+    this.downloadStore.downloadUsers();
   }
 }

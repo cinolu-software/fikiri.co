@@ -12,46 +12,54 @@
     </div>
   }
 
-  @if (store.solutions()?.[1] === 0) {
-    <p>Aucune solution trouvé.</p>
+  @if (store.users()?.[1] === 0) {
+    <p>Aucun utilisateur trouvé.</p>
   }
 
-  @if (store.solutions()?.[0]; as solutions) {
-    <p-table
-      class="text-sm"
-      [value]="solutions"
-      [size]="'small'"
-      class="text-sm"
-      stripedRows
-      [tableStyle]="{ 'min-width': '30rem' }">
+  @let users = store.users()?.[0];
+  @if (users && !store.isLoading()) {
+    <p-table class="text-sm" [value]="users" [size]="'small'" stripedRows [tableStyle]="{ 'min-width': '40rem' }">
       <ng-template #caption>
         <div class="flex items-center justify-between mb-8">
           <h5 class="text-lg font-bold">
-            Liste des solutions
-            @if (store.solutions()?.[1]) {
-              <span class="text-sm text-gray-500">({{ store.solutions()?.[1] }} résultats)</span>
+            Liste des utilisateurs
+            @if (store.users()?.[1]) {
+              <span class="text-sm text-gray-500">({{ store.users()?.[1] }} résultats)</span>
             }
           </h5>
+          <button
+            pButton
+            class="w-1/5!"
+            [outlined]="true"
+            [size]="'small'"
+            [loading]="downloadStore.isLoading()"
+            [disabled]="downloadStore.isLoading()"
+            (click)="downloadUsers()">
+            @if (!downloadStore.isLoading()) {
+              <i-lucide [name]="icons.download" class="size-4" />
+            }
+            Télécharger CSV
+          </button>
         </div>
       </ng-template>
       <ng-template #header>
         <tr>
           <th>Image</th>
           <th>Nom</th>
-          <th>Description</th>
-          <th>Par</th>
-          <!-- <th>Actions</th> -->
+          <th>Email</th>
+          <th>Join le</th>
+          <th>Actions</th>
         </tr>
       </ng-template>
-      <ng-template #body let-solution>
+      <ng-template #body let-user>
         <tr>
           <td>
-            <p-avatar [image]="solution | apiIMG: 'solution'" />
+            <p-avatar [image]="user | apiIMG: 'user'" />
           </td>
-          <td class="max-w-[300px]">{{ solution.name | titlecase | slice: 0 : 20 }}</td>
-          <td class="lowercase first-letter:uppercase max-w-[300px]">{{ solution.description }}</td>
-          <td>{{ solution.user.name | titlecase }}</td>
-          <!-- <td>
+          <td>{{ user.name | titlecase | slice: 0 : 20 }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.created_at | date: 'longDate' }}</td>
+          <td>
             <div class="flex items-center gap-2">
               <button>
                 <i-lucide [name]="icons.edit" class="size-4" />
@@ -60,22 +68,22 @@
                 <i-lucide [name]="icons.trash" class="size-4" />
               </button>
             </div>
-          </td> -->
+          </td>
         </tr>
       </ng-template>
       <ng-template #footer>
-        @if ((store.solutions()?.[1] || 0) > 12) {
+        @if ((store.users()?.[1] || 0) > 12) {
           <tr>
             <td colspan="5" class="text-center text-sm">
               <div class="card flex justify-center text-center text-sm mt-2">
                 <p-paginator
                   (onPageChange)="onPageChange($event)"
-                  [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 40 : 0"
-                  [rows]="40"
+                  [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 30 : 0"
+                  [rows]="30"
                   [pageLinkSize]="5"
                   [showCurrentPageReport]="true"
                   [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
-                  [totalRecords]="store.solutions()?.[1]" />
+                  [totalRecords]="store.users()?.[1]" />
               </div>
             </td>
           </tr>

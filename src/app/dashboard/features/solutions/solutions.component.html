@@ -1,4 +1,6 @@
 <section class="min-h-[105vh] text-gray-600 dashboard-main-content">
+  @let solutions = store.solutions()?.[0];
+  @let count = store.solutions()?.[1];
   @if (store.isLoading()) {
     <div class="flex items-center justify-between mb-8">
       <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
@@ -11,54 +13,45 @@
       }
     </div>
   }
-
-  @if (store.users()?.[1] === 0) {
-    <p>Aucun utilisateur trouvé.</p>
+  @if (count === 0) {
+    <p>Aucune solution trouvé.</p>
   }
-
-  @if (store.users()?.[0]; as users) {
-    <p-table class="text-sm" [value]="users" [size]="'small'" stripedRows [tableStyle]="{ 'min-width': '40rem' }">
+  @if (solutions && !store.isLoading()) {
+    <p-table
+      class="text-sm"
+      [value]="solutions"
+      [size]="'small'"
+      class="text-sm"
+      stripedRows
+      [tableStyle]="{ 'min-width': '30rem' }">
       <ng-template #caption>
         <div class="flex items-center justify-between mb-8">
           <h5 class="text-lg font-bold">
-            Liste des utilisateurs
-            @if (store.users()?.[1]) {
-              <span class="text-sm text-gray-500">({{ store.users()?.[1] }} résultats)</span>
+            Liste des solutions
+            @if (store.solutions()?.[1]) {
+              <span class="text-sm text-gray-500">({{ store.solutions()?.[1] }} résultats)</span>
             }
           </h5>
-          <button
-            pButton
-            class="w-1/5!"
-            [outlined]="true"
-            [size]="'small'"
-            [loading]="store.isDownLoadingCSV()"
-            [disabled]="store.isDownLoadingCSV()"
-            (click)="downloadUsersCSV()">
-            @if (!store.isDownLoadingCSV()) {
-              <i-lucide [name]="icons.download" class="size-4" />
-            }
-            Télécharger CSV
-          </button>
         </div>
       </ng-template>
       <ng-template #header>
         <tr>
           <th>Image</th>
           <th>Nom</th>
-          <th>Email</th>
-          <th>Join le</th>
-          <th>Actions</th>
+          <th>Description</th>
+          <th>Par</th>
+          <!-- <th>Actions</th> -->
         </tr>
       </ng-template>
-      <ng-template #body let-user>
+      <ng-template #body let-solution>
         <tr>
           <td>
-            <p-avatar [image]="user | apiIMG: 'user'" />
+            <p-avatar [image]="solution | apiIMG: 'solution'" />
           </td>
-          <td>{{ user.name | titlecase | slice: 0 : 20 }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.created_at | date: 'longDate' }}</td>
-          <td>
+          <td class="max-w-[300px]">{{ solution.name | titlecase | slice: 0 : 20 }}</td>
+          <td class="lowercase first-letter:uppercase max-w-[300px]">{{ solution.description }}</td>
+          <td>{{ solution.user.name | titlecase }}</td>
+          <!-- <td>
             <div class="flex items-center gap-2">
               <button>
                 <i-lucide [name]="icons.edit" class="size-4" />
@@ -67,22 +60,22 @@
                 <i-lucide [name]="icons.trash" class="size-4" />
               </button>
             </div>
-          </td>
+          </td> -->
         </tr>
       </ng-template>
       <ng-template #footer>
-        @if ((store.users()?.[1] || 0) > 12) {
+        @if ((store.solutions()?.[1] || 0) > 12) {
           <tr>
             <td colspan="5" class="text-center text-sm">
               <div class="card flex justify-center text-center text-sm mt-2">
                 <p-paginator
                   (onPageChange)="onPageChange($event)"
-                  [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 30 : 0"
-                  [rows]="30"
+                  [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 40 : 0"
+                  [rows]="40"
                   [pageLinkSize]="5"
                   [showCurrentPageReport]="true"
                   [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
-                  [totalRecords]="store.users()?.[1]" />
+                  [totalRecords]="store.solutions()?.[1]" />
               </div>
             </td>
           </tr>
