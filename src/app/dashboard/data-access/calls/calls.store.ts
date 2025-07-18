@@ -11,11 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 interface DashboardCallsStore {
   isLoading: boolean;
   isFiltering: boolean;
-  calls: [ICall[], number] | null;
+  calls: [ICall[], number];
 }
 
 export const DashboardCallsStore = signalStore(
-  withState<DashboardCallsStore>({ isLoading: false, isFiltering: false, calls: null }),
+  withState<DashboardCallsStore>({ isLoading: false, isFiltering: false, calls: [[], 0] }),
   withProps(() => ({
     _http: inject(HttpClient),
     _route: inject(ActivatedRoute),
@@ -32,7 +32,7 @@ export const DashboardCallsStore = signalStore(
               patchState(store, { isLoading: false, isFiltering: false, calls: data });
             }),
             catchError(() => {
-              patchState(store, { isLoading: false, isFiltering: false, calls: null });
+              patchState(store, { isLoading: false, isFiltering: false, calls: [[], 0] });
               return of(null);
             }),
           );

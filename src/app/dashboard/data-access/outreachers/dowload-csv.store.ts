@@ -3,26 +3,25 @@ import { inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { IUser } from '../../../shared/utils/types/models.type';
+import { QueryParams } from '../../utils/types/query-params';
+import { buildQueryParams } from '../../../shared/helpers/build-query-params';
 
 interface IDownloadOutreachersStore {
   isLoading: boolean;
-  outreachers: [IUser[], number] | null;
 }
 
 export const DownloadOutreachersStore = signalStore(
-  withState<IDownloadOutreachersStore>({ isLoading: false, outreachers: null }),
+  withState<IDownloadOutreachersStore>({ isLoading: false }),
   withProps(() => ({
     _http: inject(HttpClient),
-    _route: inject(ActivatedRoute),
   })),
   withMethods(({ _http, ...store }) => ({
-    downloadOutreachers: rxMethod<void>(
+    downloadOutreachers: rxMethod<QueryParams>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
-        switchMap(() => {
-          return _http.get('users/export/csv/outreachers', { responseType: 'blob' }).pipe(
+        switchMap((queryParams) => {
+          const params = buildQueryParams(queryParams);
+          return _http.get('users/export/csv/outreachers', { params, responseType: 'blob' }).pipe(
             tap((blob) => {
               const url = window.URL.createObjectURL(blob);
               const a = document.createElement('a');

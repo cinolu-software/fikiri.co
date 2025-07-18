@@ -70,14 +70,14 @@ export class DashboardUsersComponent {
     this.loadUsers();
   }
 
-  downloadUsers(): void {
+  onDownloadUsers(): void {
     this.downloadStore.downloadUsers(this.queryParams());
   }
 
-  resetSearch(): void {
-    this.updateRouteAndUsers();
+  onResetSearch(): void {
     this.searchForm.reset();
     this.queryParams().q = null;
+    this.updateRouteAndUsers();
   }
 
   onSearch(): void {

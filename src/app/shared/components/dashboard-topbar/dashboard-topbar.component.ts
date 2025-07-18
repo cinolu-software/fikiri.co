@@ -15,10 +15,11 @@ import { AuthStore } from '../../store/auth.store';
 import { DesktopNavComponent } from './desktop-menu/desktop-nav.component';
 import { MobileNavComponent } from './mobile-menu/mobile-nav.component';
 import { PROFILE_LINKS } from '../../utils/data/links';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-topbar',
-  imports: [CommonModule, NgOptimizedImage, DesktopNavComponent, MobileNavComponent],
+  imports: [CommonModule, RouterLink, NgOptimizedImage, DesktopNavComponent, MobileNavComponent],
   templateUrl: './dashboard-topbar.component.html',
 })
 export class DashboardTopbarComponent implements OnDestroy {

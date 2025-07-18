@@ -4,11 +4,12 @@
   @let hasQuery = queryParams().q;
   @let userCount = store.users()[1];
   @let userList = store.users()[0];
-  <!-- Main Content -->
-  <div class="relative px-3 bg-white rounded-lg">
-    <!-- Header Section -->
-    <div class="flex flex-col gap-4 md:flex-row items-start justify-between px-2 py-6 mb-4">
-      <div class="flex flex-col gap-2 w-full">
+  @let isDownloading = downloadStore.isLoading();
+
+  <div class="relative px-4 bg-white rounded-lg">
+    <!-- Header -->
+    <div class="flex flex-col gap-3 mb-10 pt-6">
+      <div class="flex flex-wrap gap-2 md:justify-between md:items-center mb-6 md:mb-0">
         <h5 class="text-lg font-bold">
           Liste des utilisateurs
           <span class="text-gray-500 text-sm">
@@ -23,66 +24,63 @@
             }
           </span>
         </h5>
-        <form
-          [formGroup]="searchForm"
-          (ngSubmit)="onSearch()"
-          class="flex flex-col mb-4 md:flex-row items-center gap-1">
-          <input
-            class="py-1.5! md:w-2/3!"
-            pInputText
-            type="text"
-            id="q"
-            name="q"
-            formControlName="q"
-            autocomplete="none"
-            placeholder="Rechercher..." />
-          <button
-            class="md:w-1/6!"
-            pButton
+        <p-button
+          [outlined]="true"
+          [size]="'small'"
+          [loading]="isDownloading"
+          [disabled]="isDownloading || userCount === 0"
+          (click)="onDownloadUsers()">
+          Télécharger CSV
+          @if (!isDownloading) {
+            <i-lucide [name]="icons.download" class="size-4" />
+          }
+        </p-button>
+      </div>
+      <!-- Search Form -->
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="flex flex-col gap-1 md:flex-row md:gap-4">
+        <input
+          class="py-1.5! md:col-span-4"
+          pInputText
+          type="text"
+          id="q"
+          name="q"
+          formControlName="q"
+          autocomplete="none"
+          placeholder="Rechercher..." />
+        <div class="flex items-center gap-1">
+          <p-button
+            class="w-4/4!"
             type="submit"
             [size]="'small'"
             [loading]="isFiltering"
-            [disabled]="searchForm.invalid || isFiltering || (userCount === 0 && !hasQuery)">
+            [disabled]="searchForm.invalid || isFiltering || (userCount === 0 && !hasQuery)"
+            (click)="onSearch()">
             @if (!isFiltering) {
               <i-lucide [name]="icons.search" class="size-4" />
             }
             Rechercher
-          </button>
-          <button
-            class="rounded-full! w-9! h-9!"
-            pButton
+          </p-button>
+          <p-button
+            class="w-10! h-10!"
             [size]="'small'"
             [outlined]="true"
             [rounded]="true"
             [disabled]="!hasQuery || isFiltering"
-            (click)="resetSearch()">
-            <i-lucide [name]="icons.refresh" class="size-4" />
-          </button>
-        </form>
-      </div>
-      <button
-        class="md:w-1/5!"
-        pButton
-        [outlined]="true"
-        [size]="'small'"
-        [loading]="downloadStore.isLoading()"
-        [disabled]="downloadStore.isLoading() || userCount === 0"
-        (click)="downloadUsers()">
-        @if (!downloadStore.isLoading()) {
-          <i-lucide [name]="icons.download" class="size-4" />
-        }
-        Télécharger CSV
-      </button>
+            (click)="onResetSearch()">
+            <i-lucide [name]="icons.refresh" />
+          </p-button>
+        </div>
+      </form>
     </div>
-    <!-- Empty States -->
+    <!-- Empty State -->
     @if (userCount === 0 && !isLoading) {
       <h4 class="font-medium text-gray-700 text-lg px-2 pb-8">
         {{ hasQuery ? 'Aucun utilisateur trouvé avec ce filtre' : 'Aucun utilisateur trouvé' }}
       </h4>
     }
-    <!-- Filtering Loading State -->
+    <!-- Skeleton Loading -->
     @if (isFiltering || isLoading) {
-      <div class="grid grid-cols-4 overflow-x-auto">
+      <div class="grid grid-cols-5 overflow-x-auto">
         @for (i of skeletonArray; track $index) {
           <div class="border-y border-gray-200 py-3 px-2">
             <div class="h-4 rounded-md bg-gray-200 animate-pulse mb-2"></div>
@@ -96,26 +94,32 @@
         <table class="text-sm text-left rtl:text-right text-gray-500">
           <thead class="text-sm text-gray-700 uppercase bg-gray-50">
             <tr>
-              <th scope="col" class="px-4 py-2">Image</th>
-              <th scope="col" class="px-4 py-2">Nom</th>
-              <th scope="col" class="px-4 py-2">Email</th>
-              <th scope="col" class="px-4 py-2">Actions</th>
+              <th class="px-4 py-2">Image</th>
+              <th class="px-4 py-2">Nom</th>
+              <th class="px-4 py-2">Email</th>
+              <th class="px-4 py-2">Rejoint le</th>
+              <th class="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             @for (
               user of userList
-                | paginate: { itemsPerPage: 20, currentPage: queryParams().page || 1, totalItems: userCount };
+                | paginate: { itemsPerPage: 40, currentPage: queryParams().page || 1, totalItems: userCount };
               track user.id
             ) {
-              <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-50">
+              <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-50 whitespace-nowrap">
                 <td class="px-4 py-2">
                   <p-avatar [image]="user | apiIMG: 'user'" />
                 </td>
-                <th class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                <td class="px-4 py-2 font-medium text-gray-900">
                   {{ user.name | titlecase }}
-                </th>
-                <td class="px-4 py-2">{{ user.email }}</td>
+                </td>
+                <td class="px-4 py-2">
+                  {{ user.email }}
+                </td>
+                <td class="px-4 py-2">
+                  {{ user.created_at | date: 'longDate' }}
+                </td>
                 <td class="px-4 py-2">
                   <div class="flex items-center gap-2 opacity-50 blur-[1px]">
                     <button disabled>

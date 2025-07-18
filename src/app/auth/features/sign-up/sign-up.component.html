@@ -26,8 +26,11 @@
         formControlName="phone_number"
         autocomplete="none" />
     </div>
-    <p-button [loading]="store.isLoading()" [disabled]="store.isLoading() || form.invalid" class="mt-4" type="submit">
-      S'inscrire
-    </p-button>
+    <p-button
+      [label]="'S\'inscrire'"
+      [loading]="store.isLoading()"
+      [disabled]="store.isLoading() || form.invalid"
+      class="mt-4"
+      type="submit" />
   </form>
 </app-auth-card>

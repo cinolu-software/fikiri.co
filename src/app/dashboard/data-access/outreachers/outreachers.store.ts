@@ -10,12 +10,12 @@ import { IUser } from '../../../shared/utils/types/models.type';
 
 interface IDashboardOutreachersStore {
   isLoading: boolean;
-  isDownLoadingCSV: boolean;
-  outreachers: [IUser[], number] | null;
+  isFiltering: boolean;
+  outreachers: [IUser[], number];
 }
 
 export const DashboardOutreachersStore = signalStore(
-  withState<IDashboardOutreachersStore>({ isLoading: false, isDownLoadingCSV: false, outreachers: null }),
+  withState<IDashboardOutreachersStore>({ isLoading: false, isFiltering: false, outreachers: [[], 0] }),
   withProps(() => ({
     _http: inject(HttpClient),
     _route: inject(ActivatedRoute),
@@ -26,12 +26,13 @@ export const DashboardOutreachersStore = signalStore(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((queryParams) => {
           const params = buildQueryParams(queryParams);
+          if (queryParams.page || queryParams.q) patchState(store, { isFiltering: true });
           return _http.get<{ data: [IUser[], number] }>('users/outreachers/count', { params }).pipe(
             tap(({ data }) => {
-              patchState(store, { isLoading: false, outreachers: data });
+              patchState(store, { isLoading: false, isFiltering: false, outreachers: data });
             }),
             catchError(() => {
-              patchState(store, { isLoading: false, outreachers: null });
+              patchState(store, { isLoading: false, isFiltering: false, outreachers: [[], 0] });
               return of(null);
             }),
           );

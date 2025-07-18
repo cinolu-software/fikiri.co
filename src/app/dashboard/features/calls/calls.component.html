@@ -1,63 +1,152 @@
 <section class="min-h-[105vh] text-gray-600 mt-16">
-  @let calls = store.calls()?.[0];
-  @let count = store.calls()?.[1];
-  @if (store.isLoading()) {
-    <div class="px-3 py-4 bg-white rounded-lg">
-      <div class="flex items-center justify-between mb-8">
-        <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
+  @let isLoading = store.isLoading();
+  @let isFiltering = store.isFiltering();
+  @let hasQuery = queryParams().q;
+  @let callCount = store.calls()[1];
+  @let callList = store.calls()[0];
+  @let isDownloading = downloadStore.isLoading();
+  <!-- Main Content -->
+  <div class="relative px-4 bg-white rounded-lg">
+    <!-- Header Section -->
+    <div class="flex flex-col gap-3 mb-10 pt-6">
+      <div class="flex flex-wrap gap-2 md:justify-between md:items-center mb-6 md:mb-0">
+        <h5 class="text-lg font-bold">
+          Liste des appels
+          <span class="text-gray-500 text-sm">
+            @if (isFiltering || isLoading) {
+              <p-progress-spinner
+                strokeWidth="5"
+                animationDuration=".5s"
+                fill="transparent"
+                [style]="{ width: '0.8rem', height: '0.8rem' }" />
+            } @else {
+              ({{ callCount }})
+            }
+          </span>
+        </h5>
+        <p-button
+          [outlined]="true"
+          [size]="'small'"
+          [loading]="isDownloading"
+          [disabled]="isDownloading || callCount === 0"
+          (click)="onDownloadCalls()">
+          Télécharger CSV
+          @if (!isDownloading) {
+            <i-lucide [name]="icons.download" class="size-4" />
+          }
+        </p-button>
       </div>
-      <div class="grid grid-cols-4 overflow-x-auto">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="flex flex-col gap-1 md:flex-row md:gap-4">
+        <input
+          class="py-1.5! md:col-span-4"
+          pInputText
+          type="text"
+          id="q"
+          name="q"
+          formControlName="q"
+          autocomplete="none"
+          placeholder="Rechercher..." />
+        <div class="flex items-center gap-1">
+          <p-button
+            class="w-4/4!"
+            type="submit"
+            [size]="'small'"
+            [loading]="isFiltering"
+            [disabled]="searchForm.invalid || isFiltering || (callCount === 0 && !hasQuery)"
+            (click)="onSearch()">
+            @if (!isFiltering) {
+              <i-lucide [name]="icons.search" class="size-4" />
+            }
+            Rechercher
+          </p-button>
+          <p-button
+            class="w-10! h-10!"
+            [size]="'small'"
+            [outlined]="true"
+            [rounded]="true"
+            [disabled]="!hasQuery || isFiltering"
+            (click)="onResetSearch()">
+            <i-lucide [name]="icons.refresh" />
+          </p-button>
+        </div>
+      </form>
+    </div>
+    <!-- Empty States -->
+    @if (callCount === 0 && !isLoading) {
+      <h4 class="font-medium text-gray-700 text-lg px-2 pb-8">
+        {{ hasQuery ? 'Aucun appel trouvé avec ce filtre' : 'Aucun appel trouvé' }}
+      </h4>
+    }
+    <!-- Filtering Loading State -->
+    @if (isFiltering || isLoading) {
+      <div class="grid grid-cols-5 overflow-x-auto">
         @for (i of skeletonArray; track $index) {
           <div class="border-y border-gray-200 py-3 px-2">
             <div class="h-4 rounded-md bg-gray-200 animate-pulse mb-2"></div>
           </div>
         }
       </div>
-    </div>
-  }
-  @if (count === 0) {
-    <p>Aucun appel trouvé.</p>
-  }
-  @if (calls && !store.isLoading()) {
-    <div class="relative overflow-x-auto px-3 bg-white rounded-lg">
-      <div class="flex items-center justify-between px-2 py-4">
-        <h5 class="text-lg font-bold">Liste des appels</h5>
-      </div>
-      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-        <thead class="text-sm text-gray-700 uppercase bg-gray-50">
-          <tr>
-            <th scope="col" class="px-4 py-2">Image</th>
-            <th scope="col" class="px-4 py-2">Nom</th>
-            <th scope="col" class="px-4 py-2">Date de début</th>
-            <th scope="col" class="px-4 py-2">Date de fin</th>
-            <th scope="col" class="px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (call of calls; track call.id) {
-            <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-50">
-              <td class="px-4 py-2">
-                <p-avatar [image]="call | apiIMG: 'call'" />
-              </td>
-              <th class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                {{ call.name | titlecase | slice: 0 : 20 }}
-              </th>
-              <td class="px-4 py-2">{{ call.started_at | date: 'longDate' }}</td>
-              <td class="px-4 py-2">{{ call.ended_at | date: 'longDate' }}</td>
-              <td class="px-4 py-2">
-                <div class="flex items-center gap-2">
-                  <button>
-                    <i-lucide [name]="icons.edit" class="size-4" />
-                  </button>
-                  <button>
-                    <i-lucide [name]="icons.trash" class="size-4" />
-                  </button>
-                </div>
-              </td>
+    }
+    <!-- Calls Table -->
+    @if (callCount > 0 && !isLoading) {
+      <div class="relative flex flex-col overflow-x-auto">
+        <table class="text-sm text-left rtl:text-right text-gray-500">
+          <thead class="text-sm text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th class="px-4 py-2">Image</th>
+              <th class="px-4 py-2">Nom</th>
+              <th class="px-4 py-2">Date de début</th>
+              <th class="px-4 py-2">Date de fin</th>
+              <th class="px-4 py-2">Actions</th>
             </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  }
+          </thead>
+          <tbody>
+            @for (
+              call of callList
+                | paginate: { itemsPerPage: 20, currentPage: queryParams().page || 1, totalItems: callCount };
+              track call.id
+            ) {
+              <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-50 whitespace-nowrap">
+                <td class="px-4 py-2">
+                  <p-avatar [image]="call | apiIMG: 'call'" />
+                </td>
+                <td class="px-4 py-2 font-medium text-gray-900">
+                  {{ call.name | titlecase }}
+                </td>
+                <td class="px-4 py-2">
+                  {{ call.started_at | date: 'longDate' }}
+                </td>
+                <td class="px-4 py-2">
+                  {{ call.ended_at | date: 'longDate' }}
+                </td>
+                <td class="px-4 py-2">
+                  <div class="flex items-center gap-2 opacity-50 blur-[1px]">
+                    <button disabled>
+                      <i-lucide [name]="icons.edit" class="size-4" />
+                    </button>
+                    <button disabled>
+                      <i-lucide [name]="icons.trash" class="size-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+    <!-- Pagination -->
+    @if (callCount > 20) {
+      <div class="flex justify-center items-center gap-3 py-8">
+        <pagination-controls
+          nextLabel=""
+          previousLabel=""
+          [autoHide]="true"
+          [maxSize]="5"
+          (pageChange)="onPageChange($event)"
+          class="pg">
+        </pagination-controls>
+      </div>
+    }
+  </div>
 </section>
