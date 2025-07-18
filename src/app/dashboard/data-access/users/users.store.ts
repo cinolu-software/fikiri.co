@@ -26,7 +26,7 @@ export const DashboardUsersStore = signalStore(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((queryParams) => {
           const params = buildQueryParams(queryParams);
-          if (queryParams) patchState(store, { isFiltering: true });
+          if (queryParams.page || queryParams.q) patchState(store, { isFiltering: true });
           return _http.get<{ data: [IUser[], number] }>('users', { params }).pipe(
             map(({ data }) => {
               patchState(store, { isLoading: false, isFiltering: false, users: data });

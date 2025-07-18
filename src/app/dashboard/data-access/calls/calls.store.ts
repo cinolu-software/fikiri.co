@@ -2,7 +2,7 @@ import { patchState, signalStore, withHooks, withMethods, withProps, withState }
 import { ICall } from '../../../shared/utils/types/models.type';
 import { inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { catchError, of, pipe, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { buildQueryParams } from '../../../shared/helpers/build-query-params';
 import { QueryParams } from '../../utils/types/query-params';
@@ -10,11 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 
 interface DashboardCallsStore {
   isLoading: boolean;
+  isFiltering: boolean;
   calls: [ICall[], number] | null;
 }
 
 export const DashboardCallsStore = signalStore(
-  withState<DashboardCallsStore>({ isLoading: false, calls: null }),
+  withState<DashboardCallsStore>({ isLoading: false, isFiltering: false, calls: null }),
   withProps(() => ({
     _http: inject(HttpClient),
     _route: inject(ActivatedRoute),
@@ -25,12 +26,13 @@ export const DashboardCallsStore = signalStore(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((queryParams) => {
           const params = buildQueryParams(queryParams);
+          if (queryParams.page || queryParams.q) patchState(store, { isFiltering: true });
           return _http.get<{ data: [ICall[], number] }>('calls', { params }).pipe(
-            tap(({ data }) => {
-              patchState(store, { isLoading: false, calls: data });
+            map(({ data }) => {
+              patchState(store, { isLoading: false, isFiltering: false, calls: data });
             }),
             catchError(() => {
-              patchState(store, { isLoading: false, calls: null });
+              patchState(store, { isLoading: false, isFiltering: false, calls: null });
               return of(null);
             }),
           );
