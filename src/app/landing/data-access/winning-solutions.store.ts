@@ -17,7 +17,7 @@ export const WinningSolutionsStore = signalStore(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         exhaustMap(() => {
-          return http.get<{ data: ISolution[] }>('solutions/find-awards').pipe(
+          return http.get<{ data: ISolution[] }>('solutions/awards').pipe(
             map(({ data }) => patchState(store, { isLoading: false, solutions: data })),
             catchError(() => {
               patchState(store, { isLoading: false });
