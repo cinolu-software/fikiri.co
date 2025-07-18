@@ -95,6 +95,7 @@
             <tr>
               <th class="px-4 py-2">Image</th>
               <th class="px-4 py-2">Nom</th>
+              <th class="px-4 py-2">Solutions</th>
               <th class="px-4 py-2">Date de début</th>
               <th class="px-4 py-2">Date de fin</th>
               <th class="px-4 py-2">Actions</th>
@@ -106,17 +107,20 @@
                 | paginate: { itemsPerPage: 20, currentPage: queryParams().page || 1, totalItems: callCount };
               track call.id
             ) {
-              <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-50 whitespace-nowrap">
+              <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-50">
                 <td class="px-4 py-2">
                   <p-avatar [image]="call | apiIMG: 'call'" />
                 </td>
                 <td class="px-4 py-2 font-medium text-gray-900">
                   {{ call.name | titlecase }}
                 </td>
-                <td class="px-4 py-2">
+                <td class="px-4 py-2 text-gray-600">
+                  {{ call.solutionsCount }}
+                </td>
+                <td class="px-4 py-2 whitespace-nowrap">
                   {{ call.started_at | date: 'longDate' }}
                 </td>
-                <td class="px-4 py-2">
+                <td class="px-4 py-2 whitespace-nowrap">
                   {{ call.ended_at | date: 'longDate' }}
                 </td>
                 <td class="px-4 py-2">

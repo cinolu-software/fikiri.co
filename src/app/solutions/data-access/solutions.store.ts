@@ -10,11 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 
 interface ISolutionsStore {
   isLoading: boolean;
+  isFiltering: boolean;
   solutions: [ISolution[], number];
 }
 
 export const SolutionsStore = signalStore(
-  withState<ISolutionsStore>({ isLoading: false, solutions: [[], 0] }),
+  withState<ISolutionsStore>({ isLoading: false, isFiltering: false, solutions: [[], 0] }),
   withProps(() => ({
     _http: inject(HttpClient),
     _route: inject(ActivatedRoute),
@@ -25,10 +26,11 @@ export const SolutionsStore = signalStore(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((queryParams) => {
           const params = buildQueryParams(queryParams);
+          if (queryParams.page || queryParams.q) patchState(store, { isFiltering: true });
           return _http.get<{ data: [ISolution[], number] }>('solutions/mapped', { params }).pipe(
-            map(({ data }) => patchState(store, { isLoading: false, solutions: data })),
+            map(({ data }) => patchState(store, { isLoading: false, isFiltering: false, solutions: data })),
             catchError(() => {
-              patchState(store, { isLoading: false });
+              patchState(store, { isLoading: false, isFiltering: false, solutions: [[], 0] });
               return of(null);
             }),
           );

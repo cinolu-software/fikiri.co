@@ -1,28 +1,78 @@
 <div class="relative px-8 lg:px-16 xl:px-24 2xl:px-32 max-w-screen-2xl mx-auto">
-  @let solutions = store.solutions()[0];
-  @let count = store.solutions()[1];
+  @let solutionsList = store.solutions()[0];
+  @let isLoading = store.isLoading();
+  @let solutionsCount = store.solutions()[1];
+  @let isFiltering = store.isFiltering();
+  @let hasQuery = queryParams().q;
+
   <div class="p-8 text-gray-600 border-x border-dashed border-gray-200">
-    <h2 class="text-xl md:text-2xl mb-8 text-gray-800 font-semibold pt-20 md:w-2/3">
+    <h2 class="text-xl md:text-2xl mb-4 text-gray-800 font-semibold pt-20 md:w-2/3">
       Les solutions innovantes de
       <span class="inline-block after:block after:w-full after:h-1 after:-mt-2 after:bg-sky-400"> la communauté. </span>
+      <span class="text-gray-500 text-sm">
+        @if (isFiltering || isLoading) {
+          <p-progress-spinner
+            strokeWidth="5"
+            animationDuration=".5s"
+            fill="transparent"
+            [style]="{ width: '0.8rem', height: '0.8rem' }" />
+        } @else {
+          ({{ solutionsCount }})
+        }
+      </span>
     </h2>
+    <!-- Search Form -->
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="flex mb-10 flex-col gap-1 md:flex-row md:gap-4">
+      <input
+        class="py-1.5! md:col-span-4"
+        pInputText
+        type="text"
+        id="q"
+        name="q"
+        formControlName="q"
+        autocomplete="none"
+        placeholder="Rechercher..." />
+      <div class="flex items-center gap-1">
+        <p-button
+          class="w-4/4!"
+          type="submit"
+          [size]="'small'"
+          [loading]="isFiltering"
+          [disabled]="searchForm.invalid || isFiltering || (solutionsCount === 0 && !hasQuery)"
+          (click)="onSearch()">
+          @if (!isFiltering) {
+            <i-lucide [name]="icons.search" class="size-4" />
+          }
+          Rechercher
+        </p-button>
+        <p-button
+          class="w-10! h-10!"
+          [size]="'small'"
+          [outlined]="true"
+          [rounded]="true"
+          [disabled]="!hasQuery || isFiltering"
+          (click)="onResetSearch()">
+          <i-lucide [name]="icons.refresh" />
+        </p-button>
+      </div>
+    </form>
     <div class="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-3 lg:grid-cols-4">
-      @if (store.isLoading()) {
-        @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]; track $index) {
+      @if (isLoading) {
+        @for (i of skeletonArray; track $index) {
           <app-solution-card-skeleton />
         }
       }
-      @if (solutions) {
+      @if (solutionsList && !isLoading) {
         @for (
-          solution of solutions
-            | paginate: { itemsPerPage: 20, currentPage: queryParams().page || 1, totalItems: count };
+          solution of solutionsList
+            | paginate: { itemsPerPage: 20, currentPage: queryParams().page || 1, totalItems: solutionsCount };
           track solution.id
         ) {
           <app-solution-card [solution]="solution" />
         }
       }
     </div>
-    @if ((count || 1) > 9) {
+    @if (solutionsCount > 20) {
       <div class="flex justify-center-safe items-center gap-3 mt-14">
         <pagination-controls
           nextLabel=""
