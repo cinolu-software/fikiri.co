@@ -2,7 +2,7 @@
   @let calls = store.calls()?.[0];
   @let count = store.calls()?.[1];
   @if (store.isLoading()) {
-    <div class="px-3 py-4 bg-white shadow-md sm:rounded-lg">
+    <div class="px-3 py-4 bg-white rounded-lg">
       <div class="flex items-center justify-between mb-8">
         <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
       </div>
@@ -19,7 +19,7 @@
     <p>Aucun appel trouvé.</p>
   }
   @if (calls && !store.isLoading()) {
-    <div class="relative overflow-x-auto px-3 bg-white shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto px-3 bg-white rounded-lg">
       <div class="flex items-center justify-between px-2 py-4">
         <h5 class="text-lg font-bold">Liste des appels</h5>
       </div>
@@ -59,17 +59,5 @@
         </tbody>
       </table>
     </div>
-    @if ((count || 0) > 12) {
-      <div class="text-sm py-3 my-5">
-        <p-paginator
-          (onPageChange)="onPageChange($event)"
-          [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 12 : 0"
-          [rows]="12"
-          [pageLinkSize]="5"
-          [showCurrentPageReport]="true"
-          [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
-          [totalRecords]="count" />
-      </div>
-    }
   }
 </section>

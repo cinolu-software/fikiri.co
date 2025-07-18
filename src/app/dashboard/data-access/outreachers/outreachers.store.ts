@@ -4,7 +4,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { buildQueryParams } from '../../../shared/helpers/build-query-params';
-import { QueryParams } from '../../utils/types/users/query-params';
+import { QueryParams } from '../../utils/types/query-params';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from '../../../shared/utils/types/models.type';
 
@@ -41,8 +41,11 @@ export const DashboardOutreachersStore = signalStore(
   })),
   withHooks({
     onInit({ loadOutreachers, _route }) {
-      const page = Number(_route.snapshot.queryParamMap.get('page')) || 1;
-      loadOutreachers({ page });
+      const queryParams = {
+        page: _route.snapshot.queryParamMap.get('page'),
+        q: _route.snapshot.queryParamMap.get('q'),
+      };
+      loadOutreachers(queryParams);
     },
   }),
 );

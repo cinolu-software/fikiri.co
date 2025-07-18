@@ -1,10 +1,10 @@
 <div class="grid grid-cols-1 lg:grid-cols-2">
   <div class="flex flex-col items-center justify-center min-h-screen">
     <div class="px-10 w-full md:px-0 md:w-3/6">
-      <button (click)="back()" class="mb-4 text-primary-400 hover:underline flex items-center gap-2">
+      <a routerLink="/" class="mb-4 text-primary-400 hover:underline flex items-center gap-2">
         <i-lucide [name]="icons.back" class="size-4" />
-        Revenir en arrière
-      </button>
+        Revenir à l'accueil
+      </a>
       <ng-content />
     </div>
   </div>

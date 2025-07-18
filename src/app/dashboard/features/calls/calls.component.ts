@@ -5,24 +5,15 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
 import { AvatarModule } from 'primeng/avatar';
-import { QueryParams } from '../../utils/types/users/query-params';
+import { QueryParams } from '../../utils/types/query-params';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { DashboardCallsStore } from '../../data-access/calls/calls.store';
 
 @Component({
   selector: 'app-calls',
   templateUrl: './calls.component.html',
   providers: [DashboardCallsStore],
-  imports: [
-    LucideAngularModule,
-    CommonModule,
-    ButtonModule,
-    ProgressSpinnerModule,
-    PaginatorModule,
-    ApiImgPipe,
-    AvatarModule,
-  ],
+  imports: [LucideAngularModule, CommonModule, ButtonModule, ProgressSpinnerModule, ApiImgPipe, AvatarModule],
 })
 export class DashboardCallsComponent {
   #route = inject(ActivatedRoute);
@@ -31,23 +22,21 @@ export class DashboardCallsComponent {
   skeletonArray = Array.from({ length: 60 }, (_, i) => i + 1);
   icons = { refresh: RefreshCcw, edit: Edit, trash: Trash };
   queryParams = signal<QueryParams>({
-    page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
+    page: this.#route.snapshot.queryParamMap.get('page'),
+    q: this.#route.snapshot.queryParamMap.get('q'),
   });
 
   loadCalls(): void {
     this.store.loadCalls(this.queryParams());
   }
 
-  onPageChange(event: PaginatorState): void {
-    this.queryParams.set({
-      page: (event?.page || 0) + 1,
-    });
+  onPageChange(currentPage: number): void {
+    this.queryParams().page = currentPage === 1 ? null : currentPage.toString();
     this.updateRouteAndCalls();
   }
 
   updateRoute(): void {
-    const { page } = this.queryParams();
-    const queryParams = { page };
+    const queryParams = this.queryParams();
     this.#router.navigate(['/dashboard/calls'], { queryParams });
   }
 

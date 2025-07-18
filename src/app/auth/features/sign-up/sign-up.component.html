@@ -1,4 +1,8 @@
 <app-auth-card>
+  <p class="text-sm text-gray-500 mb-4">
+    Vous avez un compte?&nbsp;
+    <a routerLink="/sign-in" class="text-primary-500 underline font-medium">Connectez-vous! </a>
+  </p>
   <form class="flex flex-col gap-4" (ngSubmit)="onSignUp()" [formGroup]="form">
     <div class="flex flex-col gap-1.5">
       <label for="address" class="font-medium">Adresse (Ville)</label>

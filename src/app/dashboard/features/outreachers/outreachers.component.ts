@@ -1,16 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { LucideAngularModule, RefreshCcw, Edit, Trash, Download } from 'lucide-angular';
+import { LucideAngularModule, Download } from 'lucide-angular';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { QueryParams } from '../../utils/types/users/query-params';
+import { QueryParams } from '../../utils/types/query-params';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { DashboardOutreachersStore } from '../../data-access/outreachers/outreachers.store';
 import { AvatarModule } from 'primeng/avatar';
 import { ApiImgPipe } from '../../../shared/pipes/api-img.pipe';
-import { DownloadOutreachersStore } from '../../data-access/outreachers/dowload-outreacher.store';
+import { DownloadOutreachersStore } from '../../data-access/outreachers/dowload-csv.store';
 
 @Component({
   selector: 'app-outreachers',
@@ -23,7 +22,6 @@ import { DownloadOutreachersStore } from '../../data-access/outreachers/dowload-
     TableModule,
     ButtonModule,
     ProgressSpinnerModule,
-    PaginatorModule,
     ApiImgPipe,
   ],
 })
@@ -33,25 +31,23 @@ export class DashboardOutreachersComponent {
   store = inject(DashboardOutreachersStore);
   downloadStore = inject(DownloadOutreachersStore);
   skeletonArray = Array.from({ length: 100 }, (_, i) => i + 1);
-  icons = { refresh: RefreshCcw, edit: Edit, trash: Trash, download: Download };
+  icons = { download: Download };
   queryParams = signal<QueryParams>({
-    page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
+    page: this.#route.snapshot.queryParamMap.get('page'),
+    q: this.#route.snapshot.queryParamMap.get('q'),
   });
 
   loadOutreachers(): void {
     this.store.loadOutreachers(this.queryParams());
   }
 
-  onPageChange(event: PaginatorState): void {
-    this.queryParams.set({
-      page: (event?.page || 0) + 1,
-    });
+  onPageChange(currentPage: number): void {
+    this.queryParams().page = currentPage === 1 ? null : currentPage.toString();
     this.updateRouteAndOutreachers();
   }
 
   updateRoute(): void {
-    const { page } = this.queryParams();
-    const queryParams = { page };
+    const queryParams = this.queryParams();
     this.#router.navigate(['/dashboard/outreachers'], { queryParams });
   }
 

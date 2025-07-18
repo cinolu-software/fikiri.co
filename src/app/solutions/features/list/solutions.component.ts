@@ -17,7 +17,8 @@ export class SolutionsComponent {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   queryParams = signal<QueryParams>({
-    page: Number(this.#route.snapshot.queryParamMap.get('page')) || 1,
+    page: this.#route.snapshot.queryParamMap.get('page'),
+    q: this.#route.snapshot.queryParamMap.get('q'),
   });
   store = inject(SolutionsStore);
 
@@ -26,13 +27,12 @@ export class SolutionsComponent {
   }
 
   onPageChange(currentPage: number): void {
-    this.queryParams().page = currentPage === 1 ? null : currentPage;
+    this.queryParams().page = currentPage === 1 ? null : currentPage.toString();
     this.updateRouteAndSolutions();
   }
 
   updateRoute(): void {
-    const { page } = this.queryParams();
-    const queryParams = { page };
+    const queryParams = this.queryParams();
     this.#router.navigate(['/solutions'], { queryParams });
   }
 

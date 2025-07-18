@@ -7,7 +7,7 @@
     </a>
     <div>
       <app-mobile-nav [user]="authStore.user()" [links]="links()" (singOut)="signOut()" />
-      <app-desktop-nav [user]="authStore.user()" />
+      <app-desktop-nav [user]="authStore.user()" (singOut)="signOut()" />
     </div>
   </nav>
 </header>

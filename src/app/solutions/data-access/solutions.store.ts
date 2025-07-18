@@ -38,8 +38,11 @@ export const SolutionsStore = signalStore(
   })),
   withHooks({
     onInit({ _route, loadSolutions }) {
-      const page = Number(_route.snapshot.queryParamMap.get('page')) || 1;
-      loadSolutions({ page });
+      const queryParams = {
+        page: _route.snapshot.queryParamMap.get('page'),
+        q: _route.snapshot.queryParamMap.get('q'),
+      };
+      loadSolutions(queryParams);
     },
   }),
 );

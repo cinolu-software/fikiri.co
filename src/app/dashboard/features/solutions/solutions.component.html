@@ -2,7 +2,7 @@
   @let solutions = store.solutions()?.[0];
   @let count = store.solutions()?.[1];
   @if (store.isLoading()) {
-    <div class="px-3 py-4 bg-white shadow-md sm:rounded-lg">
+    <div class="px-3 py-4 bg-white rounded-lg">
       <div class="flex items-center justify-between mb-8">
         <div class="h-5 w-52 rounded-md bg-gray-200 animate-pulse"></div>
       </div>
@@ -19,7 +19,7 @@
     <p>Aucune solution trouvé.</p>
   }
   @if (solutions && !store.isLoading()) {
-    <div class="relative overflow-x-auto px-3 bg-white shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto px-3 bg-white rounded-lg">
       <div class="flex items-center justify-between px-2 py-6">
         <h5 class="text-lg font-bold">Liste des utilisateurs</h5>
       </div>
@@ -66,16 +66,6 @@
           }
         </tbody>
       </table>
-    </div>
-    <div class="text-sm py-3 my-5">
-      <p-paginator
-        (onPageChange)="onPageChange($event)"
-        [first]="queryParams().page ? ((queryParams().page || 0) - 1) * 40 : 0"
-        [rows]="40"
-        [pageLinkSize]="5"
-        [showCurrentPageReport]="true"
-        [currentPageReportTemplate]="'{currentPage} sur {totalPages}'"
-        [totalRecords]="count" />
     </div>
   }
 </section>
