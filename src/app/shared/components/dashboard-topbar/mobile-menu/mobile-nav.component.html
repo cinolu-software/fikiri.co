@@ -8,7 +8,7 @@
     <div class="flex flex-col justify-between py-16 px-10 h-full text-gray-900">
       <div class="flex flex-col gap-6 font-bold menu">
         @for (link of links(); track $index) {
-          <a [routerLink]="link.path" class="flex items-center gap-2.5 group">
+          <a [routerLink]="link.path" class="flex items-center gap-2.5 group" (click)="closeNav()">
             <i-lucide [name]="link.icon" class="size-5 text-primary-600" />
             {{ link.name }}
           </a>

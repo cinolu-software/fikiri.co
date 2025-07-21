@@ -30,6 +30,7 @@ export class MobileNavComponent {
 
   handleSignOut(): void {
     this.singOut.emit();
+    this.closeNav();
   }
 
   closeNav(): void {
